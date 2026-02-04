@@ -83,7 +83,7 @@ class MuelleController extends Controller
     {
         $muelle = Muelle::findOrFail($id);
 
-        if ($muelle->estaOcupado()) {
+          if ($muelle->estaOcupado()) {
             return redirect()->route('muelles.index')
                 ->with('error', 'No se puede eliminar un muelle con buques atracados');
         }

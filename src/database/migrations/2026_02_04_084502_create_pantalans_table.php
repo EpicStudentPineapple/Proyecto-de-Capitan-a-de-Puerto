@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('longitud_maxima', 6, 2); // metros - eslora máxima permitida
             $table->decimal('manga_maxima', 5, 2)->nullable(); // metros - ancho máximo
             $table->decimal('calado_maximo', 4, 2); // metros
-            $table->enum('tipo_amarre', ['lateral', 'muerto', 'boya'])->default('lateral');
+            $table->enum('tipo_amarre', ['finger', 'lateral', 'muerto', 'boya'])->default('lateral');
             $table->boolean('agua_disponible')->default(true);
             $table->boolean('electricidad_disponible')->default(true);
             $table->integer('amperaje')->unsigned()->nullable(); // Para toma eléctrica

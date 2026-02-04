@@ -1,10 +1,20 @@
-@extends('layouts.app')
+@extends('layout.app')
 
 @section('title', 'Iniciar Sesión')
 
 @section('content')
 <div style="max-width: 400px; margin: 0 auto;">
-    <h2>🔐 Iniciar Sesión</h2>
+    <h2>Iniciar Sesión</h2>
+    
+    @if ($errors->any())
+        <div style="background-color: #fee; border: 1px solid #fcc; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
+            <ul style="margin: 0; padding-left: 20px; color: #c00;">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     
     <form action="{{ route('login.submit') }}" method="POST">
         @csrf

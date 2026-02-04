@@ -31,8 +31,8 @@ return new class extends Migration
                 'ro-ro',
                 'carga_general',
                 'crucero',
-                'narcolancha',
                 'deportivo',
+                'narcolancha',
                 'remolcador'
             ]);
             $table->foreignId('propietario_id')->nullable()->constrained('users')->onDelete('set null');
@@ -40,7 +40,7 @@ return new class extends Migration
             $table->dateTime('fecha_atraque')->nullable();
             $table->dateTime('fecha_salida_prevista')->nullable();
             $table->enum('estado', ['navegando', 'fondeado', 'atracado', 'en_maniobra', 'mantenimiento'])->default('navegando');
-            $table->integer('carga_actual')->unsigned()->nullable(); // toneladas 
+            $table->integer('carga_actual')->unsigned()->nullable(); // toneladas o TEUs
             $table->integer('tripulacion')->unsigned()->nullable();
             $table->text('observaciones')->nullable();
             $table->timestamps();

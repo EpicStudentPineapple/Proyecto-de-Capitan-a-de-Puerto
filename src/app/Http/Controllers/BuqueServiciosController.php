@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Buque_Servicio;
+use App\Models\BuqueServicios;
 use Illuminate\Http\Request;
 
-class BuqueServicioController extends Controller
+class BuqueServiciosController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -34,7 +34,7 @@ class BuqueServicioController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Buque_Servicio $buque_Servicio)
+    public function show(BuqueServicios $buqueServicios)
     {
         //
     }
@@ -42,7 +42,7 @@ class BuqueServicioController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Buque_Servicio $buque_Servicio)
+    public function edit(BuqueServicios $buqueServicios)
     {
         //
     }
@@ -50,7 +50,7 @@ class BuqueServicioController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Buque_Servicio $buque_Servicio)
+    public function update(Request $request, BuqueServicios $buqueServicios)
     {
         //
     }
@@ -58,7 +58,7 @@ class BuqueServicioController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Buque_Servicio $buque_Servicio)
+    public function destroy(BuqueServicios $buqueServicios)
     {
         //
     }

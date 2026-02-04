@@ -14,11 +14,9 @@ class BuqueController extends Controller
     {
         $user = Auth::user();
         
-        // Si es cliente, solo ve sus buques
         if ($user->isCliente()) {
             $buques = Buque::dePropietario($user->id)->with(['muelle', 'propietario'])->paginate(15);
         } else {
-            // Administradores y operadores ven todos
             $buques = Buque::with(['muelle', 'propietario'])->paginate(15);
         }
 
@@ -47,7 +45,7 @@ class BuqueController extends Controller
             'manga' => 'required|numeric|min:0',
             'calado' => 'required|numeric|min:0',
             'tonelaje_bruto' => 'required|integer|min:0',
-            'tipo_buque' => 'required|in:portacontenedores,granelero,petrolero,gasero,pesquero,ferry,ro-ro,carga_general,crucero,narcolancha,deportivo,remolcador',
+            'tipo_buque' => 'required|in:portacontenedores,granelero,petrolero,gasero,pesquero,ferry,ro-ro,carga_general,crucero,deportivo,remolcador',
             'propietario_id' => 'required|exists:users,id',
             'muelle_id' => 'nullable|exists:muelles,id',
             'fecha_atraque' => 'nullable|date',
@@ -68,7 +66,6 @@ class BuqueController extends Controller
     {
         $buque = Buque::with(['muelle', 'propietario.perfil', 'servicios'])->findOrFail($id);
 
-        // Verificar permisos
         $user = Auth::user();
         if ($user->isCliente() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para ver este buque');
@@ -81,7 +78,6 @@ class BuqueController extends Controller
     {
         $buque = Buque::findOrFail($id);
 
-        // Verificar permisos
         $user = Auth::user();
         if ($user->isCliente() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para editar este buque');
@@ -100,7 +96,6 @@ class BuqueController extends Controller
     {
         $buque = Buque::findOrFail($id);
 
-        // Verificar permisos
         $user = Auth::user();
         if ($user->isCliente() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para editar este buque');
@@ -136,13 +131,11 @@ class BuqueController extends Controller
     {
         $buque = Buque::findOrFail($id);
 
-        // Verificar permisos
         $user = Auth::user();
         if ($user->isCliente() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para eliminar este buque');
         }
 
-        // No permitir eliminar si está atracado
         if ($buque->estado === 'atracado') {
             return redirect()->route('buques.index')
                 ->with('error', 'No se puede eliminar un buque atracado');
@@ -159,7 +152,6 @@ class BuqueController extends Controller
         $buque = Buque::findOrFail($id);
         $muelle = Muelle::findOrFail($request->muelle_id);
 
-        // Validar que el buque puede atracar
         if (!$muelle->puedeAtracar($buque)) {
             return response()->json([
                 'success' => false,

@@ -42,7 +42,7 @@ class DashboardController extends Controller
 
     public function clima()
     {
-        // Aquí se integrará la API
+        // Aquí se integrará la API de Euskalmet
         return view('dashboard.clima');
     }
 
