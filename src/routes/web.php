@@ -87,7 +87,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/trafico', [DashboardController::class, 'trafico'])->name('dashboard.trafico');
     Route::get('/dashboard/clima', [DashboardController::class, 'clima'])->name('dashboard.clima');
-    Route::get('/dashboard/servicios', [DashboardController::class, 'servicios'])->name('dashboard.servicios');
 
     // MUELLES
     Route::get('/muelles', [MuelleController::class, 'index'])->name('muelles.index');
