@@ -1,7 +1,10 @@
 # BORRAR ARCHIVO TRAS FINALIZAR
 ## POR HACER:
 
+- NjinX - PRIORITARIO
 - Terminar -> muelles/edit.blade.php
+- Rutas especificas user/admin [middleware individual]
+- Resolver API - No se necesita verificación para acceder (reseñas de usuario en landing page)
 
 ## ARCHIVOS:
 buques/
@@ -66,3 +69,9 @@ dashboard/servicios.blade.php
 /perfiles/editar-mi-perfil
 
 /dashboard/servicios
+
+## BORRADO
+
+- BuqesServicios (MODELO)
+- SERVICIOS (MODIFICAR NOMBRE y Contenido) MODELO
+- 

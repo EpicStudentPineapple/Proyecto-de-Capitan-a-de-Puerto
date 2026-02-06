@@ -68,7 +68,7 @@ class PerfilController extends Controller
         $perfil = Perfil::findOrFail($id);
 
         $validated = $request->validate([
-            'tipo_usuario' => 'required|in:administrador,operador,consignatario,armador',
+            'tipo_usuario' => 'required|in:administrador,propietario ',
             'telefono' => 'nullable|string|max:20',
             'empresa' => 'nullable|string|max:255',
             'cargo' => 'nullable|string|max:100',

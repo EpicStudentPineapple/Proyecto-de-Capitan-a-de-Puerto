@@ -3,7 +3,7 @@
 @section('title', 'Tráfico en Tiempo Real')
 
 @section('content')
-<h1>🚦 Tráfico Marítimo en Tiempo Real</h1>
+<h1>Tráfico Marítimo en Tiempo Real</h1>
 
 <p><a href="{{ route('dashboard') }}">← Volver al Dashboard</a></p>
 

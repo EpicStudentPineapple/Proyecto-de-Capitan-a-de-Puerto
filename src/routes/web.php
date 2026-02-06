@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Hash;
 Route::get('/', function () {
     return view('welcome');
 });
+// Sacar a Njinx
+
 
 // Rutas públicas (no auth :Thumbsdown:)
 Route::get('/login', function () {
@@ -104,6 +106,48 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/muelles/{id}/toggle-disponibilidad', [MuelleController::class, 'toggleDisponibilidad'])
         ->name('muelles.toggle-disponibilidad');
 
+    // BUQUES
+    Route::get('/buques', [BuqueController::class, 'index'])->name('buques.index');
+    Route::get('/buques/create', [BuqueController::class, 'create'])->name('buques.create');
+    
+    // Ruta especial para gestión de atraques (DEBE IR ANTES de las rutas con {id})
+    Route::get('/buques/gestion-atraques', [BuqueController::class, 'gestionAtraques'])->name('buques.gestion-atraques');
+    
+    Route::post('/buques', [BuqueController::class, 'store'])->name('buques.store');
+    Route::get('/buques/{id}', [BuqueController::class, 'show'])->name('buques.show');
+    Route::get('/buques/{id}/edit', [BuqueController::class, 'edit'])->name('buques.edit');
+    Route::put('/buques/{id}', [BuqueController::class, 'update'])->name('buques.update');
+    Route::delete('/buques/{id}', [BuqueController::class, 'destroy'])->name('buques.destroy');
+
+    // SERVICIOS
+    Route::get('/servicios', [ServicioController::class, 'index'])->name('servicios.index');
+    Route::get('/servicios/create', [ServicioController::class, 'create'])->name('servicios.create');
+    Route::post('/servicios', [ServicioController::class, 'store'])->name('servicios.store');
+    Route::get('/servicios/{id}', [ServicioController::class, 'show'])->name('servicios.show');
+    Route::get('/servicios/{id}/edit', [ServicioController::class, 'edit'])->name('servicios.edit');
+    Route::put('/servicios/{id}', [ServicioController::class, 'update'])->name('servicios.update');
+    Route::delete('/servicios/{id}', [ServicioController::class, 'destroy'])->name('servicios.destroy');
+
+    // PANTALANES
+    Route::get('/pantalans', [PantalanController::class, 'index'])->name('pantalans.index');
+    Route::get('/pantalans/create', [PantalanController::class, 'create'])->name('pantalans.create');
+    Route::post('/pantalans', [PantalanController::class, 'store'])->name('pantalans.store');
+    Route::get('/pantalans/{id}', [PantalanController::class, 'show'])->name('pantalans.show');
+    Route::get('/pantalans/{id}/edit', [PantalanController::class, 'edit'])->name('pantalans.edit');
+    Route::put('/pantalans/{id}', [PantalanController::class, 'update'])->name('pantalans.update');
+    Route::delete('/pantalans/{id}', [PantalanController::class, 'destroy'])->name('pantalans.destroy');
+    Route::get('/pantalans/por-muelle/{muelleId}', [PantalanController::class, 'porMuelle'])->name('pantalans.por-muelle');
+
+    // PERFILES (Gestión de usuarios - Admin)
+    Route::get('/perfiles', [PerfilController::class, 'index'])->name('perfiles.index');
+    Route::get('/perfiles/{id}', [PerfilController::class, 'show'])->name('perfiles.show');
+    Route::get('/perfiles/{id}/edit', [PerfilController::class, 'edit'])->name('perfiles.edit');
+    Route::put('/perfiles/{id}', [PerfilController::class, 'update'])->name('perfiles.update');
+    
+    // PERFIL PERSONAL (rutas para el usuario autenticado)
+    Route::get('/mi-perfil', [PerfilController::class, 'miPerfil'])->name('perfil.mi-perfil');
+    Route::get('/mi-perfil/editar', [PerfilController::class, 'editarMiPerfil'])->name('perfil.editar-mi-perfil');
+    Route::put('/mi-perfil', [PerfilController::class, 'actualizarMiPerfil'])->name('perfil.actualizar-mi-perfil');
 
 });
 

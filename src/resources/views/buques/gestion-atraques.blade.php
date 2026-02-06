@@ -28,7 +28,7 @@
                      data-calado="{{ $buque->calado }}"
                      data-eslora="{{ $buque->eslora }}"
                      style="padding: 15px; margin: 10px 0; border: 2px solid #007bff; background: #e3f2fd; cursor: move;">
-                    <strong>🚢 {{ $buque->nombre }}</strong><br>
+                    <strong>{{ $buque->nombre }}</strong><br>
                     <small>IMO: {{ $buque->imo }}</small><br>
                     <small>Tipo: {{ ucfirst(str_replace('_', ' ', $buque->tipo_buque)) }}</small><br>
                     <small>Eslora: {{ $buque->eslora }}m | Calado: {{ $buque->calado }}m</small><br>
