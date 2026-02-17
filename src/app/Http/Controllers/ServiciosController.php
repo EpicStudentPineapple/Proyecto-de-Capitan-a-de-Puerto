@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Servicio;
 use App\Models\Buque;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ServicioController extends Controller
+class ServiciosController extends Controller
 {
     public function index()
     {
         $servicios = Servicio::paginate(15);
-        
+
         return view('servicios.index', compact('servicios'));
     }
 
@@ -44,7 +45,16 @@ class ServicioController extends Controller
 
     public function show($id)
     {
-        $servicio = Servicio::with('buques')->findOrFail($id);
+        $servicio = Servicio::findOrFail($id);
+
+        if (Auth::user()->isAdmin()) {
+            $servicio->load('buques');
+        }
+        else {
+            $servicio->load(['buques' => function ($query) {
+                $query->where('propietario_id', Auth::id());
+            }]);
+        }
 
         return view('servicios.show', compact('servicio'));
     }
@@ -52,7 +62,7 @@ class ServicioController extends Controller
     public function edit($id)
     {
         $servicio = Servicio::findOrFail($id);
-        
+
         return view('servicios.edit', compact('servicio'));
     }
 
@@ -125,7 +135,7 @@ class ServicioController extends Controller
         ]);
 
         $buque = Buque::findOrFail($buqueId);
-        
+
         $buque->servicios()->updateExistingPivot($servicioId, [
             'estado' => $request->estado,
             'fecha_inicio' => $request->fecha_inicio,

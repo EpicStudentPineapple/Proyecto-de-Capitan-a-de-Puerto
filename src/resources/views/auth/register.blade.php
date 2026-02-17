@@ -1,82 +1,52 @@
-@extends('layout.app')
-
-@section('title', 'Registro')
-
-@section('content')
-<div style="max-width: 500px; margin: 0 auto;">
-    <h2>Registro de Usuario</h2>
-    
-    @if ($errors->any())
-        <div style="background-color: #fee; border: 1px solid #fcc; padding: 10px; margin-bottom: 15px; border-radius: 4px;">
-            <ul style="margin: 0; padding-left: 20px; color: #c00;">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    
-    <form action="{{ route('register.submit') }}" method="POST">
+<x-guest-layout>
+    <form method="POST" action="{{ route('register') }}">
         @csrf
-        
-        <div style="margin-bottom: 15px;">
-            <label for="name">Nombre Completo o Empresa:</label><br>
-            <input type="text" id="name" name="name" required 
-                   style="width: 100%; padding: 8px;" 
-                   value="{{ old('name') }}">
+
+        <!-- Name -->
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
-        
-        <div style="margin-bottom: 15px;">
-            <label for="email">Correo Electrónico:</label><br>
-            <input type="email" id="email" name="email" required 
-                   style="width: 100%; padding: 8px;" 
-                   value="{{ old('email') }}">
+
+        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
-        
-        <div style="margin-bottom: 15px;">
-            <label for="password">Contraseña:</label><br>
-            <input type="password" id="password" name="password" required 
-                   style="width: 100%; padding: 8px;">
+
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
+
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
-        
-        <div style="margin-bottom: 15px;">
-            <label for="password_confirmation">Confirmar Contraseña:</label><br>
-            <input type="password" id="password_confirmation" name="password_confirmation" required 
-                   style="width: 100%; padding: 8px;">
+
+        <!-- Confirm Password -->
+        <div class="mt-4">
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+
+            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                            type="password"
+                            name="password_confirmation" required autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
-        
-        <hr>
-        
-        <h3>Datos del Perfil</h3>
-        
-        <div style="margin-bottom: 15px;">
-            <label for="telefono">Teléfono:</label><br>
-            <input type="text" id="telefono" name="telefono" 
-                   style="width: 100%; padding: 8px;" 
-                   value="{{ old('telefono') }}">
+
+        <div class="flex items-center justify-end mt-4">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                {{ __('Already registered?') }}
+            </a>
+
+            <x-primary-button class="ms-4">
+                {{ __('Register') }}
+            </x-primary-button>
         </div>
-        
-        <div style="margin-bottom: 15px;">
-            <label for="empresa">Empresa:</label><br>
-            <input type="text" id="empresa" name="empresa" 
-                   style="width: 100%; padding: 8px;" 
-                   value="{{ old('empresa') }}">
-        </div>
-        
-        <div style="margin-bottom: 15px;">
-            <label for="cargo">Cargo:</label><br>
-            <input type="text" id="cargo" name="cargo" 
-                   style="width: 100%; padding: 8px;" 
-                   value="{{ old('cargo') }}">
-        </div>
-        
-        <button type="submit" style="width: 100%; padding: 10px; font-size: 16px;">
-            Registrarse
-        </button>
     </form>
-    
-    <p style="text-align: center; margin-top: 20px;">
-        ¿Ya tienes cuenta? <a href="{{ route('login') }}">Inicia sesión aquí</a>
-    </p>
-</div>
-@endsection
+</x-guest-layout>

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title', 'Tráfico en Tiempo Real')
 
@@ -117,8 +117,8 @@
 
 <div style="margin: 30px 0;">
     <button onclick="location.reload()">🔄 Actualizar Datos</button>
-    <a href="{{ route('buques.gestion-atraques') }}">
-        <button>🎯 Ir a Gestión de Atraques</button>
+    <a href="{{ route('admin.buques.gestion-atraques') }}">
+        <button>Ir a Gestión de Atraques</button>
     </a>
 </div>
 @endsection

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title', 'Condiciones Climáticas')
 
@@ -139,7 +139,7 @@
     
     <p><strong>Endpoint de ejemplo:</strong></p>
     <code style="background: #f5f5f5; padding: 10px; display: block;">
-        GET {{ route('api.clima.actual') }}
+        GET /api/clima/actual
     </code>
 </div>
 

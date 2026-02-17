@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title', 'Muelles')
 
@@ -7,7 +7,7 @@
 
 <div style="margin: 20px 0;">
     @if(Auth::user()->isAdministrador())
-        <a href="{{ route('muelles.create') }}">
+        <a href="{{ route('admin.muelles.create') }}">
             <button>➕ Crear Nuevo Muelle</button>
         </a>
     @endif
@@ -62,7 +62,7 @@
                 </a>
                 
                 @if(Auth::user()->isAdministrador())
-                    <a href="{{ route('muelles.edit', $muelle->id) }}">
+                    <a href="{{ route('admin.muelles.edit', $muelle->id) }}">
                         <button>✏️ Editar</button>
                     </a>
                 @endif

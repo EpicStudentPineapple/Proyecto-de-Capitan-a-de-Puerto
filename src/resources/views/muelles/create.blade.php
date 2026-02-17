@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title', isset($muelle) ? 'Editar Muelle' : 'Crear Muelle')
 
@@ -7,7 +7,7 @@
 
 <p><a href="{{ route('muelles.index') }}">← Volver al listado</a></p>
 
-<form action="{{ isset($muelle) ? route('muelles.update', $muelle->id) : route('muelles.store') }}" 
+<form action="{{ isset($muelle) ? route('admin.muelles.update', $muelle->id) : route('admin.muelles.store') }}" 
       method="POST" style="max-width: 600px;">
     @csrf
     @if(isset($muelle))

@@ -1,30 +1,30 @@
-# Usa una imagen base de PHP con Apache
+# Usa imagen base de PHP 8.3 con Apache
 FROM php:8.3-apache
 
-# 1. Instalar dependencias del sistema y extensiones de PHP
+# 1. Dependencias del sistema y extensiones PHP
 RUN apt-get update && apt-get install -y \
     git \
     unzip \
     libzip-dev \
     libpng-dev \
     libjpeg-dev \
-    # Limpia para reducir el tamaño de la imagen
+    libonig-dev \
     && rm -rf /var/lib/apt/lists/* \
-    # Habilita las extensiones necesarias para Laravel
-    && docker-php-ext-install pdo pdo_mysql zip exif pcntl gd
+    && docker-php-ext-install pdo pdo_mysql zip exif pcntl gd mbstring
 
-# 2. Instalar Composer globalmente
+
+# 2. Instalar Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs
+    
+# 3. Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# 3. Configuración de Apache: Modificar el Virtual Host por defecto
-# Copia la configuración de Apache que apunta al directorio 'public' de Laravel
-# El archivo 000-default.conf existe por defecto en la imagen de Apache
+# 4. Configuración Apache apuntando al public/ de Laravel
 COPY ./apache.conf /etc/apache2/sites-available/000-default.conf
 
-# 4. Habilitar el módulo 'rewrite' (necesario para URLs limpias de Laravel)
+# 5. Habilitar mod_rewrite
 RUN a2enmod rewrite
 
-# 5. Establecer el directorio de trabajo
+# 6. Directorio de trabajo
 WORKDIR /var/www/html
-
-# El puerto 80 ya está expuesto por defecto por la imagen 'php:*-apache'
