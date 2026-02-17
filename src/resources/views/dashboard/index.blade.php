@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title', 'Dashboard')
 
@@ -52,11 +52,13 @@
             </button>
         </a>
         
-        <a href="{{ route('buques.gestion-atraques') }}">
-            <button style="padding: 15px; margin: 5px;">
-                Gestionar Atraques
-            </button>
-        </a>
+        @if(Auth::user()->isAdministrador())
+            <a href="{{ route('admin.buques.gestion-atraques') }}">
+                <button style="padding: 15px; margin: 5px;">
+                    Gestionar Atraques
+                </button>
+            </a>
+        @endif
         
         <a href="{{ route('servicios.index') }}">
             <button style="padding: 15px; margin: 5px;">
@@ -75,15 +77,20 @@
             <p>Gestión de infraestructura portuaria</p>
             <a href="{{ route('muelles.index') }}"><button>Ver Muelles</button></a>
             @if(Auth::user()->isAdministrador())
-                <a href="{{ route('muelles.create') }}"><button>Crear Muelle</button></a>
+                <a href="{{ route('admin.muelles.create') }}"><button>Crear Muelle</button></a>
             @endif
         </div>
         
         <div style="border: 1px solid #ccc; padding: 20px;">
             <h3>Buques</h3>
             <p>Control de embarcaciones en puerto</p>
-            <a href="{{ route('buques.index') }}"><button>Ver Buques</button></a>
-            <a href="{{ route('buques.create') }}"><button>Registrar Buque</button></a>
+            @if(Auth::user()->isAdministrador())
+                <a href="{{ route('admin.buques.index') }}"><button>Ver Todos</button></a>
+                <a href="{{ route('admin.buques.create') }}"><button>Registrar Buque</button></a>
+            @else
+                <a href="{{ route('propietario.buques.index') }}"><button>Ver Mis Buques</button></a>
+                <a href="{{ route('propietario.buques.create') }}"><button>Registrar Buque</button></a>
+            @endif
         </div>
         
         <div style="border: 1px solid #ccc; padding: 20px;">
@@ -91,7 +98,7 @@
             <p>Servicios disponibles en el puerto</p>
             <a href="{{ route('servicios.index') }}"><button>Ver Servicios</button></a>
             @if(Auth::user()->isAdministrador())
-                <a href="{{ route('servicios.create') }}"><button>Crear Servicio</button></a>
+                <a href="{{ route('admin.servicios.create') }}"><button>Crear Servicio</button></a>
             @endif
         </div>
         
@@ -100,17 +107,17 @@
             <p>Amarres para embarcaciones menores</p>
             <a href="{{ route('pantalans.index') }}"><button>Ver Pantalanes</button></a>
             @if(Auth::user()->isAdministrador())
-                <a href="{{ route('pantalans.create') }}"><button>Crear Pantalán</button></a>
+                <a href="{{ route('admin.pantalans.create') }}"><button>Crear Pantalán</button></a>
             @endif
         </div>
     </div>
 </div>
 
-@if(Auth::user()->isCliente())
+@if(Auth::user()->isPropietario())
 <div style="margin: 30px 0; padding: 20px; background: #e7f3ff; border: 1px solid #b3d9ff;">
     <h3>Mis Buques</h3>
     <p>Tienes acceso a la gestión de tu flota</p>
-    <a href="{{ route('buques.index') }}"><button>Ver Mis Buques</button></a>
+    <a href="{{ route('propietario.buques.index') }}"><button>Ver Mis Buques</button></a>
 </div>
 @endif
 @endsection

@@ -13,10 +13,11 @@ class BuqueController extends Controller
     public function index()
     {
         $user = Auth::user();
-        
-        if ($user->isCliente()) {
+
+        if ($user->isPropietario()) {
             $buques = Buque::dePropietario($user->id)->with(['muelle', 'propietario'])->paginate(15);
-        } else {
+        }
+        else {
             $buques = Buque::with(['muelle', 'propietario'])->paginate(15);
         }
 
@@ -25,8 +26,8 @@ class BuqueController extends Controller
 
     public function create()
     {
-        $propietarios = User::whereHas('perfil', function($query) {
-            $query->whereIn('tipo_usuario', ['consignatario', 'armador']);
+        $propietarios = User::whereHas('perfil', function ($query) {
+            $query->whereIn('tipo_usuario', ['propietario', 'consignatario', 'armador']);
         })->get();
 
         $muelles = Muelle::disponibles()->get();
@@ -58,7 +59,8 @@ class BuqueController extends Controller
 
         $buque = Buque::create($validated);
 
-        return redirect()->route('buques.show', $buque->id)
+        $routePrefix = Auth::user()->isAdmin() ? 'admin.' : 'propietario.';
+        return redirect()->route($routePrefix . 'buques.show', $buque->id)
             ->with('success', 'Buque registrado exitosamente');
     }
 
@@ -67,7 +69,7 @@ class BuqueController extends Controller
         $buque = Buque::with(['muelle', 'propietario.perfil', 'servicios'])->findOrFail($id);
 
         $user = Auth::user();
-        if ($user->isCliente() && $buque->propietario_id !== $user->id) {
+        if ($user->isPropietario() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para ver este buque');
         }
 
@@ -79,12 +81,12 @@ class BuqueController extends Controller
         $buque = Buque::findOrFail($id);
 
         $user = Auth::user();
-        if ($user->isCliente() && $buque->propietario_id !== $user->id) {
+        if ($user->isPropietario() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para editar este buque');
         }
 
-        $propietarios = User::whereHas('perfil', function($query) {
-            $query->whereIn('tipo_usuario', ['consignatario', 'armador']);
+        $propietarios = User::whereHas('perfil', function ($query) {
+            $query->whereIn('tipo_usuario', ['propietario', 'consignatario', 'armador']);
         })->get();
 
         $muelles = Muelle::disponibles()->get();
@@ -97,7 +99,7 @@ class BuqueController extends Controller
         $buque = Buque::findOrFail($id);
 
         $user = Auth::user();
-        if ($user->isCliente() && $buque->propietario_id !== $user->id) {
+        if ($user->isPropietario() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para editar este buque');
         }
 
@@ -123,7 +125,8 @@ class BuqueController extends Controller
 
         $buque->update($validated);
 
-        return redirect()->route('buques.show', $buque->id)
+        $routePrefix = Auth::user()->isAdmin() ? 'admin.' : 'propietario.';
+        return redirect()->route($routePrefix . 'buques.show', $buque->id)
             ->with('success', 'Buque actualizado exitosamente');
     }
 
@@ -132,7 +135,7 @@ class BuqueController extends Controller
         $buque = Buque::findOrFail($id);
 
         $user = Auth::user();
-        if ($user->isCliente() && $buque->propietario_id !== $user->id) {
+        if ($user->isPropietario() && $buque->propietario_id !== $user->id) {
             abort(403, 'No tienes permiso para eliminar este buque');
         }
 
@@ -143,12 +146,18 @@ class BuqueController extends Controller
 
         $buque->delete();
 
-        return redirect()->route('buques.index')
+        $routePrefix = Auth::user()->isAdmin() ? 'admin.' : 'propietario.';
+        return redirect()->route($routePrefix . 'buques.index')
             ->with('success', 'Buque eliminado exitosamente');
     }
 
     public function asignarMuelle(Request $request, $id)
     {
+        $request->validate([
+            'muelle_id' => 'required|exists:muelles,id',
+            'fecha_salida' => 'nullable|date|after:now',
+        ]);
+
         $buque = Buque::findOrFail($id);
         $muelle = Muelle::findOrFail($request->muelle_id);
 

@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layouts.app')
 
 @section('title', 'Detalle de Muelle')
 
@@ -9,11 +9,11 @@
 
 <div style="margin: 20px 0;">
     @if(Auth::user()->isAdministrador())
-        <a href="{{ route('muelles.edit', $muelle->id) }}">
+        <a href="{{ route('admin.muelles.edit', $muelle->id) }}">
             <button>Editar Muelle</button>
         </a>
         
-        <form action="{{ route('muelles.toggle-disponibilidad', $muelle->id) }}" 
+        <form action="{{ route('admin.muelles.toggle-disponibilidad', $muelle->id) }}" 
               method="POST" style="display: inline;">
             @csrf
             <button type="submit">
@@ -22,7 +22,7 @@
         </form>
         
         @if(!$muelle->estaOcupado())
-            <form action="{{ route('muelles.destroy', $muelle->id) }}" 
+            <form action="{{ route('admin.muelles.destroy', $muelle->id) }}" 
                   method="POST" style="display: inline;" 
                   onsubmit="return confirm('¿Estás seguro de eliminar este muelle?');">
                 @csrf
@@ -161,11 +161,11 @@
 <h2>Pantalanes del Muelle</h2>
 
 <p>
-    <a href="{{ route('pantalans.por-muelle', $muelle->id) }}">
+    <a href="{{ route('admin.pantalans.por-muelle', $muelle->id) }}">
         <button>Ver Pantalanes de este Muelle</button>
     </a>
     @if(Auth::user()->isAdministrador())
-        <a href="{{ route('pantalans.create') }}?muelle_id={{ $muelle->id }}">
+        <a href="{{ route('admin.pantalans.create') }}?muelle_id={{ $muelle->id }}">
             <button>Añadir Pantalán</button>
         </a>
     @endif

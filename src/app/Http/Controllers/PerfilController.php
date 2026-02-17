@@ -12,7 +12,7 @@ class PerfilController extends Controller
     public function index()
     {
         $perfiles = Perfil::with('user')->paginate(15);
-        
+
         return view('perfiles.index', compact('perfiles'));
     }
 
@@ -37,16 +37,30 @@ class PerfilController extends Controller
         $user = Auth::user();
         $perfil = $user->perfil;
 
+        if (!$perfil) {
+            // Create if missing
+            $perfil = \App\Models\Perfil::create([
+                'user_id' => $user->id,
+                'nombre' => $user->name,
+                'tipo_usuario' => 'propietario',
+                'activo' => true,
+            ]);
+        }
+
         $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'apellidos' => 'nullable|string|max:255',
             'telefono' => 'nullable|string|max:20',
+            'direccion' => 'nullable|string|max:255',
             'empresa' => 'nullable|string|max:255',
             'cargo' => 'nullable|string|max:100',
+            'cif' => 'nullable|string|max:20',
+            'licencia_maritima' => 'nullable|string|max:50',
         ]);
 
         $perfil->update($validated);
 
-        return redirect()->route('perfil.mi-perfil')
-            ->with('success', 'Perfil actualizado exitosamente');
+        return back()->with('status', 'perfil-updated');
     }
 
     public function show($id)
@@ -56,10 +70,12 @@ class PerfilController extends Controller
         return view('perfiles.show', compact('perfil'));
     }
 
+    // ... (rest of methods)
+
     public function edit($id)
     {
         $perfil = Perfil::with('user')->findOrFail($id);
-        
+
         return view('perfiles.edit', compact('perfil'));
     }
 
@@ -91,4 +107,9 @@ class PerfilController extends Controller
         return redirect()->back()
             ->with('success', 'Estado del perfil actualizado');
     }
+
+/**
+ * Update the authenticated user's profile.
+ */
+
 }
