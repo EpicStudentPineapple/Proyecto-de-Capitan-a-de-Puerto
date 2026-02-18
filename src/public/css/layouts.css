@@ -46,10 +46,9 @@
     letter-spacing: -0.01em;
 }
 
-/* Links de navegación */
+/* Links de navegación — ocultos en móvil, visibles en desktop */
 .navbar-nav {
     display: none;
-    /* Oculto por defecto en móvil */
     align-items: center;
     gap: var(--space-1);
     list-style: none;
@@ -89,54 +88,22 @@
     outline-offset: 2px;
 }
 
-/* Acciones combinadas (Perfil + Menú móvil) */
+/* ── Acciones (Perfil + Hamburger) ──────────────────────────── */
 .navbar-actions {
     display: flex;
     align-items: center;
-    gap: var(--space-5);
-    /* Aumentado de space-3 para evitar colisión */
+    gap: var(--space-3);
     position: relative;
     z-index: 101;
-    /* Por encima de navbar-inner */
 }
 
-/* Dropdown de usuario */
+/* ── Dropdown de usuario ────────────────────────────────────── */
+
+/* Oculto en móvil: el menú hamburger ya gestiona el usuario */
 .navbar-user {
-    display: flex;
-    /* Cambiado de none para que sea accesible en móvil */
+    display: none;
     align-items: center;
-}
-
-.user-name-text {
-    display: none;
-    /* Oculto en móvil por defecto */
-}
-
-.user-icon-mobile {
-    display: block;
-    color: var(--color-text-on-dark);
-}
-
-.user-chevron {
-    display: none;
-    /* Oculto en favor del icono en móvil */
-}
-
-@media (min-width: 768px) {
-    .user-name-text {
-        display: inline;
-        /* Visible en escritorio */
-    }
-
-    .user-icon-mobile {
-        display: none;
-        /* Oculto en escritorio */
-    }
-
-    .user-chevron {
-        display: inline;
-        /* Visible en escritorio */
-    }
+    position: relative; /* ancla absoluta del panel */
 }
 
 .user-menu-btn {
@@ -164,13 +131,30 @@
     outline-offset: 2px;
 }
 
-/* Dropdown content */
-.dropdown-content {
+.user-name-text {
+    display: none;
+}
+
+.user-icon-mobile {
+    display: block;
+    color: var(--color-text-on-dark);
+}
+
+.user-chevron {
+    display: none;
+}
+
+/* Panel desplegable del usuario */
+.user-dropdown-panel {
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    right: 0;
+    z-index: 200; /* por encima del navbar z-index:100 */
+    min-width: 12rem;
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     box-shadow: var(--shadow-lg);
-    min-width: 12rem;
     overflow: hidden;
 }
 
@@ -201,10 +185,9 @@
     margin: var(--space-1) 0;
 }
 
-/* ── Menú móvil ─────────────────────────────────────────────── */
+/* ── Botón hamburger (móvil) ────────────────────────────────── */
 .navbar-toggle {
     display: flex;
-    /* Visible por defecto en móvil */
     align-items: center;
     justify-content: center;
     width: 2.5rem;
@@ -226,7 +209,7 @@
     outline-offset: 2px;
 }
 
-/* Menú móvil desplegable */
+/* ── Menú móvil desplegable ─────────────────────────────────── */
 .navbar-mobile {
     display: none;
     background-color: var(--color-primary-hover);
@@ -280,7 +263,6 @@
     background-color: var(--color-surface);
     border-bottom: 1px solid var(--color-border);
     padding: var(--space-3) var(--space-4);
-    /* Valores de móvil por defecto */
     box-shadow: var(--shadow-sm);
 }
 
@@ -292,7 +274,6 @@
 .page-header h1,
 .page-header h2 {
     font-size: var(--font-size-lg);
-    /* Más pequeño en móvil */
     font-weight: 600;
     color: var(--color-text);
     margin-bottom: 0;
@@ -338,20 +319,40 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-xl);
     padding: var(--space-6);
-    /* Reducido para móvil */
     box-shadow: var(--shadow-lg);
 }
 
-/* ── Pantallas Grandes (Desktop) ────────────────────────────── */
+/* ── Desktop ≥ 768px — UN ÚNICO bloque media query ──────────── */
 @media (min-width: 768px) {
+
     .navbar-inner {
         padding: 0 var(--space-6);
     }
 
+    /* Mostrar links de nav */
     .navbar-nav {
         display: flex;
     }
 
+    /* Mostrar dropdown de perfil */
+    .navbar-user {
+        display: flex;
+    }
+
+    /* Mostrar texto y chevron; ocultar icono móvil */
+    .user-name-text {
+        display: inline;
+    }
+
+    .user-icon-mobile {
+        display: none;
+    }
+
+    .user-chevron {
+        display: inline;
+    }
+
+    /* Ocultar hamburger y menú móvil */
     .navbar-toggle {
         display: none;
     }
@@ -360,6 +361,7 @@
         display: none !important;
     }
 
+    /* Page header */
     .page-header {
         padding: var(--space-4) var(--space-6);
     }
@@ -369,6 +371,7 @@
         font-size: var(--font-size-xl);
     }
 
+    /* Auth card */
     .auth-card {
         padding: var(--space-8);
     }

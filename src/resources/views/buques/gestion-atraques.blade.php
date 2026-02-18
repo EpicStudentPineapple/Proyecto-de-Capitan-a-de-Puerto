@@ -53,9 +53,15 @@
             <h2>🏢 Muelles y Slots (Pantalanes)</h2>
 
             @foreach($muelles as $muelle)
-                <div class="muelle-container">
+                <div class="muelle-container {{ !$muelle->disponible ? 'muelle-fuera-servicio' : '' }}" 
+                     data-muelle-disponible="{{ $muelle->disponible ? '1' : '0' }}">
                     <div class="muelle-header">
-                        <h3>Muelle: {{ $muelle->nombre }} ({{ $muelle->codigo }})</h3>
+                        <h3>
+                            Muelle: {{ $muelle->nombre }} ({{ $muelle->codigo }})
+                            @if(!$muelle->disponible)
+                                <span class="badge badge-danger">FUERA DE SERVICIO</span>
+                            @endif
+                        </h3>
                         <span class="muelle-meta">
                             {{ ucfirst($muelle->tipo_muelle) }} | Calado máx. muelle: {{ $muelle->calado_maximo }}m
                         </span>
@@ -63,14 +69,15 @@
 
                     <div class="pantalanes-grid">
                         @foreach($muelle->pantalans as $pantalan)
-                            <div class="pantalan-slot {{ $pantalan->buqueActual ? 'slot-ocupado' : 'slot-disponible' }}"
+                            <div class="pantalan-slot {{ $pantalan->buqueActual ? 'slot-ocupado' : ($pantalan->disponible && $muelle->disponible ? 'slot-disponible' : 'slot-indisponible') }}"
                                  data-pantalan-id="{{ $pantalan->id }}"
                                  data-muelle-id="{{ $muelle->id }}"
+                                 data-disponible="{{ ($pantalan->disponible && $muelle->disponible) ? '1' : '0' }}"
                                  data-calado-max="{{ $pantalan->calado_maximo }}"
                                  data-eslora-max="{{ $pantalan->longitud_maxima }}"
                                  data-manga-max="{{ $pantalan->manga_maxima }}"
                                  role="region"
-                                 aria-label="Slot {{ $pantalan->codigo }}, {{ $pantalan->buqueActual ? 'ocupado por ' . $pantalan->buqueActual->nombre : 'disponible' }}">
+                                 aria-label="Slot {{ $pantalan->codigo }}, {{ $pantalan->buqueActual ? 'ocupado por ' . $pantalan->buqueActual->nombre : ($pantalan->disponible && $muelle->disponible ? 'disponible' : 'no disponible') }}">
 
                                 <div class="slot-codigo">Slot: {{ $pantalan->codigo }}</div>
                                 <div class="slot-dims">
@@ -88,6 +95,8 @@
                                         <div class="buque-atracado-nombre">📍 {{ $pantalan->buqueActual->nombre }}</div>
                                         <div class="buque-atracado-imo">IMO: {{ $pantalan->buqueActual->imo }}</div>
                                     </div>
+                                @elseif(!$pantalan->disponible || !$muelle->disponible)
+                                    <div class="slot-disponible-label text-danger" aria-hidden="true">No Disponible</div>
                                 @else
                                     <div class="slot-disponible-label" aria-hidden="true">Disponible</div>
                                 @endif
@@ -145,6 +154,11 @@ $(document).ready(function() {
                 return;
             }
 
+            if ($slot.data('disponible') == '0') {
+                $slot.addClass('muelle-invalido');
+                return;
+            }
+
             const b_eslora = parseFloat($buque.data('eslora'));
             const b_manga  = parseFloat($buque.data('manga'));
             const b_calado = parseFloat($buque.data('calado'));
@@ -168,6 +182,11 @@ $(document).ready(function() {
 
             if ($slot.hasClass('slot-ocupado')) {
                 alert('❌ Este slot ya está ocupado');
+                return;
+            }
+
+            if ($slot.data('disponible') == '0') {
+                alert('❌ Este muelle o pantalán no está disponible actualmente');
                 return;
             }
 

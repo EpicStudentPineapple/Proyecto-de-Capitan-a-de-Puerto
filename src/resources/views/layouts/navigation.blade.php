@@ -1,4 +1,4 @@
-<nav class="navbar" x-data="{ open: false }">
+<nav class="navbar" x-data="{ mobileOpen: false }">
     <div class="navbar-inner">
         <!-- Logo y marca -->
         <a href="{{ route('dashboard') }}" class="navbar-brand">
@@ -59,50 +59,70 @@
 
         <!-- Acciones: Perfil y Menú Móvil -->
         <div class="navbar-actions">
-            <!-- Menú de usuario -->
-            <div class="navbar-user">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="user-menu-btn" aria-haspopup="true" aria-expanded="false" title="Menú de usuario">
-                            <!-- Icono de usuario para móvil -->
-                            <svg class="user-icon-mobile" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <span class="user-name-text">{{ Auth::user()->name }}</span>
-                            <svg class="user-chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
+
+            <!-- Menú de usuario: INLINE Alpine con su propia variable, sin conflicto -->
+            <div class="navbar-user"
+                 x-data="{ userOpen: false }"
+                 @click.outside="userOpen = false">
+
+                <button
+                    class="user-menu-btn"
+                    @click="userOpen = !userOpen"
+                    :aria-expanded="userOpen.toString()"
+                    aria-haspopup="true"
+                    title="Menú de usuario">
+                    <!-- Icono para móvil (oculto en desktop via CSS) -->
+                    <svg class="user-icon-mobile" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span class="user-name-text">{{ Auth::user()->name }}</span>
+                    <svg class="user-chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <!-- Panel dropdown -->
+                <div
+                    x-show="userOpen"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 scale-95"
+                    x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 scale-100"
+                    x-transition:leave-end="opacity-0 scale-95"
+                    @click="userOpen = false"
+                    class="user-dropdown-panel"
+                    x-cloak
+                    style="display:none;">
+
+                    <a href="{{ route('profile.edit') }}" class="dropdown-item">
+                        {{ __('Perfil') }}
+                    </a>
+
+                    <div class="dropdown-divider"></div>
+
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="dropdown-item">
+                            {{ __('Cerrar Sesión') }}
                         </button>
-                    </x-slot>
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')" class="dropdown-item">
-                            {{ __('Perfil') }}
-                        </x-dropdown-link>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault(); this.closest('form').submit();"
-                                class="dropdown-item">
-                                {{ __('Cerrar Sesión') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
+                    </form>
+                </div>
             </div>
 
-            <!-- Botón menú móvil -->
+            <!-- Botón hamburger menú móvil -->
             <button
                 class="navbar-toggle"
-                @click="open = !open"
-                :aria-expanded="open.toString()"
+                @click="mobileOpen = !mobileOpen"
+                :aria-expanded="mobileOpen.toString()"
                 aria-controls="mobile-menu"
                 aria-label="Abrir menú de navegación">
                 <svg aria-hidden="true" width="20" height="20" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                    <path :class="{'hidden': open, 'inline-flex': !open}" class="inline-flex"
+                    <path :class="{'hidden': mobileOpen, 'inline-flex': !mobileOpen}" class="inline-flex"
                           stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M4 6h16M4 12h16M4 18h16" />
-                    <path :class="{'hidden': !open, 'inline-flex': open}" class="hidden"
+                    <path :class="{'hidden': !mobileOpen, 'inline-flex': mobileOpen}" class="hidden"
                           stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                           d="M6 18L18 6M6 6l12 12" />
                 </svg>
@@ -113,7 +133,7 @@
     <!-- Menú móvil -->
     <div id="mobile-menu"
          class="navbar-mobile"
-         :class="{'open': open}"
+         :class="{'open': mobileOpen}"
          role="navigation"
          aria-label="Menú móvil">
         <a href="{{ route('dashboard') }}"

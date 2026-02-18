@@ -10,7 +10,7 @@ class MuelleController extends Controller
     public function index()
     {
         $muelles = Muelle::with('buqueActual')->paginate(10);
-        
+
         return view('muelles.index', compact('muelles'));
     }
 
@@ -34,6 +34,10 @@ class MuelleController extends Controller
             'observaciones' => 'nullable|string',
         ]);
 
+        $validated['disponible'] = $request->has('disponible');
+        $validated['grua_disponible'] = $request->has('grua_disponible');
+        $validated['energia_tierra'] = $request->has('energia_tierra');
+
         $muelle = Muelle::create($validated);
 
         return redirect()->route('muelles.show', $muelle->id)
@@ -42,7 +46,7 @@ class MuelleController extends Controller
 
     public function show($id)
     {
-        $muelle = Muelle::with(['buques' => function($query) {
+        $muelle = Muelle::with(['buques' => function ($query) {
             $query->orderBy('fecha_atraque', 'desc')->limit(10);
         }, 'pantalans'])->findOrFail($id);
 
@@ -52,7 +56,7 @@ class MuelleController extends Controller
     public function edit($id)
     {
         $muelle = Muelle::findOrFail($id);
-        
+
         return view('muelles.edit', compact('muelle'));
     }
 
@@ -73,7 +77,15 @@ class MuelleController extends Controller
             'observaciones' => 'nullable|string',
         ]);
 
+        $validated['disponible'] = $request->has('disponible');
+        $validated['grua_disponible'] = $request->has('grua_disponible');
+        $validated['energia_tierra'] = $request->has('energia_tierra');
+
         $muelle->update($validated);
+        // Si el muelle se marca como no disponible, desactivamos todos sus pantalanes
+        if ($muelle->wasChanged('disponible') && !$muelle->disponible) {
+            $muelle->pantalans()->update(['disponible' => false]);
+        }
 
         return redirect()->route('muelles.show', $muelle->id)
             ->with('success', 'Muelle actualizado exitosamente');
@@ -83,7 +95,7 @@ class MuelleController extends Controller
     {
         $muelle = Muelle::findOrFail($id);
 
-          if ($muelle->estaOcupado()) {
+        if ($muelle->estaOcupado()) {
             return redirect()->route('muelles.index')
                 ->with('error', 'No se puede eliminar un muelle con buques atracados');
         }
@@ -99,6 +111,11 @@ class MuelleController extends Controller
         $muelle = Muelle::findOrFail($id);
         $muelle->disponible = !$muelle->disponible;
         $muelle->save();
+
+        // Si el muelle se ha marcado como no disponible, desactivamos todos sus pantalanes
+        if (!$muelle->disponible) {
+            $muelle->pantalans()->update(['disponible' => false]);
+        }
 
         return redirect()->back()
             ->with('success', 'Disponibilidad actualizada');

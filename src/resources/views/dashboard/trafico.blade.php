@@ -27,7 +27,9 @@
                 <td>{{ $muelle->nombre }}</td>
                 <td>{{ ucfirst(str_replace('_', ' ', $muelle->tipo_muelle)) }}</td>
                 <td>
-                    @if($muelle->buqueActual)
+                    @if(!$muelle->disponible)
+                        <span style="color: gray;">⚪ FUERA DE SERVICIO</span>
+                    @elseif($muelle->buqueActual)
                         <span style="color: red;">🔴 OCUPADO</span>
                     @else
                         <span style="color: green;">🟢 DISPONIBLE</span>

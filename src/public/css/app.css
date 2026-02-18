@@ -620,3 +620,128 @@ a:hover {
     width: auto;
   }
 }
+
+/* Utilidades para Alpine.js */
+[x-cloak] {
+  display: none !important;
+}
+
+/* ── Utilidades para componentes Breeze (Tailwind Compat) ── */
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.z-50 {
+  z-index: 50;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
+.w-48 {
+  width: 12rem;
+}
+
+.rounded-md {
+  border-radius: var(--radius-md);
+}
+
+.shadow-lg {
+  box-shadow: var(--shadow-lg);
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+.origin-top-right {
+  transform-origin: top right;
+}
+
+.end-0 {
+  right: 0;
+}
+
+.ring-1 {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.block {
+  display: block;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-sm {
+  font-size: var(--font-size-sm);
+}
+
+.leading-5 {
+  line-height: 1.25rem;
+}
+
+.transition {
+  transition: all 150ms ease-in-out;
+}
+
+.ease-in-out {
+  transition-timing-function: ease-in-out;
+}
+
+.duration-150 {
+  transition-duration: 150ms;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+
+.opacity-100 {
+  opacity: 1;
+}
+
+.scale-95 {
+  transform: scale(0.95);
+}
+
+.scale-100 {
+  transform: scale(1);
+}
+
+.text-gray-700 {
+  color: #374151;
+}
+
+.hover\:bg-gray-100:hover {
+  background-color: #f3f4f6;
+}
+
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus\:bg-gray-100:focus {
+  background-color: #f3f4f6;
+}

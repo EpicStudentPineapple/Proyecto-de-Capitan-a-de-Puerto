@@ -11,14 +11,14 @@ class PantalanController extends Controller
     public function index()
     {
         $pantalans = Pantalan::with('muelle')->paginate(15);
-        
+
         return view('pantalans.index', compact('pantalans'));
     }
 
     public function create()
     {
         $muelles = Muelle::all();
-        
+
         return view('pantalans.create', compact('muelles'));
     }
 
@@ -42,6 +42,11 @@ class PantalanController extends Controller
             'observaciones' => 'nullable|string',
         ]);
 
+        $validated['agua_disponible'] = $request->has('agua_disponible');
+        $validated['electricidad_disponible'] = $request->has('electricidad_disponible');
+        $validated['wifi_disponible'] = $request->has('wifi_disponible');
+        $validated['disponible'] = $request->has('disponible');
+
         $pantalan = Pantalan::create($validated);
 
         return redirect()->route('pantalans.show', $pantalan->id)
@@ -59,7 +64,7 @@ class PantalanController extends Controller
     {
         $pantalan = Pantalan::findOrFail($id);
         $muelles = Muelle::all();
-        
+
         return view('pantalans.edit', compact('pantalan', 'muelles'));
     }
 
@@ -84,6 +89,11 @@ class PantalanController extends Controller
             'precio_dia' => 'nullable|numeric|min:0',
             'observaciones' => 'nullable|string',
         ]);
+
+        $validated['agua_disponible'] = $request->has('agua_disponible');
+        $validated['electricidad_disponible'] = $request->has('electricidad_disponible');
+        $validated['wifi_disponible'] = $request->has('wifi_disponible');
+        $validated['disponible'] = $request->has('disponible');
 
         $pantalan->update($validated);
 
