@@ -19,8 +19,8 @@ class WelcomeController extends Controller
             'total_muelles' => Muelle::count(),
             'total_buques' => Buque::count(),
             'total_servicios' => Servicio::count(),
-            'total_resenas_aprobadas' => Resena::aprobadas()->count(),
-            'promedio_calificacion' => round(Resena::aprobadas()->avg('calificacion'), 1),
+            'total_resenas_aprobadas' => Resena::aprobadas()->plataforma()->count(),
+            'promedio_calificacion' => round(Resena::aprobadas()->plataforma()->avg('calificacion'), 2),
         ];
 
         return response()->json($stats);
