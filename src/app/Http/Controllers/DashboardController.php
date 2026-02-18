@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $buquesFondeados = Buque::fondeados()->count();
         $buquesNavegando = Buque::navegando()->count();
         $muellesDisponibles = Muelle::disponibles()->count();
-        $muellesOcupados = Muelle::whereHas('buques', function($query) {
+        $muellesOcupados = Muelle::whereHas('buques', function ($query) {
             $query->where('estado', 'atracado');
         })->count();
 
@@ -49,7 +49,12 @@ class DashboardController extends Controller
     public function servicios()
     {
         $servicios = Servicio::all()->groupBy('tipo_servicio');
-        
+
         return view('dashboard.servicios', compact('servicios'));
+    }
+
+    public function tutorial()
+    {
+        return view('dashboard.tutorial');
     }
 }

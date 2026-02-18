@@ -13,7 +13,9 @@ return new class extends Migration
     public function up(): void
     {
         // Update ENUM values using raw SQL (most reliable method for enums)
-        DB::statement("ALTER TABLE perfils MODIFY COLUMN tipo_usuario ENUM('administrador', 'propietario', 'consignatario', 'armador') NOT NULL DEFAULT 'propietario'");
+        if (DB::getDriverName() === 'mysql') {
+            DB::statement("ALTER TABLE perfils MODIFY COLUMN tipo_usuario ENUM('administrador', 'propietario') NOT NULL DEFAULT 'propietario'");
+        }
 
         // Add indexes for performance
         Schema::table('buques', function (Blueprint $table) {

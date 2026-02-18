@@ -76,6 +76,49 @@
     font-weight: 500;
 }
 
+/* ── Layout de perfil ───────────────────────────────────────── */
+.profile-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+}
+
+@media (min-width: 1024px) {
+    .profile-layout {
+        grid-template-columns: 320px 1fr;
+    }
+}
+
+/* ── Encabezado de perfil ───────────────────────────────────── */
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-6);
+}
+
+/* ── Lista de datos ─────────────────────────────────────────── */
+.data-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+@media (min-width: 640px) {
+    .data-list {
+        grid-template-columns: 200px 1fr;
+    }
+}
+
+.data-label {
+    font-weight: 600;
+    color: var(--color-text-muted);
+}
+
+.data-value {
+    color: var(--color-text);
+}
+
 /* ── Pantallas Grandes (Desktop) ────────────────────────────── */
 @media (min-width: 768px) {
     .perfiles-page {

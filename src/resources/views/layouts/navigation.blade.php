@@ -3,7 +3,7 @@
         <!-- Logo y marca -->
         <a href="{{ route('dashboard') }}" class="navbar-brand">
             <img
-                src="{{ asset('build/assets/Logo.jpg') }}"
+                src="{{ asset('assets/Logo.jpg') }}"
                 alt="Gestorinaitor 3000 — Dashboard"
                 class="navbar-logo"
             >
@@ -53,6 +53,13 @@
                    class="nav-link {{ request()->routeIs('resenas.*') ? 'active' : '' }}"
                    {{ request()->routeIs('resenas.*') ? 'aria-current=page' : '' }}>
                     Reseñas
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('dashboard.tutorial') }}"
+                   class="nav-link {{ request()->routeIs('dashboard.tutorial') ? 'active' : '' }}"
+                   {{ request()->routeIs('dashboard.tutorial') ? 'aria-current=page' : '' }}>
+                    Tutorial
                 </a>
             </li>
         </ul>
@@ -161,6 +168,10 @@
         <a href="{{ route('resenas.index') }}"
            class="mobile-nav-link {{ request()->routeIs('resenas.*') ? 'active' : '' }}">
             Reseñas
+        </a>
+        <a href="{{ route('dashboard.tutorial') }}"
+           class="mobile-nav-link {{ request()->routeIs('dashboard.tutorial') ? 'active' : '' }}">
+            Tutorial
         </a>
 
         <div class="mobile-user-info">

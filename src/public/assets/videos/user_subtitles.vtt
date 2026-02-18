@@ -1,0 +1,326 @@
+WEBVTT
+
+00:00.000 --> 00:11.000
+Primero que todo, buenos días, yo soy Pablo Outeiral y vengo a presentar el proyecto que tengo preparado para presentar como mi segundo reto.
+
+00:11.000 --> 00:19.000
+Este sería el sistema de gesto por tu área, o como gusta a mi llamarlo, Gestorinaitor3000, nombre poco creativo, pero bueno, ahí estamos.
+
+00:19.000 --> 00:26.000
+Voy a empezar por lo básico y restándome, que sería básicamente clicando en el botón de registro y nos lleva al portarse del registro.
+
+00:26.000 --> 00:33.000
+Aquí tengo unos otros preparados que voy a introducir mi nombre, mi correo electrónico y pues una contraseña aleatoria.
+
+00:33.000 --> 00:44.000
+Las contraseñas tienen un mínimo requerimiento y es que tiene que ser un mínimo de 8 dígitos, utiliza prisiones de caso, se me lo recuerdo.
+
+00:45.000 --> 00:52.000
+Esta es la dashboard por principal, una vez nos crea el usuario, también genera un perfil, una tabla sile a filiada.
+
+00:52.000 --> 01:02.000
+Y podemos ver un poco el estado del portal actual, enseña una tabla con los buques atracados, los fundeados, los buques navegandos, los buques disponibles y los muy os ocupados.
+
+01:02.000 --> 01:07.000
+Esta información se actualiza dependiendo del momento.
+
+01:07.000 --> 01:15.000
+Si hay buques ocupados, si hay buques fundeados, pues aquí lo pone a lluno, si hay atracados, y ahora veremos en cuanto me ponga con esto.
+
+01:15.000 --> 01:26.000
+Las secciones que son visibles, para lo que sería un propietario, son la de ver muelles, que nos permitiría ver todos los muelles que hay a disposición actualmente.
+
+01:26.000 --> 01:36.000
+Y pues da un poco de información como el código del muelle, el nombre del muelle, el tipo de muelle que es, la longitud máxima, el calado máximo y la capacidad total de lo que sería.
+
+01:36.000 --> 01:44.000
+Y luego está hace un listado de los buques que están metidos dentro, y permite una vista un poco más directa del muelle.
+
+01:44.000 --> 01:50.000
+Y aquí explica un poco, pues si tiene una grúa, si tiene energía, y nos da información sobre los pantalanes que tiene a filiados.
+
+01:50.000 --> 01:59.000
+Los pantalanes funcionarán básicamente como un slot, al que meter un barco que veremos más adelante.
+
+01:59.000 --> 02:04.000
+Volviendo al estado, pues podemos navegar directamente la partada de...
+
+02:04.000 --> 02:11.000
+En esta partada de navegación, que nos permite ver el trafico actual, el clima, los servicios y la resten exactamente.
+
+02:11.000 --> 02:19.000
+Sería pues aquí está el trafico marítimo general, y nos explica un poco los muelles que hay disponible, los barcos que hay actualmente.
+
+02:19.000 --> 02:31.000
+Luego está las condiciones climáticas, estas se actualizan, tiene directamente una API de OpenMTO, que está situada aproximadamente cerca de la costa de San Sebastián.
+
+02:31.000 --> 02:38.000
+Y pues es preso un poco la situación actual y dependiendo pues del clima que haga, da unas precipitaciones o da otras.
+
+02:38.000 --> 02:45.000
+Y también pues da una predicción para mañana aparte de esto y unos parámetros que tiene dentro el sistema,
+
+02:45.000 --> 02:53.000
+que lo que va a hacer es ver la altura de la aula y tiene unos límites, en este caso sería límite dos metros,
+
+02:53.000 --> 02:59.000
+el código también lo tiene cuando supera los dos metros, cambia el estado de seguro y inseguro.
+
+02:59.000 --> 03:09.000
+Automaticamente, aunque se puede forzar la actualización de datos, se puede actualizar unos actualizados cada cinco minutos como tal.
+
+03:10.000 --> 03:14.000
+Y si la da más rápido es que se va a refrescar desde cero, debería.
+
+03:14.000 --> 03:19.000
+Si se clica de f12, se puede ver que la consola...
+
+03:19.000 --> 03:25.000
+Bueno, habrá que esperar cinco minutos y no va a tener aquí, no voy a tener retenidos.
+
+03:25.000 --> 03:33.000
+Los servicios portuarios, aquí se pueden solitar diferentes servicios portuarios, que son no bien creados, editados y mantenidos por un administrador,
+
+03:34.000 --> 03:42.000
+para poder solitar un gerido portuario, único que tenéis que ser secciones, un buque que tengamos a nuestro nombre y luego pedirles servicio.
+
+03:42.000 --> 03:49.000
+En este caso no podemos, porque no tenemos un buque y luego aquí estaría las reseñas.
+
+03:51.000 --> 03:56.000
+Estas son las risas que están actualmente publicadas y algunos otros pueden escribir una reseña sobre uno de los servicios que hay.
+
+03:57.000 --> 04:04.000
+Este era la opción de hacer unos reseñas, por ejemplo, podemos aplicar una reseña sobre el sistema como tal o la plataforma.
+
+04:04.000 --> 04:08.000
+Muy buena.
+
+04:08.000 --> 04:29.000
+Y luego pues estarán en espera, una vez está en espera lo que debería hacer es un administrador, la tiene que ver y la tiene que aprobar.
+
+04:29.000 --> 04:34.000
+Esto es una medida de moderación para ver que no se pongan rocerías.
+
+04:35.000 --> 04:40.000
+Volviendo a la creación de buques, por ejemplo, vamos a registraros, ¿no?
+
+04:43.000 --> 04:46.000
+Y pues nombre del buque, Carlitos.
+
+04:48.000 --> 04:52.000
+El IMO, pues sí, a meo, un, dos, tres, cuatro, cinco, cinco, cinco, aquí mismo.
+
+04:52.000 --> 04:54.000
+El MSI, esto podemos dejarlo como null.
+
+04:55.000 --> 04:57.000
+La bandera, pues, vamos a poner la española.
+
+04:58.000 --> 05:03.000
+Es que es, es que es España, tipo de buque, pues un crucero.
+
+05:03.000 --> 05:08.000
+Vale, es lora, pues le ponemos, no sé cuántos metros, le ponemos, que es de 50 metros.
+
+05:08.000 --> 05:10.000
+Manga...
+
+05:10.000 --> 05:12.000
+¿Tré con 6?
+
+05:12.000 --> 05:15.000
+Sí, es que...
+
+05:17.000 --> 05:19.000
+13 metros.
+
+05:19.000 --> 05:21.000
+Calado, 6 metros.
+
+05:21.000 --> 05:24.000
+Tronelaje, Brutup, pues le vamos a poner...
+
+05:24.000 --> 05:27.000
+1.600 toneladas.
+
+05:27.000 --> 05:30.000
+Muy asignado, lo vamos a poner si nos esignado y lo vamos a dejar.
+
+05:30.000 --> 05:32.000
+En estado, fondeando.
+
+05:32.000 --> 05:35.000
+Aunque podríamos asignar directamente a uno de los muelles.
+
+05:35.000 --> 05:40.000
+Y la cargatúa lo va a ser cero, la tripuración, pues, vamos a ir uno, que va a ser la propia persona.
+
+05:40.000 --> 05:43.000
+Y absorción es ninguna. Y al registrar esto,
+
+05:43.000 --> 05:47.000
+debería aparecer en el apartado dashboard, un...
+
+05:52.000 --> 05:53.000
+7.
+
+05:53.000 --> 05:54.000
+Hola, ahí está.
+
+05:56.000 --> 06:00.000
+Ahí está, buque registró exitosamente, y ahora si vamos a dashboard.
+
+06:00.000 --> 06:03.000
+Le deberíamos poder ver aquí una partada de mis buques.
+
+06:03.000 --> 06:08.000
+Y la verdad de mis buques debería aparecer un listado con...
+
+06:08.000 --> 06:12.000
+toda la información y si la vamos a ver, pues podemos ver toda la información del buque.
+
+06:12.000 --> 06:15.000
+¿Qué que estaría?
+
+06:16.000 --> 06:21.000
+Y ahora sí, podemos hacer la solitud de servicios.
+
+06:22.000 --> 06:23.000
+O no.
+
+06:28.000 --> 06:29.000
+Cierto.
+
+06:31.000 --> 06:34.000
+No te importa, el buque tiene que estar atracado.
+
+06:34.000 --> 06:36.000
+Si me dan un segundo,
+
+06:38.000 --> 06:40.000
+por temas de seguridad,
+
+06:40.000 --> 06:43.000
+un administrador debe ser el encargado de...
+
+06:43.000 --> 06:45.000
+de atracar directamente a los buques.
+
+06:45.000 --> 06:49.000
+Y luego es un sistema que se mostrará en el vídeo posterior.
+
+06:49.000 --> 06:52.000
+Entonces, si yo tomo carlitos, lo muevo al buque de pruebas.
+
+06:54.000 --> 06:56.000
+Que sonado, perfecto.
+
+06:56.000 --> 06:57.000
+Ya estaría.
+
+06:57.000 --> 06:59.000
+Ahora con actualizar la página.
+
+07:01.000 --> 07:02.000
+Uno.
+
+07:02.000 --> 07:04.000
+Nos va a aparecer en tráfico,
+
+07:04.000 --> 07:06.000
+que el buque ha sido ocupado.
+
+07:06.000 --> 07:08.000
+Una vez que se lo ha sido ocupado.
+
+07:08.000 --> 07:10.000
+Y ahora nos dejaría pedir servicios.
+
+07:10.000 --> 07:13.000
+Vamos a solitar en este caso, pues su servicio de agua y electricidad.
+
+07:13.000 --> 07:15.000
+Y vamos a solitar servicios a aceptar.
+
+07:19.000 --> 07:21.000
+Y los servicios que darían solicitados.
+
+07:23.000 --> 07:26.000
+Tenúa, bueno, en este caso se requería el sistema del administrador.
+
+07:26.000 --> 07:29.000
+Y esto se va a ver mucho más profundamente en el vídeo de administrador,
+
+07:29.000 --> 07:34.000
+en el cual se puede ver un poco la operatividad que tiene.
+
+07:35.000 --> 07:40.000
+Pero ahora mismo si tiramos a ver mis buques,
+
+07:40.000 --> 07:43.000
+se podría ver que se han solicitado los servicios,
+
+07:43.000 --> 07:45.000
+si que está todavía en espera.
+
+07:45.000 --> 07:46.000
+Me que está solicitado.
+
+07:46.000 --> 07:48.000
+Y nos damos un aproximado del precio,
+
+07:48.000 --> 07:50.000
+más por también la fecha de la solicitud.
+
+07:50.000 --> 07:52.000
+Y el tipo de servicio que hemos solicitado.
+
+07:55.000 --> 07:58.000
+Ticho esto, creo que sería una introducción poco básica.
+
+07:58.000 --> 08:00.000
+En cuanto a reseñas, si me al recuerdo,
+
+08:00.000 --> 08:02.000
+debieras poder escribirse ahora.
+
+08:03.000 --> 08:07.000
+Sobre un servicio portuario, siendo el servicio portuario que hayamos utilizado.
+
+08:07.000 --> 08:15.000
+Esto es importante, ya que sólo podemos aplicar una reseña al sistema por defecto.
+
+08:15.000 --> 08:18.000
+Y a un servicio portuario que hayamos utilizado una vez,
+
+08:18.000 --> 08:19.000
+si hayas solicitado ese servicio.
+
+08:19.000 --> 08:21.000
+Si no, la reseña no puede atarse.
+
+08:21.000 --> 08:23.000
+Pues en este caso, pues podemos colocar electricidad.
+
+08:23.000 --> 08:25.000
+Y darme yo que sé cuatro extrañas.
+
+08:26.000 --> 08:27.000
+No me cargo bien.
+
+08:29.000 --> 08:30.000
+Y se envía esta reseña.
+
+08:31.000 --> 08:34.000
+Y luego es que una vez esta reseña sea aprobada.
+
+08:34.000 --> 08:36.000
+Podrá verse, pero de nuevo,
+
+08:36.000 --> 08:38.000
+esto se ve la más visiblemente.
+
+08:38.000 --> 08:43.000
+En lo que sería el vídeo de Administrador.
+

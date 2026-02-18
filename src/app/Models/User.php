@@ -24,6 +24,20 @@ class User extends Authenticatable
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (User $user) {
+            $user->perfil()->create([
+                'tipo_usuario' => 'propietario',
+                'fecha_alta' => now(),
+                'activo' => true,
+            ]);
+        });
+    }
+
+    /**
      * The attributes that should be hidden for serialization.
      *
      * @var list<string>

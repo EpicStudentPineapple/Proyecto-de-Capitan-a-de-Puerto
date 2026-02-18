@@ -22,6 +22,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard/trafico', [DashboardController::class , 'trafico'])->name('dashboard.trafico');
     Route::get('/dashboard/clima', [DashboardController::class , 'clima'])->name('dashboard.clima');
     Route::get('/dashboard/servicios', [DashboardController::class , 'servicios'])->name('dashboard.servicios');
+    Route::get('/dashboard/tutorial', [DashboardController::class , 'tutorial'])->name('dashboard.tutorial');
 });
 
 // Admin-only routes

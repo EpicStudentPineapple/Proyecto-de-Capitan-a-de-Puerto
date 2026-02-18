@@ -1,0 +1,770 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+Buenos días, yo soy Pablo Teiral, vengo de nuevo a presentar el sistema de gestion por tu área,
+
+00:06.000 --> 00:12.000
+esta vez directamente como una cuenta de administrador, esto con el fiendes separar ambos
+
+00:12.000 --> 00:16.000
+la vista de usuario, la vista de propietario y la vista de administrador,
+
+00:16.000 --> 00:23.000
+ya para poder gestionar un poco más todo, vale, el administrador es a un rol que puede tener
+
+00:23.000 --> 00:30.000
+el usuario, que lo que va a hacer es gestionar absolutamente todo, puede gestionar los buques,
+
+00:30.000 --> 00:33.000
+puede gestionar los pantalanes, puede gestionar los muelles, puede gestionar los servicios,
+
+00:33.000 --> 00:37.000
+puede hacer una gestión total, en este caso esta sería la cuenta de administrador,
+
+00:37.000 --> 00:43.000
+el transporte no tiene muchas diferencias, la principal de ellas existe la gestión de trajes
+
+00:43.000 --> 00:49.000
+y existe la posibilidad de ver y crear servicios muelles o pantalanes,
+
+00:49.000 --> 00:53.000
+en este caso a la hora de ver, por ejemplo ver muelles, se nos va a ver todos los muelles que hay
+
+00:53.000 --> 00:57.000
+y podemos tanto verlos como editarlos, y cambia al igual que también su estatus,
+
+00:57.000 --> 01:03.000
+empezaremos un poco por la barra de navegación, que es lo que ha cambiado, ha cambiado dos cosas,
+
+01:03.000 --> 01:08.000
+lo primero, reseñas y atraques, servicios tráfico y clima no han cambiado demasiado,
+
+01:08.000 --> 01:14.000
+servicios siendo la excepción porque se pueden y crear y editar servicios, que esto también no veremos,
+
+01:14.000 --> 01:18.000
+empezaremos con esto, primero de todo, gestión de atraques,
+
+01:18.000 --> 01:22.000
+la gestión de atraques se realiza con un dragandropo, aunque también puede hacerse directamente
+
+01:22.000 --> 01:27.000
+desde la propia edición individual de cada barco, para ello lo que haremos era coger, por ejemplo,
+
+01:27.000 --> 01:33.000
+el perlita, vemos que tiene un diámetro, unas dimensiones mucho menores,
+
+01:33.000 --> 01:38.000
+a las que se requerían por este muelle regular, entonces lo que hacemos era llevarlo hasta aquí
+
+01:38.000 --> 01:42.000
+y una vez aquí, pues de que quieres atracar perlita en este slot, y le decimos si, aceptar,
+
+01:42.000 --> 01:49.000
+cargar un poco, buque asignados y, justamente, ya hará recargar a la página y aparecerá ahí,
+
+01:49.000 --> 01:52.000
+y nos indicará que está ocupado, ahora ya no podremos arrastrar a otros más,
+
+01:52.000 --> 01:59.000
+si creamos un buque diferente que, por poder podemos, nombre del buque,
+
+01:59.000 --> 02:09.000
+que prueba, imo 33, 66, 33, 66, 6, MSI, null también,
+
+02:09.000 --> 02:18.000
+bandera, España también, por poner algo, tipo de buque, por da contenadores, por así mismo,
+
+02:18.000 --> 02:25.000
+eslorado, 25 metros, rangamente 25 metros, calado, 5 metros, tono enaje gruto,
+
+02:25.000 --> 02:32.000
+500 tonaladas, propietario, lo ponemos a nombre de carlitos, que sería la cuenta de desarrollo,
+
+02:32.000 --> 02:37.000
+y no le vamos a asegurar ningún esto, vamos a colocar como fundeando,
+
+02:37.000 --> 02:41.000
+y la carga actual, que van a ser, cero tonalas, triporación 0,
+
+02:41.000 --> 02:45.000
+estos dos datos no influyen demasiado, porque son visuales,
+
+02:45.000 --> 02:52.000
+bien, establecido esto, lo que habrá que hacer básicamente, ahora sería tirar por acá,
+
+02:53.000 --> 03:00.000
+vale, bien, y ahora, ahora cuando lo arrastramos a uno que esté ocupado,
+
+03:00.000 --> 03:03.000
+pice, no, no se puede, al igual que esto podemos arrastrarlo de vuelta,
+
+03:03.000 --> 03:09.000
+es decir, quieres que vuelvo a estar fundeando, ahí está, hace el proceso,
+
+03:09.000 --> 03:19.000
+recarga, y ahí estaría, vale, ahora con tema de servicios, importante,
+
+03:20.000 --> 03:23.000
+podemos ver directamente qué es, servicios requiere cada buque,
+
+03:23.000 --> 03:27.000
+es accediendo directamente a los buques, no desde la página servicio,
+
+03:27.000 --> 03:32.000
+para ello lo que tenemos que hacer sería ir directamente al nuestro password,
+
+03:32.000 --> 03:42.000
+aquí está, ver todos, y vamos a ver, este está atracado,
+
+03:42.000 --> 03:48.000
+vamos a darle a ver, este es el que hemos atracado antes,
+
+03:48.000 --> 03:54.000
+en el vídeo de propietario, nos dice aquí, servicios, están solicitados,
+
+03:54.000 --> 03:59.000
+y nos dice aquí la opción de iniciar, vamos a iniciar,
+
+03:59.000 --> 04:02.000
+servicio inicial como le dan, y ahora pone que están procesos,
+
+04:02.000 --> 04:05.000
+y vamos a iniciar, aquí también, y ambos estarían en el proceso,
+
+04:05.000 --> 04:10.000
+y luego, una vez iniciado el proceso, puede tenerse directamente,
+
+04:10.000 --> 04:13.000
+entonces lo que está, básicamente, efectivamente, en servicio,
+
+04:13.000 --> 04:19.000
+entre comillas, esto será posteriormente un poco más visto,
+
+04:19.000 --> 04:22.000
+y expresado más al detalle en la parte de mejor,
+
+04:22.000 --> 04:25.000
+porque opino que se pueden aplicar las cuantas, pero una vez iniciado el proceso,
+
+04:25.000 --> 04:29.000
+se queda como terminado, y ya no deja comunizar más acciones,
+
+04:29.000 --> 04:33.000
+aparte de eso queda un historial de servicios dentro de la página de servicios,
+
+04:33.000 --> 04:35.000
+y vamos a ese servicio específico,
+
+04:35.000 --> 04:38.000
+si vamos a hemos pedido su ministro eléctrico, pues vamos en detalle,
+
+04:38.000 --> 04:42.000
+y podría verse, mira, que está, sobre carlitos, completado,
+
+04:42.000 --> 04:47.000
+cantidad, uno, y ya estaría, el tema de las reseñas, importante,
+
+04:47.000 --> 04:50.000
+estas son las reseñas públicas que hace cada usuario,
+
+04:50.000 --> 04:55.000
+las dos primeras están hechas por un usuario de pruebas,
+
+04:55.000 --> 04:57.000
+para probar la misma, las dos segundas,
+
+04:57.000 --> 05:01.000
+son las que se han hecho en el vídeo anterior, y colocan el estado en espera,
+
+05:01.000 --> 05:05.000
+al darle a probar, la reseña se aprueba,
+
+05:05.000 --> 05:09.000
+en plica esto, que una vez payamos a la página de electricidad,
+
+05:09.000 --> 05:13.000
+y sacárgamos, se va a presentar, ahí está,
+
+05:13.000 --> 05:16.000
+entonces como los dos son de cuatro, el promedio quedan cuatro,
+
+05:16.000 --> 05:19.000
+el promedio sí se realiza, al igual que esta, que es directamente el sistema,
+
+05:19.000 --> 05:23.000
+a una plataforma general, entonces cuando vayamos a la página principal,
+
+05:25.000 --> 05:30.000
+carga también, aquí está, carga nuestra reseña,
+
+05:30.000 --> 05:33.000
+y nos aplica el promedio, es decir, un promedio entre,
+
+05:33.000 --> 05:37.000
+estoy listo, 1003, he establecido esto,
+
+05:37.000 --> 05:41.000
+se puede crear diferentes muelles y pantalanes,
+
+05:41.000 --> 05:45.000
+es lo que vamos a crear ahora mismo, cada pantalán es un slot para un barco,
+
+05:45.000 --> 05:48.000
+por su manera, se puede ver directamente en el dragandrop,
+
+05:48.000 --> 05:50.000
+que tenemos aquí en atrackers,
+
+05:53.000 --> 05:56.000
+cada uno de estos es un pantalán diferentes,
+
+05:56.000 --> 05:58.000
+ya que tenemos cada, pues el pantalán uno,
+
+05:58.000 --> 06:00.000
+pantalán dos, pantalán tres, pantalán cuatro,
+
+06:01.000 --> 06:05.000
+los muelles pueden declararse como disponibles o no disponibles,
+
+06:05.000 --> 06:08.000
+al igual que los pantalanes individualmente, es decir,
+
+06:08.000 --> 06:11.000
+cuando un muelle se declara no disponible,
+
+06:11.000 --> 06:15.000
+los dos pantalanes quedan cerrados, y eso lo voy a mostrar ahora,
+
+06:16.000 --> 06:18.000
+se le da claro muelle,
+
+06:19.000 --> 06:25.000
+nombre muelle provados,
+
+06:26.000 --> 06:32.000
+cero, cero, cuatro estábamos y más nos recuerdo,
+
+06:34.000 --> 06:36.000
+no, cero, tres,
+
+06:37.000 --> 06:40.000
+capacidad tonaladas, 25 metros,
+
+06:40.000 --> 06:43.000
+es decir, por poner, con tenadores, longitud de metros,
+
+06:43.000 --> 06:46.000
+300, calado, máximo, en cuenta,
+
+06:46.000 --> 06:49.000
+es disponible, creamos un muelle normal,
+
+06:50.000 --> 06:54.000
+aquí pone, una vez tiene un red disponible,
+
+06:54.000 --> 06:56.000
+no tiene el red disponible, el estado está disponible,
+
+06:56.000 --> 06:58.000
+puedo esmarcarlo como no disponible,
+
+06:58.000 --> 07:00.000
+pero antes vamos a ir a ir a los pantalanes, por si acaso,
+
+07:02.000 --> 07:04.000
+muelle, muelle provados dos, nombre,
+
+07:04.000 --> 07:08.000
+pantalanes,
+
+07:08.000 --> 07:11.000
+provados dos, nombre,
+
+07:13.000 --> 07:15.000
+pantalanes,
+
+07:15.000 --> 07:17.000
+cero, cero, cinco,
+
+07:17.000 --> 07:19.000
+número de marre, uno,
+
+07:20.000 --> 07:22.000
+uno de cerados,
+
+07:22.000 --> 07:24.000
+los que ton máxima, 20 metros,
+
+07:24.000 --> 07:26.000
+20, 20, amperejacero,
+
+07:26.000 --> 07:28.000
+precioso de acero,
+
+07:28.000 --> 07:31.000
+y se dejaron como disponible,
+
+07:35.000 --> 07:38.000
+perfecto, por gran listado,
+
+07:40.000 --> 07:42.000
+vamos a crear otro mas,
+
+07:49.000 --> 07:52.000
+pero en cero, cero, cero, seis,
+
+07:52.000 --> 07:54.000
+no me nada más,
+
+07:54.000 --> 07:56.000
+uno, dos, tipo de amarro lateral,
+
+07:56.000 --> 07:57.000
+no jito de máximo,
+
+07:57.000 --> 08:01.000
+20, 20, 20, amperejacero,
+
+08:01.000 --> 08:03.000
+esto fuera, esto fuera, vale,
+
+08:04.000 --> 08:08.000
+perfecto,
+
+08:08.000 --> 08:10.000
+pues ahora cuando lanzemos,
+
+08:10.000 --> 08:13.000
+cuando recargamos esto,
+
+08:13.000 --> 08:16.000
+deberían apreciar como nuestros disponibles,
+
+08:16.000 --> 08:18.000
+ahí está,
+
+08:18.000 --> 08:20.000
+aunque están los dos pantalanes disponibles,
+
+08:20.000 --> 08:23.000
+en cuanto vamos a,
+
+08:23.000 --> 08:25.000
+los muelles,
+
+08:25.000 --> 08:28.000
+vamos a ver muelles,
+
+08:28.000 --> 08:30.000
+le vamos a editar nuestro tercer muelle,
+
+08:30.000 --> 08:33.000
+muelle, prueba en este caso,
+
+08:33.000 --> 08:35.000
+y le quitamos la disponibilidad,
+
+08:35.000 --> 08:37.000
+actualizamos el muelle,
+
+08:37.000 --> 08:39.000
+y ahora lo marga como estado, no disponible,
+
+08:39.000 --> 08:41.000
+vamos aquí,
+
+08:41.000 --> 08:43.000
+refrescamos,
+
+08:43.000 --> 08:45.000
+y aquí pone, muelle, fuera de servicio,
+
+08:45.000 --> 08:47.000
+y los dos pantalanes no están disponibles,
+
+08:51.000 --> 08:53.000
+cabe recalcar,
+
+08:53.000 --> 08:55.000
+que ambos pantalanes como tal,
+
+08:55.000 --> 08:56.000
+cuentan como disponible,
+
+08:56.000 --> 08:58.000
+no se puede decir que un muelle está disponible,
+
+08:58.000 --> 09:00.000
+y luego los pantalanes no,
+
+09:00.000 --> 09:02.000
+bueno, que luego los pantalanes si,
+
+09:02.000 --> 09:04.000
+se pueden detrás del cambio,
+
+09:08.000 --> 09:10.000
+tenon disponible,
+
+09:15.000 --> 09:17.000
+pero no causarían conflicto,
+
+09:17.000 --> 09:19.000
+y lo mandaría como que no.
+
+09:22.000 --> 09:23.000
+Se mantiene como disponible,
+
+09:23.000 --> 09:26.000
+pero aún así no permitiría subir un buque.
+
+09:28.000 --> 09:30.000
+Aunque lo que sí es posible,
+
+09:30.000 --> 09:32.000
+es hacer que el muelle esté disponible,
+
+09:32.000 --> 09:34.000
+y el pantalán no,
+
+09:36.000 --> 09:38.000
+que es en este caso,
+
+09:38.000 --> 09:40.000
+el pantalán cuenta como no disponible,
+
+09:40.000 --> 09:42.000
+pero el que hemos marcado que sí,
+
+09:42.000 --> 09:44.000
+está disponible,
+
+09:44.000 --> 09:46.000
+entonces a la hora de llevarlos aquí,
+
+09:46.000 --> 09:48.000
+o restarlos aquí,
+
+09:48.000 --> 09:50.000
+ahí estaría,
+
+09:50.000 --> 09:52.000
+no está disponible,
+
+09:52.000 --> 09:54.000
+y este,
+
+09:54.000 --> 09:56.000
+y este excede las capacidades,
+
+09:56.000 --> 09:58.000
+mala mía, no teniendo en cuenta el referente,
+
+09:58.000 --> 10:00.000
+en este caso tengo lo mismo,
+
+10:00.000 --> 10:02.000
+y poder aplicarse perfectamente.
+
+10:04.000 --> 10:06.000
+Está, porque se ha dado perfectamente,
+
+10:06.000 --> 10:08.000
+y este pues aquí no,
+
+10:08.000 --> 10:10.000
+porque no está disponible.
+
+10:10.000 --> 10:12.000
+Cuanto a los pantalanes,
+
+10:12.000 --> 10:14.000
+eso sería,
+
+10:14.000 --> 10:16.000
+luego la edición,
+
+10:16.000 --> 10:18.000
+es posible,
+
+10:18.000 --> 10:20.000
+podemos añadir la,
+
+10:20.000 --> 10:22.000
+el tarro de longitud de general,
+
+10:22.000 --> 10:24.000
+vamos a poner la que ahora van a ser,
+
+10:24.000 --> 10:26.000
+250 metros,
+
+10:26.000 --> 10:28.000
+y vamos a hacer el seis,
+
+10:28.000 --> 10:30.000
+para poner algo,
+
+10:34.000 --> 10:36.000
+y estaría,
+
+10:36.000 --> 10:38.000
+camis código,
+
+10:38.000 --> 10:40.000
+camis a la longitud,
+
+10:40.000 --> 10:42.000
+y por ese apartado,
+
+10:42.000 --> 10:44.000
+y estaríamos.
+
+10:44.000 --> 10:46.000
+Servicios,
+
+10:46.000 --> 10:48.000
+se puede crear o detectar servicios,
+
+10:48.000 --> 10:50.000
+vamos a crear un onuavo,
+
+10:50.000 --> 10:52.000
+nombre de servicio,
+
+10:52.000 --> 10:54.000
+pues lo que sea,
+
+10:54.000 --> 10:56.000
+nos importa mucho,
+
+10:56.000 --> 10:58.000
+lo que interesa ser código,
+
+10:58.000 --> 11:00.000
+para poder identificarlo,
+
+11:00.000 --> 11:02.000
+y tenemos un buen tipo de servicio,
+
+11:02.000 --> 11:04.000
+pues lo que sea,
+
+11:04.000 --> 11:06.000
+vamos a poner a provisionamiento,
+
+11:06.000 --> 11:08.000
+escripción,
+
+11:08.000 --> 11:10.000
+no vamos a poner nada,
+
+11:10.000 --> 11:12.000
+precio va a ser de cero,
+
+11:12.000 --> 11:14.000
+no sabes qué,
+
+11:14.000 --> 11:16.000
+químate seguros,
+
+11:16.000 --> 11:18.000
+cobra a ser, pues fijo,
+
+11:18.000 --> 11:20.000
+por hora por tonada por servicio,
+
+11:20.000 --> 11:22.000
+esto ya es a futuro,
+
+11:22.000 --> 11:24.000
+bueno, en este caso,
+
+11:24.000 --> 11:24.000
+
+
+11:24.000 --> 11:26.000
+no, pero alimento,
+
+11:26.000 --> 11:28.000
+este lo compro.
+
+11:28.000 --> 11:30.000
+Telefono de contacto,
+
+11:30.000 --> 11:31.000
+pues yo que sea,
+
+11:31.000 --> 11:32.000
+943,
+
+11:32.000 --> 11:34.000
+188,
+
+11:34.000 --> 11:34.000
+
+
+11:34.000 --> 11:36.000
+es poniblemente,
+
+11:36.000 --> 11:38.000
+no, requerarse,
+
+11:38.000 --> 11:40.000
+todo, todo,
+
+11:40.000 --> 11:42.000
+y estaría creado,
+
+11:42.000 --> 11:44.000
+entonces ahora si tenemos los servicios,
+
+11:44.000 --> 11:46.000
+se genera verlo aquí,
+
+11:46.000 --> 11:48.000
+yo creo que vamos a editar el de repartiones,
+
+11:48.000 --> 11:50.000
+vamos a meterlo un cero más al percibase,
+
+11:50.000 --> 11:52.000
+porque no,
+
+11:52.000 --> 11:54.000
+ya editamos el servicio,
+
+11:59.000 --> 12:00.000
+y estar editado,
+
+12:00.000 --> 12:02.000
+y ahora nos cuesta un euro más,
+
+12:02.000 --> 12:03.000
+bueno, un euro más,
+
+12:03.000 --> 12:04.000
+nos cuesta 10 meses,
+
+12:04.000 --> 12:05.000
+un euro más,
+
+12:07.000 --> 12:08.000
+aproximadamente,
+
+12:08.000 --> 12:10.000
+eso sería,
+
+12:10.000 --> 12:11.000
+no ofrece mucho más,
+
+12:11.000 --> 12:12.000
+en cuanto se refiere,
+
+12:12.000 --> 12:13.000
+en cuanto a tráfico,
+
+12:13.000 --> 12:15.000
+condiciones climáticas,
+
+12:15.000 --> 12:16.000
+o servicios portaris,
+
+12:16.000 --> 12:18.000
+no, esto ya lo he explicado,
+
+12:18.000 --> 12:20.000
+expresaba por lo que sería,
+
+12:20.000 --> 12:22.000
+básicamente,
+
+12:22.000 --> 12:24.000
+imagino que ha habido un cambio en temperatura,
+
+12:24.000 --> 12:26.000
+la tercera con dos antes,
+
+12:26.000 --> 12:28.000
+creo que era,
+
+12:28.000 --> 12:30.000
+pero aquí expresa un poco, pues,
+
+12:30.000 --> 12:32.000
+que es lo que hay en cada muelle,
+
+12:32.000 --> 12:34.000
+y los propietarios de cada uno
+
+12:34.000 --> 12:36.000
+de los barcos que hay,
+
+12:36.000 --> 12:37.000
+poco más,
+
+12:37.000 --> 12:38.000
+permente, de una creación de datos,
+
+12:38.000 --> 12:39.000
+dependiendo,
+
+12:39.000 --> 12:41.000
+que era básicamente a refrés que la página,
+
+12:41.000 --> 12:42.000
+y lo que sería, pues,
+
+12:42.000 --> 12:43.000
+la gestión de arraquismo,
+
+12:43.000 --> 12:44.000
+poco más,
+
+12:44.000 --> 12:46.000
+el diseño como tales,
+
+12:46.000 --> 12:47.000
+mobile fest,
+
+12:47.000 --> 12:48.000
+aguantaría,
+
+12:48.000 --> 12:51.000
+y tericamente,
+
+12:51.000 --> 12:52.000
+lo suporta,
+
+12:52.000 --> 12:55.000
+tanto el dash por como,
+
+12:55.000 --> 12:56.000
+otros,
+
+12:56.000 --> 12:57.000
+pero si ya podés comprobar,
+
+12:57.000 --> 12:58.000
+pues, por cada individuo,
+
+12:58.000 --> 12:59.000
+sí,
+
+12:59.000 --> 13:00.000
+uno gusta,
+
+13:00.000 --> 13:02.000
+con,
+
+13:02.000 --> 13:04.000
+esto y poco más,
+
+13:04.000 --> 13:06.000
+diría que está todo,
+
+13:06.000 --> 13:08.000
+buenos días,
+

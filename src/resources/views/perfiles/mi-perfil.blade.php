@@ -1,55 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+<div class="perfiles-page">
+    <div class="profile-header">
         <h1>Mi Perfil</h1>
-        <a href="{{ route('perfil.editar-mi-perfil') }}" style="padding: 10px 20px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px;">
+        <a href="{{ route('perfil.editar-mi-perfil') }}" class="btn btn-primary">
             Editar Perfil
         </a>
     </div>
 
     @if(session('success'))
-        <div role="alert" aria-live="polite" style="background: #efe; border: 1px solid #0a0; padding: 15px; margin-bottom: 20px; border-radius: 4px; color: #060;">
+        <div role="alert" aria-live="polite" class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <div style="background: white; padding: 20px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
-        <section style="margin-bottom: 30px;">
-            <h2 style="border-bottom: 2px solid #0066cc; padding-bottom: 10px; margin-bottom: 15px;">Información de Usuario</h2>
-            <dl style="display: grid; grid-template-columns: 200px 1fr; gap: 10px;">
-                <dt style="font-weight: bold;">Nombre:</dt>
-                <dd>{{ $user->name }}</dd>
+    <div class="profile-section">
+        <section style="margin-bottom: var(--space-8);">
+            <h2 class="profile-section-title" style="border-bottom: 2px solid var(--color-accent); padding-bottom: var(--space-2); margin-bottom: var(--space-4);">
+                Información de Usuario
+            </h2>
+            <div class="data-list">
+                <span class="data-label">Nombre:</span>
+                <span class="data-value">{{ $user->name }}</span>
                 
-                <dt style="font-weight: bold;">Email:</dt>
-                <dd>{{ $user->email }}</dd>
+                <span class="data-label">Email:</span>
+                <span class="data-value">{{ $user->email }}</span>
                 
-                <dt style="font-weight: bold;">Tipo de Usuario:</dt>
-                <dd>{{ ucfirst($perfil->tipo_usuario) }}</dd>
+                <span class="data-label">Tipo de Usuario:</span>
+                <span class="data-value">{{ ucfirst($perfil->tipo_usuario) }}</span>
                 
-                <dt style="font-weight: bold;">Fecha de Alta:</dt>
-                <dd>{{ $perfil->fecha_alta->format('d/m/Y') }}</dd>
-            </dl>
+                <span class="data-label">Fecha de Alta:</span>
+                <span class="data-value">{{ $perfil->fecha_alta->format('d/m/Y') }}</span>
+            </div>
         </section>
 
         <section>
-            <h2 style="border-bottom: 2px solid #0066cc; padding-bottom: 10px; margin-bottom: 15px;">Información Profesional</h2>
-            <dl style="display: grid; grid-template-columns: 200px 1fr; gap: 10px;">
-                <dt style="font-weight: bold;">Empresa:</dt>
-                <dd>{{ $perfil->empresa ?? 'No especificada' }}</dd>
+            <h2 class="profile-section-title" style="border-bottom: 2px solid var(--color-accent); padding-bottom: var(--space-2); margin-bottom: var(--space-4);">
+                Información Profesional
+            </h2>
+            <div class="data-list">
+                <span class="data-label">Empresa:</span>
+                <span class="data-value">{{ $perfil->empresa ?? 'No especificada' }}</span>
                 
-                <dt style="font-weight: bold;">Cargo:</dt>
-                <dd>{{ $perfil->cargo ?? 'No especificado' }}</dd>
+                <span class="data-label">Cargo:</span>
+                <span class="data-value">{{ $perfil->cargo ?? 'No especificado' }}</span>
                 
-                <dt style="font-weight: bold;">Teléfono:</dt>
-                <dd>{{ $perfil->telefono ?? 'No especificado' }}</dd>
+                <span class="data-label">Teléfono:</span>
+                <span class="data-value">{{ $perfil->telefono ?? 'No especificado' }}</span>
                 
                 @if($perfil->licencia_maritima)
-                    <dt style="font-weight: bold;">Licencia Marítima:</dt>
-                    <dd>{{ $perfil->licencia_maritima }}</dd>
+                    <span class="data-label">Licencia Marítima:</span>
+                    <span class="data-value">{{ $perfil->licencia_maritima }}</span>
                 @endif
-            </dl>
+            </div>
         </section>
     </div>
 </div>
