@@ -1,0 +1,133 @@
+/* ============================================================
+   GESTORINAITOR 3000 — Reseñas CSS
+   Tabla de reseñas, estrellas, badges de estado
+   ============================================================ */
+
+/* ── Página de reseñas ──────────────────────────────────────── */
+.resenas-page {
+    padding: var(--space-4);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.resenas-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    gap: var(--space-3);
+}
+
+/* ── Estrellas de calificación ──────────────────────────────── */
+.stars {
+    color: #D97706;
+    /* Ámbar accesible — contraste 4.6:1 sobre blanco */
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+/* ── Badge de tipo ──────────────────────────────────────────── */
+.badge-plataforma {
+    background-color: #EDE9FE;
+    color: #5B21B6;
+    padding: 2px var(--space-2);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+}
+
+/* ── Acciones de admin ──────────────────────────────────────── */
+.resena-actions {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* ── Formulario de nueva reseña ─────────────────────────────── */
+.resena-form-page {
+    padding: var(--space-4);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.resena-form-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Selector de estrellas ──────────────────────────────────── */
+.star-rating {
+    display: flex;
+    gap: var(--space-2);
+    margin-bottom: var(--space-2);
+}
+
+.star-rating input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.star-rating label {
+    font-size: 2rem;
+    color: var(--color-border);
+    cursor: pointer;
+    transition: color var(--transition);
+    line-height: 1;
+}
+
+.star-rating label:hover,
+.star-rating label:hover~label,
+.star-rating input:checked~label {
+    color: #D97706;
+}
+
+/* ── Tipo de reseña ─────────────────────────────────────────── */
+.tipo-resena-group {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+}
+
+.tipo-resena-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    cursor: pointer;
+}
+
+.tipo-resena-option input[type="radio"] {
+    accent-color: var(--color-accent);
+    width: 1rem;
+    height: 1rem;
+}
+
+.tipo-resena-option span {
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+}
+
+/* ── Pantallas Grandes (Desktop) ────────────────────────────── */
+@media (min-width: 768px) {
+
+    .resenas-page,
+    .resena-form-page {
+        padding: var(--space-8) var(--space-6);
+    }
+
+    .resenas-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .resena-form-card {
+        padding: var(--space-8);
+    }
+}

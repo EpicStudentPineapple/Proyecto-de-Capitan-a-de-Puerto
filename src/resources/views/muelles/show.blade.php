@@ -3,202 +3,238 @@
 @section('title', 'Detalle de Muelle')
 
 @section('content')
-<h1>Detalle del Muelle: {{ $muelle->nombre }}</h1>
+<div class="muelle-detail-page">
+    <div class="page-header-simple">
+        <h1>Muelle: {{ $muelle->nombre }}</h1>
+        <a href="{{ route('muelles.index') }}" class="link-back">← Volver al listado</a>
+    </div>
 
-<p><a href="{{ route('muelles.index') }}">← Volver al listado</a></p>
-
-<div style="margin: 20px 0;">
-    @if(Auth::user()->isAdministrador())
-        <a href="{{ route('admin.muelles.edit', $muelle->id) }}">
-            <button>Editar Muelle</button>
-        </a>
-        
-        <form action="{{ route('admin.muelles.toggle-disponibilidad', $muelle->id) }}" 
-              method="POST" style="display: inline;">
-            @csrf
-            <button type="submit">
-                {{ $muelle->disponible ? '🔴 Marcar No Disponible' : '🟢 Marcar Disponible' }}
-            </button>
-        </form>
-        
-        @if(!$muelle->estaOcupado())
-            <form action="{{ route('admin.muelles.destroy', $muelle->id) }}" 
-                  method="POST" style="display: inline;" 
-                  onsubmit="return confirm('¿Estás seguro de eliminar este muelle?');">
+    <div class="mb-6 flex flex-wrap gap-4">
+        @if(Auth::user()->isAdministrador())
+            <a href="{{ route('admin.muelles.edit', $muelle->id) }}" class="btn btn-primary">
+                ✏️ Editar Muelle
+            </a>
+            
+            <form action="{{ route('admin.muelles.toggle-disponibilidad', $muelle->id) }}" method="POST" class="inline">
                 @csrf
-                @method('DELETE')
-                <button type="submit" style="background: red; color: white;">
-                    🗑️ Eliminar Muelle
+                <button type="submit" class="btn btn-outline">
+                    {{ $muelle->disponible ? '🔴 Marcar No Disponible' : '🟢 Marcar Disponible' }}
                 </button>
             </form>
-        @endif
-    @endif
-</div>
-
-<h2>Información General</h2>
-
-<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-bottom: 20px;">
-    <tr>
-        <td><strong>Código:</strong></td>
-        <td>{{ $muelle->codigo }}</td>
-    </tr>
-    <tr>
-        <td><strong>Nombre:</strong></td>
-        <td>{{ $muelle->nombre }}</td>
-    </tr>
-    <tr>
-        <td><strong>Tipo:</strong></td>
-        <td>{{ ucfirst(str_replace('_', ' ', $muelle->tipo_muelle)) }}</td>
-    </tr>
-    <tr>
-        <td><strong>Longitud:</strong></td>
-        <td>{{ $muelle->longitud }} metros</td>
-    </tr>
-    <tr>
-        <td><strong>Calado Máximo:</strong></td>
-        <td>{{ $muelle->calado_maximo }} metros</td>
-    </tr>
-    <tr>
-        <td><strong>Capacidad:</strong></td>
-        <td>{{ number_format($muelle->capacidad_toneladas) }} toneladas</td>
-    </tr>
-    <tr>
-        <td><strong>Estado:</strong></td>
-        <td>
-            @if($muelle->disponible)
-                @if($muelle->estaOcupado())
-                    <span style="color: red;">🔴 OCUPADO</span>
-                @else
-                    <span style="color: green;">🟢 DISPONIBLE</span>
-                @endif
-            @else
-                <span style="color: gray;">⚫ NO DISPONIBLE</span>
+            
+            @if(!$muelle->estaOcupado())
+                <form action="{{ route('admin.muelles.destroy', $muelle->id) }}" method="POST" class="inline" 
+                      onsubmit="return confirm('¿Estás seguro de eliminar este muelle?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">
+                        🗑️ Eliminar
+                    </button>
+                </form>
             @endif
-        </td>
-    </tr>
-    <tr>
-        <td><strong>Grúa:</strong></td>
-        <td>{{ $muelle->grua_disponible ? '✅ Sí' : '❌ No' }}</td>
-    </tr>
-    <tr>
-        <td><strong>Energía de Tierra:</strong></td>
-        <td>{{ $muelle->energia_tierra ? '✅ Sí' : '❌ No' }}</td>
-    </tr>
-    @if($muelle->observaciones)
-    <tr>
-        <td><strong>Observaciones:</strong></td>
-        <td>{{ $muelle->observaciones }}</td>
-    </tr>
+        @endif
+    </div>
+
+    <div class="card p-6 mb-8">
+        <h2 class="text-xl font-bold mb-4 border-b pb-2">Información General</h2>
+        <div class="muelle-detail-grid">
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Código</span>
+                <span class="muelle-detail-value">{{ $muelle->codigo }}</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Tipo de Muelle</span>
+                <span class="muelle-detail-value">{{ ucfirst(str_replace('_', ' ', $muelle->tipo_muelle)) }}</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Longitud</span>
+                <span class="muelle-detail-value">{{ $muelle->longitud }} m</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Calado Máximo</span>
+                <span class="muelle-detail-value">{{ $muelle->calado_maximo }} m</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Capacidad</span>
+                <span class="muelle-detail-value">{{ number_format($muelle->capacidad_toneladas) }} t</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Estado</span>
+                <span class="muelle-detail-value">
+                    @if($muelle->disponible)
+                        @if($muelle->estaOcupado())
+                            <span class="badge badge-danger">OCUPADO</span>
+                        @else
+                            <span class="badge badge-success">DISPONIBLE</span>
+                        @endif
+                    @else
+                        <span class="badge badge-secondary">NO DISPONIBLE</span>
+                    @endif
+                </span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Grúa</span>
+                <span class="muelle-detail-value">{{ $muelle->grua_disponible ? '✅ Sí' : '❌ No' }}</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Energía</span>
+                <span class="muelle-detail-value">{{ $muelle->energia_tierra ? '✅ Sí' : '❌ No' }}</span>
+            </div>
+        </div>
+        
+        @if($muelle->observaciones)
+            <div class="mt-6 pt-4 border-t">
+                <span class="muelle-detail-label">Observaciones</span>
+                <p class="text-sm mt-1 text-muted">{{ $muelle->observaciones }}</p>
+            </div>
+        @endif
+    </div>
+
+    @if($muelle->buqueActual)
+    <div class="card p-6 mb-8 border-l-4 border-red-500">
+        <h2 class="text-xl font-bold mb-4 text-red-700">Buque Actualmente Atracado</h2>
+        <div class="muelle-detail-grid">
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Nombre</span>
+                <span class="muelle-detail-value">
+                    @php
+                        $routeActual = Auth::user()->isAdministrador() 
+                            ? route('admin.buques.show', $muelle->buqueActual->id) 
+                            : (Auth::user()->id === $muelle->buqueActual->user_id 
+                                ? route('propietario.buques.show', $muelle->buqueActual->id) 
+                                : null);
+                    @endphp
+                    @if($routeActual)
+                        <a href="{{ $routeActual }}" class="link-standard font-bold text-lg">
+                            {{ $muelle->buqueActual->nombre }}
+                        </a>
+                    @else
+                        <span class="font-bold text-lg">{{ $muelle->buqueActual->nombre }}</span>
+                    @endif
+                </span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">IMO</span>
+                <span class="muelle-detail-value">{{ $muelle->buqueActual->imo }}</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Fecha Atraque</span>
+                <span class="muelle-detail-value">{{ $muelle->buqueActual->fecha_atraque->format('d/m/Y H:i') }}</span>
+            </div>
+            <div class="muelle-detail-item">
+                <span class="muelle-detail-label">Salida Prevista</span>
+                <span class="muelle-detail-value">{{ $muelle->buqueActual->fecha_salida_prevista->format('d/m/Y H:i') }}</span>
+            </div>
+        </div>
+    </div>
     @endif
-</table>
 
-@if($muelle->buqueActual)
-<h2>Buque Actualmente Atracado</h2>
-
-<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; margin-bottom: 20px;">
-    <tr>
-        <td><strong>Nombre:</strong></td>
-        <td>
-            <a href="{{ route('buques.show', $muelle->buqueActual->id) }}">
-                {{ $muelle->buqueActual->nombre }}
-            </a>
-        </td>
-    </tr>
-    <tr>
-        <td><strong>IMO:</strong></td>
-        <td>{{ $muelle->buqueActual->imo }}</td>
-    </tr>
-    <tr>
-        <td><strong>Tipo:</strong></td>
-        <td>{{ ucfirst(str_replace('_', ' ', $muelle->buqueActual->tipo_buque)) }}</td>
-    </tr>
-    <tr>
-        <td><strong>Fecha Atraque:</strong></td>
-        <td>{{ $muelle->buqueActual->fecha_atraque->format('d/m/Y H:i') }}</td>
-    </tr>
-    <tr>
-        <td><strong>Salida Prevista:</strong></td>
-        <td>{{ $muelle->buqueActual->fecha_salida_prevista->format('d/m/Y H:i') }}</td>
-    </tr>
-</table>
-@endif
-
-<h2>Historial de Buques (Últimos 10)</h2>
-
-<table border="1" cellpadding="10" cellspacing="0" style="width: 100%;">
-    <thead>
-        <tr>
-            <th>Buque</th>
-            <th>IMO</th>
-            <th>Tipo</th>
-            <th>Fecha Atraque</th>
-            <th>Fecha Salida</th>
-            <th>Estado</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($muelle->buques as $buque)
-        <tr>
-            <td>
-                <a href="{{ route('buques.show', $buque->id) }}">
-                    {{ $buque->nombre }}
+    <div class="mb-10">
+        <div class="flex items-center justify-between mb-4">
+            <h2 class="text-xl font-bold">Pantalanes del Muelle</h2>
+            <div class="flex gap-2">
+                <a href="{{ route('admin.pantalans.por-muelle', $muelle->id) }}" class="btn btn-sm btn-outline">
+                    Ver Todos
                 </a>
-            </td>
-            <td>{{ $buque->imo }}</td>
-            <td>{{ ucfirst(str_replace('_', ' ', $buque->tipo_buque)) }}</td>
-            <td>{{ $buque->fecha_atraque ? $buque->fecha_atraque->format('d/m/Y H:i') : '-' }}</td>
-            <td>{{ $buque->fecha_salida_prevista ? $buque->fecha_salida_prevista->format('d/m/Y H:i') : '-' }}</td>
-            <td>{{ ucfirst($buque->estado) }}</td>
-        </tr>
-        @empty
-        <tr>
-            <td colspan="6">Sin historial de buques</td>
-        </tr>
-        @endforelse
-    </tbody>
-</table>
+                @if(Auth::user()->isAdministrador())
+                    <a href="{{ route('admin.pantalans.create') }}?muelle_id={{ $muelle->id }}" class="btn btn-sm btn-primary">
+                        + Añadir
+                    </a>
+                @endif
+            </div>
+        </div>
 
-<h2>Pantalanes del Muelle</h2>
+        <div class="card card-table">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
+                            <th>Nº Amarre</th>
+                            <th>Long. Máx</th>
+                            <th>Disponible</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($muelle->pantalans as $pantalan)
+                        <tr>
+                            <td><strong>{{ $pantalan->codigo }}</strong></td>
+                            <td>
+                                <a href="{{ route('pantalans.show', $pantalan->id) }}" class="link-standard">
+                                    {{ $pantalan->nombre }}
+                                </a>
+                            </td>
+                            <td>{{ $pantalan->numero_amarre }}</td>
+                            <td>{{ $pantalan->longitud_maxima }} m</td>
+                            <td>
+                                <span class="badge {{ $pantalan->disponible ? 'badge-success' : 'badge-danger' }}">
+                                    {{ $pantalan->disponible ? 'SÍ' : 'NO' }}
+                                </span>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted small italic">No hay pantalanes en este muelle</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-<p>
-    <a href="{{ route('admin.pantalans.por-muelle', $muelle->id) }}">
-        <button>Ver Pantalanes de este Muelle</button>
-    </a>
-    @if(Auth::user()->isAdministrador())
-        <a href="{{ route('admin.pantalans.create') }}?muelle_id={{ $muelle->id }}">
-            <button>Añadir Pantalán</button>
-        </a>
-    @endif
-</p>
-
-<table border="1" cellpadding="10" cellspacing="0" style="width: 100%;">
-    <thead>
-        <tr>
-            <th>Código</th>
-            <th>Nombre</th>
-            <th>Nº Amarre</th>
-            <th>Long. Máx</th>
-            <th>Disponible</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($muelle->pantalans as $pantalan)
-        <tr>
-            <td>{{ $pantalan->codigo }}</td>
-            <td>
-                <a href="{{ route('pantalans.show', $pantalan->id) }}">
-                    {{ $pantalan->nombre }}
-                </a>
-            </td>
-            <td>{{ $pantalan->numero_amarre }}</td>
-            <td>{{ $pantalan->longitud_maxima }} m</td>
-            <td>{{ $pantalan->disponible ? '🟢 Sí' : '🔴 No' }}</td>
-        </tr>
-        @empty
-        <tr>
-            <td colspan="5">No hay pantalanes en este muelle</td>
-        </tr>
-        @endforelse
-    </tbody>
-</table>
+    <div class="mb-10">
+        <h2 class="text-xl font-bold mb-4">Historial de Buques (Últimos 10)</h2>
+        <div class="card card-table">
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Buque</th>
+                            <th>IMO</th>
+                            <th>Tipo</th>
+                            <th>Atraque</th>
+                            <th>Salida</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($muelle->buques as $buque)
+                        <tr>
+                            <td>
+                                @php
+                                    $routeHist = Auth::user()->isAdministrador() 
+                                        ? route('admin.buques.show', $buque->id) 
+                                        : (Auth::user()->id === $buque->user_id 
+                                            ? route('propietario.buques.show', $buque->id) 
+                                            : null);
+                                @endphp
+                                @if($routeHist)
+                                    <a href="{{ $routeHist }}" class="link-standard">
+                                        {{ $buque->nombre }}
+                                    </a>
+                                @else
+                                    <span class="text-muted">{{ $buque->nombre }}</span>
+                                @endif
+                            </td>
+                            <td>{{ $buque->imo }}</td>
+                            <td>{{ ucfirst(str_replace('_', ' ', $buque->tipo_buque)) }}</td>
+                            <td class="small">{{ $buque->fecha_atraque ? $buque->fecha_atraque->format('d/m/Y H:i') : '-' }}</td>
+                            <td class="small">{{ $buque->fecha_salida_prevista ? $buque->fecha_salida_prevista->format('d/m/Y H:i') : '-' }}</td>
+                            <td>
+                                <span class="badge badge-secondary">{{ ucfirst($buque->estado) }}</span>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="6" class="text-center py-4 text-muted small italic">Sin historial de buques</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection

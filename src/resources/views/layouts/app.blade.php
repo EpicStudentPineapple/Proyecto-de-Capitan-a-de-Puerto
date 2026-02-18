@@ -5,31 +5,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
-
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <title>{{ config('app.name', 'Gestorinaitor 3000') }}</title>
 
         <!-- jQuery UI CSS -->
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <!-- Estilos de la aplicación -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/layouts.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/auth.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/buques.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/muelles.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/pantalans.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/servicios.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/resenas.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/perfiles.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+
 
         @stack('styles')
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
+    <body>
+        <div class="main-layout">
             @include('layouts.navigation')
 
             @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <div class="page-header">
+                    <div class="page-header-inner">
                         {{ $header }}
                     </div>
-                </header>
+                </div>
             @endisset
 
-            <main>
+            <main class="main-content">
                 @if(isset($slot))
                     {{ $slot }}
                 @else

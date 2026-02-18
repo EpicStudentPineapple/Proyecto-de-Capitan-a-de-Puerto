@@ -1,92 +1,98 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="max-width: 1000px; margin: 0 auto; padding: 20px;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+
+<div class="resenas-page">
+    <div class="resenas-header">
         <h1>Mis Reseñas</h1>
-        <a href="{{ route('resenas.create') }}" style="padding: 10px 20px; background: #0066cc; color: white; text-decoration: none; border-radius: 4px; font-weight: bold;">
+        <a href="{{ route('resenas.create') }}" class="btn btn-primary">
             Escribir Nueva Reseña
         </a>
     </div>
 
     @if(session('success'))
-        <div style="background: #efe; border: 1px solid #0a0; padding: 15px; margin-bottom: 20px; border-radius: 4px; color: #060;">
+        <div role="alert" aria-live="polite" class="alert alert-success">
             {{ session('success') }}
         </div>
     @endif
 
-    <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-        <table style="width: 100%; border-collapse: collapse;">
+    <div class="table-wrapper">
+        <table class="table" aria-label="Listado de reseñas">
             <thead>
-                <tr style="background: #f8fafc; border-bottom: 2px solid #e2e8f0;">
+                <tr>
                     @if(Auth::user()->isAdmin())
-                        <th style="padding: 12px; text-align: left;">Usuario</th>
+                        <th scope="col">Usuario</th>
                     @endif
-                    <th style="padding: 12px; text-align: left;">Tipo / Servicio</th>
-                    <th style="padding: 12px; text-align: left;">Calificación</th>
-                    <th style="padding: 12px; text-align: left;">Comentario</th>
-                    <th style="padding: 12px; text-align: left;">Estado</th>
+                    <th scope="col">Tipo / Servicio</th>
+                    <th scope="col">Calificación</th>
+                    <th scope="col">Comentario</th>
+                    <th scope="col">Estado</th>
                     @if(Auth::user()->isAdmin())
-                        <th style="padding: 12px; text-align: left;">Acciones</th>
+                        <th scope="col">Acciones</th>
                     @endif
                 </tr>
             </thead>
             <tbody>
                 @forelse($resenas as $resena)
-                    <tr style="border-bottom: 1px solid #f1f5f9;">
+                    <tr>
                         @if(Auth::user()->isAdmin())
-                            <td style="padding: 12px;">{{ $resena->user->name }}</td>
+                            <td>{{ $resena->user->name }}</td>
                         @endif
-                        <td style="padding: 12px;">
+                        <td>
                             @if($resena->tipo === 'plataforma')
-                                <span style="color: #6366f1; font-weight: bold;">[Sistema]</span>
+                                <span class="badge-plataforma">[Sistema]</span>
                             @else
-                                <span style="font-weight: bold;">{{ $resena->servicio->nombre ?? 'N/A' }}</span>
+                                <strong>{{ $resena->servicio->nombre ?? 'N/A' }}</strong>
                             @endif
                         </td>
-                        <td style="padding: 12px;">
-                            <span style="color: #fbbf24; font-size: 1.2rem;">
+                        <td>
+                            <span class="stars" aria-label="{{ $resena->calificacion }} de 5 estrellas">
                                 {{ str_repeat('★', $resena->calificacion) }}{{ str_repeat('☆', 5 - $resena->calificacion) }}
                             </span>
                         </td>
-                        <td style="padding: 12px; color: #4a5568;">{{ $resena->comentario }}</td>
-                        <td style="padding: 12px;">
+                        <td>{{ $resena->comentario }}</td>
+                        <td>
                             @if($resena->aprobado)
-                                <span style="background: #def7ec; color: #03543f; padding: 4px 8px; border-radius: 9999px; font-size: 0.75rem; font-weight: bold;">Publicada</span>
+                                <span class="badge badge-success">Publicada</span>
                             @else
-                                <span style="background: #fdf2f2; color: #9b1c1c; padding: 4px 8px; border-radius: 9999px; font-size: 0.75rem; font-weight: bold;">En espera</span>
+                                <span class="badge badge-warning">En espera</span>
                             @endif
                         </td>
                         @if(Auth::user()->isAdmin())
-                            <td style="padding: 12px; display: flex; gap: 5px;">
-                                @if(!$resena->aprobado)
-                                    <form action="{{ route('admin.resenas.aprobar', $resena) }}" method="POST">
+                            <td>
+                                <div class="resena-actions">
+                                    @if(!$resena->aprobado)
+                                        <form action="{{ route('admin.resenas.aprobar', $resena) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Aprobar</button>
+                                        </form>
+                                    @endif
+                                    <form action="{{ route('admin.resenas.destroy', $resena) }}" method="POST"
+                                          onsubmit="return confirm('¿Borrar esta reseña?')">
                                         @csrf
-                                        <button type="submit" style="background: #059669; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">Aprobar</button>
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
                                     </form>
-                                @endif
-                                <form action="{{ route('admin.resenas.destroy', $resena) }}" method="POST" onsubmit="return confirm('¿Borrar esta reseña?')">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" style="background: #dc2626; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">Borrar</button>
-                                </form>
+                                </div>
                             </td>
                         @endif
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" style="padding: 40px; text-align: center; color: #718096;">
+                        <td colspan="{{ Auth::user()->isAdmin() ? 6 : 4 }}" class="text-center text-muted" style="padding: 2.5rem;">
                             <p>No has escrito ninguna reseña todavía.</p>
-                            <a href="{{ route('resenas.create') }}" style="color: #0066cc; text-decoration: underline;">¡Comparte tu experiencia!</a>
+                            <a href="{{ route('resenas.create') }}" class="btn btn-accent btn-sm" style="margin-top: 0.75rem;">
+                                ¡Comparte tu experiencia!
+                            </a>
                         </td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
-        
-        <div style="margin-top: 20px;">
-            {{ $resenas->links() }}
-        </div>
+    </div>
+
+    <div class="pagination-wrapper">
+        {{ $resenas->links() }}
     </div>
 </div>
 @endsection

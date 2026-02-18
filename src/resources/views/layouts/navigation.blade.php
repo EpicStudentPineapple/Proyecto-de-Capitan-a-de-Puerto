@@ -1,112 +1,158 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                    </a>
-                </div>
+<nav class="navbar" x-data="{ open: false }">
+    <div class="navbar-inner">
+        <!-- Logo y marca -->
+        <a href="{{ route('dashboard') }}" class="navbar-brand">
+            <img
+                src="{{ asset('build/assets/Logo.jpg') }}"
+                alt="Gestorinaitor 3000 — Dashboard"
+                class="navbar-logo"
+            >
+        </a>
 
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard.trafico')" :active="request()->routeIs('dashboard.trafico')">
-                        Tráfico
-                    </x-nav-link>
-                    <x-nav-link :href="route('dashboard.clima')" :active="request()->routeIs('dashboard.clima')">
-                        Clima
-                    </x-nav-link>
-                    @if(Auth::user()->isAdmin())
-                    <x-nav-link :href="route('admin.buques.gestion-atraques')" :active="request()->routeIs('admin.buques.gestion-atraques')">
-                        Atraques
-                    </x-nav-link>
-                    @endif
-                    <x-nav-link :href="route('servicios.index')" :active="request()->routeIs('servicios.*')">
-                        Servicios
-                    </x-nav-link>
-                    <x-nav-link :href="route('resenas.index')" :active="request()->routeIs('resenas.*')">
-                        Reseñas
-                    </x-nav-link>
-                </div>
-            </div>
+        <!-- Navegación escritorio -->
+        <ul class="navbar-nav" role="list">
+            <li class="nav-item">
+                <a href="{{ route('dashboard') }}"
+                   class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}"
+                   {{ request()->routeIs('dashboard') ? 'aria-current=page' : '' }}>
+                    Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('dashboard.trafico') }}"
+                   class="nav-link {{ request()->routeIs('dashboard.trafico') ? 'active' : '' }}"
+                   {{ request()->routeIs('dashboard.trafico') ? 'aria-current=page' : '' }}>
+                    Tráfico
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('dashboard.clima') }}"
+                   class="nav-link {{ request()->routeIs('dashboard.clima') ? 'active' : '' }}"
+                   {{ request()->routeIs('dashboard.clima') ? 'aria-current=page' : '' }}>
+                    Clima
+                </a>
+            </li>
+            @if(Auth::user()->isAdmin())
+            <li class="nav-item">
+                <a href="{{ route('admin.buques.gestion-atraques') }}"
+                   class="nav-link {{ request()->routeIs('admin.buques.gestion-atraques') ? 'active' : '' }}"
+                   {{ request()->routeIs('admin.buques.gestion-atraques') ? 'aria-current=page' : '' }}>
+                    Atraques
+                </a>
+            </li>
+            @endif
+            <li class="nav-item">
+                <a href="{{ route('servicios.index') }}"
+                   class="nav-link {{ request()->routeIs('servicios.*') ? 'active' : '' }}"
+                   {{ request()->routeIs('servicios.*') ? 'aria-current=page' : '' }}>
+                    Servicios
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('resenas.index') }}"
+                   class="nav-link {{ request()->routeIs('resenas.*') ? 'active' : '' }}"
+                   {{ request()->routeIs('resenas.*') ? 'aria-current=page' : '' }}>
+                    Reseñas
+                </a>
+            </li>
+        </ul>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+        <!-- Acciones: Perfil y Menú Móvil -->
+        <div class="navbar-actions">
+            <!-- Menú de usuario -->
+            <div class="navbar-user">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ Auth::user()->name }}</div>
-                            <div class="ms-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
+                        <button class="user-menu-btn" aria-haspopup="true" aria-expanded="false" title="Menú de usuario">
+                            <!-- Icono de usuario para móvil -->
+                            <svg class="user-icon-mobile" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span class="user-name-text">{{ Auth::user()->name }}</span>
+                            <svg class="user-chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
                         </button>
                     </x-slot>
                     <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                        <x-dropdown-link :href="route('profile.edit')" class="dropdown-item">
+                            {{ __('Perfil') }}
                         </x-dropdown-link>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-                            <x-dropdown-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                            <x-dropdown-link :href="route('logout')"
+                                onclick="event.preventDefault(); this.closest('form').submit();"
+                                class="dropdown-item">
+                                {{ __('Cerrar Sesión') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
                 </x-dropdown>
             </div>
 
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
+            <!-- Botón menú móvil -->
+            <button
+                class="navbar-toggle"
+                @click="open = !open"
+                :aria-expanded="open.toString()"
+                aria-controls="mobile-menu"
+                aria-label="Abrir menú de navegación">
+                <svg aria-hidden="true" width="20" height="20" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                    <path :class="{'hidden': open, 'inline-flex': !open}" class="inline-flex"
+                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M4 6h16M4 12h16M4 18h16" />
+                    <path :class="{'hidden': !open, 'inline-flex': open}" class="hidden"
+                          stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
         </div>
     </div>
 
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard.trafico')" :active="request()->routeIs('dashboard.trafico')">
-                Tráfico
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('dashboard.clima')" :active="request()->routeIs('dashboard.clima')">
-                Clima
-            </x-responsive-nav-link>
-            @if(Auth::user()->isAdmin())
-            <x-responsive-nav-link :href="route('admin.buques.gestion-atraques')" :active="request()->routeIs('admin.buques.gestion-atraques')">
-                Atraques
-            </x-responsive-nav-link>
-            @endif
-            <x-responsive-nav-link :href="route('servicios.index')" :active="request()->routeIs('servicios.*')">
-                Servicios
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('resenas.index')" :active="request()->routeIs('resenas.*')">
-                Reseñas
-            </x-responsive-nav-link>
-        </div>
+    <!-- Menú móvil -->
+    <div id="mobile-menu"
+         class="navbar-mobile"
+         :class="{'open': open}"
+         role="navigation"
+         aria-label="Menú móvil">
+        <a href="{{ route('dashboard') }}"
+           class="mobile-nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+            Dashboard
+        </a>
+        <a href="{{ route('dashboard.trafico') }}"
+           class="mobile-nav-link {{ request()->routeIs('dashboard.trafico') ? 'active' : '' }}">
+            Tráfico
+        </a>
+        <a href="{{ route('dashboard.clima') }}"
+           class="mobile-nav-link {{ request()->routeIs('dashboard.clima') ? 'active' : '' }}">
+            Clima
+        </a>
+        @if(Auth::user()->isAdmin())
+        <a href="{{ route('admin.buques.gestion-atraques') }}"
+           class="mobile-nav-link {{ request()->routeIs('admin.buques.gestion-atraques') ? 'active' : '' }}">
+            Atraques
+        </a>
+        @endif
+        <a href="{{ route('servicios.index') }}"
+           class="mobile-nav-link {{ request()->routeIs('servicios.*') ? 'active' : '' }}">
+            Servicios
+        </a>
+        <a href="{{ route('resenas.index') }}"
+           class="mobile-nav-link {{ request()->routeIs('resenas.*') ? 'active' : '' }}">
+            Reseñas
+        </a>
 
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-            </div>
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
+        <div class="mobile-user-info">
+            <div class="mobile-user-name">{{ Auth::user()->name }}</div>
+            <div class="mobile-user-email">{{ Auth::user()->email }}</div>
+            <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.25rem;">
+                <a href="{{ route('profile.edit') }}" class="mobile-nav-link">Perfil</a>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-                    <x-responsive-nav-link :href="route('logout')" onclick="event.preventDefault(); this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
+                    <button type="submit" class="mobile-nav-link" style="background:none;border:none;cursor:pointer;width:100%;text-align:left;font-family:inherit;">
+                        Cerrar Sesión
+                    </button>
                 </form>
             </div>
         </div>

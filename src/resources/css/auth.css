@@ -1,0 +1,124 @@
+/* ============================================================
+   GESTORINAITOR 3000 — Auth CSS
+   Login, Registro, Recuperación de contraseña
+   ============================================================ */
+
+/* ── Título de formulario ───────────────────────────────────── */
+.auth-title {
+    font-size: var(--font-size-2xl);
+    font-weight: 700;
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: var(--space-2);
+}
+
+.auth-subtitle {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    text-align: center;
+    margin-bottom: var(--space-6);
+}
+
+/* ── Formulario ─────────────────────────────────────────────── */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+}
+
+.auth-form .form-group {
+    margin-bottom: 0;
+}
+
+/* ── Checkbox ───────────────────────────────────────────────── */
+.auth-checkbox-group {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.auth-checkbox {
+    width: 1rem;
+    height: 1rem;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.auth-checkbox-label {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    cursor: pointer;
+    user-select: none;
+}
+
+/* ── Acciones del formulario ────────────────────────────────── */
+.auth-actions {
+    display: flex;
+    flex-direction: column;
+    /* Stack en móvil */
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+}
+
+@media (min-width: 480px) {
+    .auth-actions {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+
+.auth-link {
+    font-size: var(--font-size-sm);
+    color: var(--color-accent);
+    text-decoration: none;
+    transition: color var(--transition);
+}
+
+.auth-link:hover {
+    color: var(--color-accent-hover);
+    text-decoration: underline;
+}
+
+/* ── Botón de envío ─────────────────────────────────────────── */
+.auth-submit {
+    width: 100%;
+    justify-content: center;
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--font-size-base);
+}
+
+/* ── Mensaje de estado ──────────────────────────────────────── */
+.auth-status {
+    font-size: var(--font-size-sm);
+    color: var(--color-success);
+    background-color: var(--color-success-bg);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid #86EFAC;
+    margin-bottom: var(--space-4);
+}
+
+/* ── Verificación de email ──────────────────────────────────── */
+.auth-verify-text {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+    line-height: 1.6;
+}
+
+.auth-verify-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    width: 100%;
+}
+
+@media (min-width: 480px) {
+    .auth-verify-actions {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}

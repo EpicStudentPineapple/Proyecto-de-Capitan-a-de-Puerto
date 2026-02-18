@@ -1,0 +1,89 @@
+/* ============================================================
+   GESTORINAITOR 3000 — Perfiles CSS
+   Edición de perfil, contraseña, eliminación de cuenta
+   ============================================================ */
+
+/* ── Página de perfil ───────────────────────────────────────── */
+.perfiles-page {
+    padding: var(--space-4);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* ── Sección de perfil ──────────────────────────────────────── */
+.profile-section {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    margin-bottom: var(--space-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.profile-section-title {
+    font-size: var(--font-size-xl);
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--space-2);
+}
+
+.profile-section-desc {
+    font-size: var(--font-size-sm);
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-6);
+}
+
+/* ── Sección de peligro (eliminar cuenta) ───────────────────── */
+.danger-section {
+    background-color: var(--color-surface);
+    border: 1px solid #FCA5A5;
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    margin-bottom: var(--space-6);
+    box-shadow: var(--shadow-sm);
+}
+
+.danger-section .profile-section-title {
+    color: var(--color-danger);
+}
+
+/* ── Verificación de email ──────────────────────────────────── */
+.email-verify-notice {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    background-color: var(--color-warning-bg);
+    border: 1px solid #FCD34D;
+    border-radius: var(--radius-md);
+    padding: var(--space-3) var(--space-4);
+    margin-top: var(--space-2);
+    font-size: var(--font-size-sm);
+    color: var(--color-warning);
+}
+
+/* ── Acciones del formulario ────────────────────────────────── */
+.profile-form-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    flex-wrap: wrap;
+}
+
+.profile-saved-msg {
+    font-size: var(--font-size-sm);
+    color: var(--color-success);
+    font-weight: 500;
+}
+
+/* ── Pantallas Grandes (Desktop) ────────────────────────────── */
+@media (min-width: 768px) {
+    .perfiles-page {
+        padding: var(--space-8) var(--space-6);
+    }
+
+    .profile-section,
+    .danger-section {
+        padding: var(--space-8);
+    }
+}

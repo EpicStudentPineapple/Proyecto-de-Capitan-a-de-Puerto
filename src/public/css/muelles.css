@@ -1,0 +1,99 @@
+/* ============================================================
+   GESTORINAITOR 3000 — Muelles CSS
+   Listado, creación y edición de muelles
+   ============================================================ */
+
+/* ── Página de muelles ──────────────────────────────────────── */
+.muelles-page {
+    padding: var(--space-4);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.muelles-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    gap: var(--space-3);
+}
+
+/* ── Detalle de muelle ──────────────────────────────────────── */
+.muelle-detail-page {
+    padding: var(--space-4);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.muelle-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.muelle-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.muelle-detail-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+.muelle-detail-value {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* ── Formulario de muelle ───────────────────────────────────── */
+.muelle-form-page {
+    padding: var(--space-4);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.muelle-form-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-md);
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+}
+
+/* ── Pantallas Grandes (Desktop) ────────────────────────────── */
+@media (min-width: 768px) {
+
+    .muelles-page,
+    .muelle-detail-page,
+    .muelle-form-page {
+        padding: var(--space-8) var(--space-6);
+    }
+
+    .muelles-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .muelle-detail-grid,
+    .form-grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .muelle-form-card {
+        padding: var(--space-8);
+    }
+}

@@ -1,0 +1,99 @@
+/* ============================================================
+   GESTORINAITOR 3000 — Pantalanes CSS
+   Listado, creación y edición de pantalanes
+   ============================================================ */
+
+/* ── Página de pantalanes ───────────────────────────────────── */
+.pantalans-page {
+    padding: var(--space-4);
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.pantalans-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: var(--space-6);
+    gap: var(--space-3);
+}
+
+/* ── Detalle de pantalán ────────────────────────────────────── */
+.pantalan-detail-page {
+    padding: var(--space-4);
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.pantalan-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-4);
+    margin-bottom: var(--space-6);
+}
+
+.pantalan-detail-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.pantalan-detail-label {
+    font-size: var(--font-size-xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-muted);
+}
+
+.pantalan-detail-value {
+    font-size: var(--font-size-base);
+    color: var(--color-text);
+    font-weight: 500;
+}
+
+/* ── Formulario de pantalán ─────────────────────────────────── */
+.pantalan-form-page {
+    padding: var(--space-4);
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.pantalan-form-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-5);
+    box-shadow: var(--shadow-md);
+}
+
+/* ── Pantallas Medianas (Tablet) ─────────────────────────────── */
+@media (min-width: 480px) {
+    .pantalan-detail-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ── Pantallas Grandes (Desktop) ────────────────────────────── */
+@media (min-width: 768px) {
+
+    .pantalans-page,
+    .pantalan-detail-page,
+    .pantalan-form-page {
+        padding: var(--space-8) var(--space-6);
+    }
+
+    .pantalans-header {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .pantalan-detail-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .pantalan-form-card {
+        padding: var(--space-8);
+    }
+}

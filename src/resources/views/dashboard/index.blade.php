@@ -2,122 +2,129 @@
 
 @section('title', 'Dashboard')
 
+
 @section('content')
-<h1>📊 Dashboard Principal</h1>
+<div class="dashboard-page">
+    <h1>Dashboard Principal</h1>
 
-<div style="margin: 20px 0;">
-    <h2>Estado del Puerto</h2>
-    
-    <table border="1" cellpadding="10" cellspacing="0" style="width: 100%;">
-        <tr>
-            <th>Indicador</th>
-            <th>Cantidad</th>
-        </tr>
-        <tr>
-            <td>Buques Atracados</td>
-            <td><strong>{{ $buquesAtracados }}</strong></td>
-        </tr>
-        <tr>
-            <td>Buques Fondeados</td>
-            <td><strong>{{ $buquesFondeados }}</strong></td>
-        </tr>
-        <tr>
-            <td>Buques Navegando</td>
-            <td><strong>{{ $buquesNavegando }}</strong></td>
-        </tr>
-        <tr>
-            <td>Muelles Disponibles</td>
-            <td><strong>{{ $muellesDisponibles }}</strong></td>
-        </tr>
-        <tr>
-            <td>Muelles Ocupados</td>
-            <td><strong>{{ $muellesOcupados }}</strong></td>
-        </tr>
-    </table>
-</div>
+    {{-- Estado del Puerto --}}
+    <section class="stats-section" aria-labelledby="estado-puerto-title">
+        <h2 id="estado-puerto-title">Estado del Puerto</h2>
+        <div class="stats-table-wrapper">
+            <table class="table" aria-label="Indicadores del estado del puerto">
+                <thead>
+                    <tr>
+                        <th scope="col">Indicador</th>
+                        <th scope="col">Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Buques Atracados</td>
+                        <td><strong>{{ $buquesAtracados }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Buques Fondeados</td>
+                        <td><strong>{{ $buquesFondeados }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Buques Navegando</td>
+                        <td><strong>{{ $buquesNavegando }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Muelles Disponibles</td>
+                        <td><strong>{{ $muellesDisponibles }}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Muelles Ocupados</td>
+                        <td><strong>{{ $muellesOcupados }}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-<div style="margin: 30px 0;">
-    <h2>Accesos Rápidos</h2>
-    
-    <div>
-        <a href="{{ route('dashboard.trafico') }}">
-            <button style="padding: 15px; margin: 5px;">
+    {{-- Accesos Rápidos --}}
+    <section class="quick-access-section" aria-labelledby="accesos-rapidos-title">
+        <h2 id="accesos-rapidos-title">Accesos Rápidos</h2>
+        <div class="quick-access-grid">
+            <a href="{{ route('dashboard.trafico') }}" class="btn btn-primary">
                 Ver Tráfico en Tiempo Real
-            </button>
-        </a>
-        
-        <a href="{{ route('dashboard.clima') }}">
-            <button style="padding: 15px; margin: 5px;">
-                Condiciones Climáticas
-            </button>
-        </a>
-        
-        @if(Auth::user()->isAdministrador())
-            <a href="{{ route('admin.buques.gestion-atraques') }}">
-                <button style="padding: 15px; margin: 5px;">
-                    Gestionar Atraques
-                </button>
             </a>
-        @endif
-        
-        <a href="{{ route('servicios.index') }}">
-            <button style="padding: 15px; margin: 5px;">
+            <a href="{{ route('dashboard.clima') }}" class="btn btn-primary">
+                Condiciones Climáticas
+            </a>
+            @if(Auth::user()->isAdministrador())
+                <a href="{{ route('admin.buques.gestion-atraques') }}" class="btn btn-outline">
+                    Gestionar Atraques
+                </a>
+            @endif
+            <a href="{{ route('servicios.index') }}" class="btn btn-outline">
                 Servicios Portuarios
-            </button>
-        </a>
-    </div>
-</div>
+            </a>
+        </div>
+    </section>
 
-<div style="margin: 30px 0;">
-    <h2>Navegación por Secciones</h2>
-    
-    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;">
-        <div style="border: 1px solid #ccc; padding: 20px;">
-            <h3>Muelles</h3>
-            <p>Gestión de infraestructura portuaria</p>
-            <a href="{{ route('muelles.index') }}"><button>Ver Muelles</button></a>
-            @if(Auth::user()->isAdministrador())
-                <a href="{{ route('admin.muelles.create') }}"><button>Crear Muelle</button></a>
-            @endif
-        </div>
-        
-        <div style="border: 1px solid #ccc; padding: 20px;">
-            <h3>Buques</h3>
-            <p>Control de embarcaciones en puerto</p>
-            @if(Auth::user()->isAdministrador())
-                <a href="{{ route('admin.buques.index') }}"><button>Ver Todos</button></a>
-                <a href="{{ route('admin.buques.create') }}"><button>Registrar Buque</button></a>
-            @else
-                <a href="{{ route('propietario.buques.index') }}"><button>Ver Mis Buques</button></a>
-                <a href="{{ route('propietario.buques.create') }}"><button>Registrar Buque</button></a>
-            @endif
-        </div>
-        
-        <div style="border: 1px solid #ccc; padding: 20px;">
-            <h3>Servicios</h3>
-            <p>Servicios disponibles en el puerto</p>
-            <a href="{{ route('servicios.index') }}"><button>Ver Servicios</button></a>
-            @if(Auth::user()->isAdministrador())
-                <a href="{{ route('admin.servicios.create') }}"><button>Crear Servicio</button></a>
-            @endif
-        </div>
-        
-        <div style="border: 1px solid #ccc; padding: 20px;">
-            <h3>Pantalanes</h3>
-            <p>Amarres para embarcaciones menores</p>
-            <a href="{{ route('pantalans.index') }}"><button>Ver Pantalanes</button></a>
-            @if(Auth::user()->isAdministrador())
-                <a href="{{ route('admin.pantalans.create') }}"><button>Crear Pantalán</button></a>
-            @endif
-        </div>
-    </div>
-</div>
+    {{-- Navegación por Secciones --}}
+    <section aria-labelledby="secciones-title">
+        <h2 id="secciones-title">Navegación por Secciones</h2>
+        <div class="sections-grid">
+            <div class="section-card">
+                <h3>Muelles</h3>
+                <p>Gestión de infraestructura portuaria</p>
+                <div class="section-card-actions">
+                    <a href="{{ route('muelles.index') }}" class="btn btn-accent btn-sm">Ver Muelles</a>
+                    @if(Auth::user()->isAdministrador())
+                        <a href="{{ route('admin.muelles.create') }}" class="btn btn-outline btn-sm">Crear Muelle</a>
+                    @endif
+                </div>
+            </div>
 
-@if(Auth::user()->isPropietario())
-<div style="margin: 30px 0; padding: 20px; background: #e7f3ff; border: 1px solid #b3d9ff;">
-    <h3>Mis Buques</h3>
-    <p>Tienes acceso a la gestión de tu flota</p>
-    <a href="{{ route('propietario.buques.index') }}"><button>Ver Mis Buques</button></a>
+            <div class="section-card">
+                <h3>Buques</h3>
+                <p>Control de embarcaciones en puerto</p>
+                <div class="section-card-actions">
+                    @if(Auth::user()->isAdministrador())
+                        <a href="{{ route('admin.buques.index') }}" class="btn btn-accent btn-sm">Ver Todos</a>
+                        <a href="{{ route('admin.buques.create') }}" class="btn btn-outline btn-sm">Registrar Buque</a>
+                    @else
+                        <a href="{{ route('propietario.buques.index') }}" class="btn btn-accent btn-sm">Mis Buques</a>
+                        <a href="{{ route('propietario.buques.create') }}" class="btn btn-outline btn-sm">Registrar Buque</a>
+                    @endif
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Servicios</h3>
+                <p>Servicios disponibles en el puerto</p>
+                <div class="section-card-actions">
+                    <a href="{{ route('servicios.index') }}" class="btn btn-accent btn-sm">Ver Servicios</a>
+                    @if(Auth::user()->isAdministrador())
+                        <a href="{{ route('admin.servicios.create') }}" class="btn btn-outline btn-sm">Crear Servicio</a>
+                    @endif
+                </div>
+            </div>
+
+            <div class="section-card">
+                <h3>Pantalanes</h3>
+                <p>Amarres para embarcaciones menores</p>
+                <div class="section-card-actions">
+                    <a href="{{ route('pantalans.index') }}" class="btn btn-accent btn-sm">Ver Pantalanes</a>
+                    @if(Auth::user()->isAdministrador())
+                        <a href="{{ route('admin.pantalans.create') }}" class="btn btn-outline btn-sm">Crear Pantalán</a>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{-- Bloque de propietario --}}
+    @if(Auth::user()->isPropietario())
+    <div class="owner-block" role="region" aria-label="Gestión de mi flota">
+        <h3>Mis Buques</h3>
+        <p>Tienes acceso a la gestión de tu flota</p>
+        <a href="{{ route('propietario.buques.index') }}" class="btn btn-accent">Ver Mis Buques</a>
+    </div>
+    @endif
 </div>
-@endif
 @endsection

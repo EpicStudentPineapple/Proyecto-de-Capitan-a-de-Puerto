@@ -1,0 +1,375 @@
+/* ============================================================
+   GESTORINAITOR 3000 — Layouts CSS
+   Navegación, header de página, estructura principal
+   ============================================================ */
+
+/* ── Navbar ─────────────────────────────────────────────────── */
+.navbar {
+    background-color: var(--color-primary);
+    border-bottom: 1px solid var(--color-primary-hover);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: var(--shadow-md);
+}
+
+.navbar-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-6);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 4rem;
+}
+
+/* Logo */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.navbar-logo {
+    height: 2.25rem;
+    width: auto;
+    object-fit: contain;
+    border-radius: var(--radius-sm);
+}
+
+.navbar-brand-text {
+    font-size: var(--font-size-base);
+    font-weight: 700;
+    color: var(--color-text-on-dark);
+    letter-spacing: -0.01em;
+}
+
+/* Links de navegación */
+.navbar-nav {
+    display: none;
+    /* Oculto por defecto en móvil */
+    align-items: center;
+    gap: var(--space-1);
+    list-style: none;
+}
+
+.nav-item {
+    display: flex;
+}
+
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition), color var(--transition);
+    white-space: nowrap;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--color-text-on-dark);
+    text-decoration: none;
+}
+
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.18);
+    color: var(--color-text-on-dark);
+    font-weight: 600;
+}
+
+.nav-link:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+/* Acciones combinadas (Perfil + Menú móvil) */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    /* Aumentado de space-3 para evitar colisión */
+    position: relative;
+    z-index: 101;
+    /* Por encima de navbar-inner */
+}
+
+/* Dropdown de usuario */
+.navbar-user {
+    display: flex;
+    /* Cambiado de none para que sea accesible en móvil */
+    align-items: center;
+}
+
+.user-name-text {
+    display: none;
+    /* Oculto en móvil por defecto */
+}
+
+.user-icon-mobile {
+    display: block;
+    color: var(--color-text-on-dark);
+}
+
+.user-chevron {
+    display: none;
+    /* Oculto en favor del icono en móvil */
+}
+
+@media (min-width: 768px) {
+    .user-name-text {
+        display: inline;
+        /* Visible en escritorio */
+    }
+
+    .user-icon-mobile {
+        display: none;
+        /* Oculto en escritorio */
+    }
+
+    .user-chevron {
+        display: inline;
+        /* Visible en escritorio */
+    }
+}
+
+.user-menu-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--color-text-on-dark);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition);
+    font-family: var(--font-family);
+}
+
+.user-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.user-menu-btn:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+/* Dropdown content */
+.dropdown-content {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    min-width: 12rem;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    display: block;
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--font-size-sm);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--transition);
+    cursor: pointer;
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-family: var(--font-family);
+}
+
+.dropdown-item:hover {
+    background-color: var(--color-surface-alt);
+    text-decoration: none;
+    color: var(--color-text);
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: var(--color-border);
+    margin: var(--space-1) 0;
+}
+
+/* ── Menú móvil ─────────────────────────────────────────────── */
+.navbar-toggle {
+    display: flex;
+    /* Visible por defecto en móvil */
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--color-text-on-dark);
+    cursor: pointer;
+    transition: background-color var(--transition);
+}
+
+.navbar-toggle:hover {
+    background: rgba(255, 255, 255, 0.18);
+}
+
+.navbar-toggle:focus-visible {
+    outline: 3px solid rgba(255, 255, 255, 0.7);
+    outline-offset: 2px;
+}
+
+/* Menú móvil desplegable */
+.navbar-mobile {
+    display: none;
+    background-color: var(--color-primary-hover);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--space-3) var(--space-4);
+}
+
+.navbar-mobile.open {
+    display: block;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-sm);
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: background-color var(--transition), color var(--transition);
+    margin-bottom: var(--space-1);
+}
+
+.mobile-nav-link:hover,
+.mobile-nav-link.active {
+    background-color: rgba(255, 255, 255, 0.12);
+    color: var(--color-text-on-dark);
+    text-decoration: none;
+}
+
+.mobile-user-info {
+    padding: var(--space-3);
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    margin-top: var(--space-2);
+}
+
+.mobile-user-name {
+    font-weight: 600;
+    color: var(--color-text-on-dark);
+    font-size: var(--font-size-sm);
+}
+
+.mobile-user-email {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: var(--font-size-xs);
+    margin-top: var(--space-1);
+}
+
+/* ── Page Header ────────────────────────────────────────────── */
+.page-header {
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--space-3) var(--space-4);
+    /* Valores de móvil por defecto */
+    box-shadow: var(--shadow-sm);
+}
+
+.page-header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.page-header h1,
+.page-header h2 {
+    font-size: var(--font-size-lg);
+    /* Más pequeño en móvil */
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0;
+}
+
+/* ── Layout principal ───────────────────────────────────────── */
+.main-layout {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+}
+
+.main-content {
+    flex: 1;
+}
+
+/* ── Layout de autenticación (guest) ────────────────────────── */
+.auth-layout {
+    min-height: 100vh;
+    background-color: var(--color-bg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-6) var(--space-4);
+}
+
+.auth-logo-wrapper {
+    margin-bottom: var(--space-6);
+}
+
+.auth-logo {
+    height: 3.5rem;
+    width: auto;
+    object-fit: contain;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 28rem;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    /* Reducido para móvil */
+    box-shadow: var(--shadow-lg);
+}
+
+/* ── Pantallas Grandes (Desktop) ────────────────────────────── */
+@media (min-width: 768px) {
+    .navbar-inner {
+        padding: 0 var(--space-6);
+    }
+
+    .navbar-nav {
+        display: flex;
+    }
+
+    .navbar-toggle {
+        display: none;
+    }
+
+    .navbar-mobile {
+        display: none !important;
+    }
+
+    .page-header {
+        padding: var(--space-4) var(--space-6);
+    }
+
+    .page-header h1,
+    .page-header h2 {
+        font-size: var(--font-size-xl);
+    }
+
+    .auth-card {
+        padding: var(--space-8);
+    }
+}

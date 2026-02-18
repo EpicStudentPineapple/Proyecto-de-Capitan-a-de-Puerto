@@ -1,11 +1,9 @@
 @extends('layouts.app')
 
-@section('title', 'Clima')
-
-@push('styles')
+@section('title', 'Clima')@push('styles')
 <style>
 /* ══════════════════════════════════════════════════════════════════════
-   Estilos Modernizados - Dashboard Marítimo
+   Estilos Modernizados - Dashboard Marítimo (Ajustado)
    ══════════════════════════════════════════════════════════════════════ */
 
 :root {
@@ -20,16 +18,16 @@
 }
 
 .clima-page {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 3rem 1.5rem;
+    padding: var(--space-4); /* Móvil base */
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     background-color: var(--bg-page);
 }
 
 /* ── Encabezado ──────────────────────────────────────────────────────── */
 .clima-page h1 {
-    font-size: 2.5rem;
+    font-size: 1.8rem; /* Móvil base */
     font-weight: 800;
     color: var(--primary);
     margin-bottom: 0.25rem;
@@ -38,8 +36,8 @@
 
 .clima-page .subtitulo {
     color: var(--secondary);
-    margin-bottom: 3rem;
-    font-size: 1.1rem;
+    margin-bottom: 2.5rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -48,8 +46,8 @@
 /* ── Grid principal ──────────────────────────────────────────────────── */
 .clima-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 1fr; /* Móvil base */
+    gap: 1.5rem;
     margin-bottom: 3rem;
 }
 
@@ -57,7 +55,7 @@
 .clima-card {
     background: var(--card-bg);
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1.5rem; /* Ajuste móvil */
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -71,7 +69,7 @@
 }
 
 .clima-card h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: var(--secondary);
     text-transform: uppercase;
@@ -90,7 +88,7 @@
 }
 
 .clima-icon {
-    font-size: 5rem;
+    font-size: 4rem; /* Móvil base */
     margin: 1rem 0;
     filter: drop-shadow(0 10px 8px rgba(0,0,0,0.1));
     animation: float 3s ease-in-out infinite;
@@ -102,14 +100,14 @@
 }
 
 .temp-principal {
-    font-size: 4.5rem;
+    font-size: 3.5rem; /* Móvil base */
     font-weight: 800;
     color: var(--primary);
     margin-bottom: 0.5rem;
 }
 
 .temp-principal sup {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--accent);
 }
 
@@ -126,20 +124,20 @@
 .detalles-actuales {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
     border-top: 1px solid #f1f5f9;
     padding-top: 1.5rem;
 }
 
 .detalle-label {
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     text-transform: uppercase;
     color: #94a3b8;
     font-weight: 700;
 }
 
 .detalle-valor {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: var(--primary);
     font-weight: 700;
 }
@@ -152,7 +150,7 @@
 }
 
 .condiciones-tabla td {
-    padding: 1rem;
+    padding: 0.75rem;
     background: #f8fafc;
 }
 
@@ -183,7 +181,7 @@
 
 .banner-maniobras {
     margin-top: 2rem;
-    padding: 1.25rem;
+    padding: 1rem;
     border-radius: 15px;
     font-weight: 700;
     display: flex;
@@ -201,7 +199,7 @@
 .btn-refresh {
     background: var(--primary);
     color: white;
-    padding: 1rem 2rem;
+    padding: 1rem 1.5rem;
     border-radius: 12px;
     border: none;
     font-weight: 700;
@@ -216,7 +214,6 @@
 .btn-refresh:hover {
     background: var(--accent);
     transform: scale(1.05);
-    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
 }
 
 /* ── Skeleton ───────────────────────────────────────────────────────── */
@@ -225,6 +222,7 @@
     border-radius: 4px;
     position: relative;
     overflow: hidden;
+    height: 1.2em;
 }
 
 .skeleton::after {
@@ -240,15 +238,35 @@
     100% { transform: translateX(100%); }
 }
 
-/* ── Responsive ──────────────────────────────────────────────────────── */
-@media (max-width: 768px) {
-    .clima-grid { grid-template-columns: 1fr; }
-    .clima-page h1 { font-size: 1.8rem; }
-    .temp-principal { font-size: 3.5rem; }
+/* ── Pantallas Grandes (Desktop) ────────────────────────────── */
+@media (min-width: 1024px) {
+    .clima-page {
+        padding: 3rem 1.5rem;
+    }
+
+    .clima-page h1 {
+        font-size: 2.5rem;
+    }
+
+    .temp-principal {
+        font-size: 4.5rem;
+    }
+
+    .clima-grid {
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    }
+
+    .clima-card {
+        padding: 2rem;
+    }
+
+    .clima-icon {
+        font-size: 5rem;
+    }
 }
+
 </style>
 @endpush
-
 @section('content')
 <div class="clima-page">
 
