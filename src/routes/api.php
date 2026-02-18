@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\EuskalmetController;
 use App\Http\Controllers\ResenaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\CheckAdmin;
@@ -12,6 +13,9 @@ Route::get('/resenas/servicio/{servicio}', [ResenaController::class , 'porServic
 
 // Statistics for landing page
 Route::get('/estadisticas', [WelcomeController::class , 'estadisticas'])->name('api.estadisticas');
+
+// Euskalmet
+Route::get('/euskalmet/prediccion', [EuskalmetController::class, 'prediccion']);
 
 // Authenticated API routes
 Route::middleware('auth:sanctum')->group(function () {
