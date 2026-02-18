@@ -35,7 +35,12 @@
                 </td>
                 <td>
                     @if($muelle->buqueActual)
-                        <a href="{{ route('buques.show', $muelle->buqueActual->id) }}">
+                        @php
+                            $rutaBuque = Auth::user()->isAdmin() 
+                                ? route('admin.buques.show', $muelle->buqueActual->id)
+                                : route('propietario.buques.show', $muelle->buqueActual->id);
+                        @endphp
+                        <a href="{{ $rutaBuque }}">
                             {{ $muelle->buqueActual->nombre }}
                         </a>
                         <br>
@@ -73,7 +78,12 @@
             @forelse($buques as $buque)
             <tr>
                 <td>
-                    <a href="{{ route('buques.show', $buque->id) }}">
+                    @php
+                        $rutaBuque = Auth::user()->isAdmin() 
+                            ? route('admin.buques.show', $buque->id)
+                            : route('propietario.buques.show', $buque->id);
+                    @endphp
+                    <a href="{{ $rutaBuque }}">
                         <strong>{{ $buque->nombre }}</strong>
                     </a>
                 </td>
@@ -97,7 +107,12 @@
                 </td>
                 <td>
                     @if($buque->muelle)
-                        <a href="{{ route('muelles.show', $buque->muelle->id) }}">
+                        @php
+                            $rutaMuelle = Auth::user()->isAdmin() 
+                                ? route('admin.muelles.show', $buque->muelle->id)
+                                : route('muelles.show', $buque->muelle->id);
+                        @endphp
+                        <a href="{{ $rutaMuelle }}">
                             {{ $buque->muelle->codigo }}
                         </a>
                     @else
@@ -117,8 +132,10 @@
 
 <div style="margin: 30px 0;">
     <button onclick="location.reload()">🔄 Actualizar Datos</button>
+    @if(Auth::user()->isAdmin())
     <a href="{{ route('admin.buques.gestion-atraques') }}">
         <button>Ir a Gestión de Atraques</button>
     </a>
+    @endif
 </div>
 @endsection

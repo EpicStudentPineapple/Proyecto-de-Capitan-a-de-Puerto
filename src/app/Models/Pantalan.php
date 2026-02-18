@@ -47,6 +47,11 @@ class Pantalan extends Model
         return $this->belongsTo(Muelle::class);
     }
 
+    public function buqueActual()
+    {
+        return $this->hasOne(Buque::class)->where('estado', 'atracado');
+    }
+
     public function scopeDisponibles($query)
     {
         return $query->where('disponible', true);

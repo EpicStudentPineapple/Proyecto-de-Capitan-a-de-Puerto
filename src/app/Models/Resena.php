@@ -24,6 +24,7 @@ class Resena extends Model
     protected $fillable = [
         'user_id',
         'servicio_id',
+        'tipo',
         'calificacion',
         'comentario',
         'fecha_resena',
@@ -57,17 +58,21 @@ class Resena extends Model
         return $this->belongsTo(Servicio::class);
     }
 
-    /**
-     * Scope a query to only include approved reviews.
-     */
+    public function scopePlataforma($query)
+    {
+        return $query->where('tipo', 'plataforma');
+    }
+
+    public function scopeServicio($query)
+    {
+        return $query->where('tipo', 'servicio');
+    }
+
     public function scopeAprobadas($query)
     {
         return $query->where('aprobado', true);
     }
 
-    /**
-     * Scope a query to order reviews by most recent.
-     */
     public function scopeRecientes($query)
     {
         return $query->orderBy('fecha_resena', 'desc');
@@ -78,10 +83,11 @@ class Resena extends Model
      *
      * @return array
      */
-    public static function validationRules()
+    public static function validationRules($tipo = 'servicio')
     {
         return [
-            'servicio_id' => 'required|exists:servicios,id',
+            'tipo' => 'required|in:plataforma,servicio',
+            'servicio_id' => $tipo === 'servicio' ? 'required|exists:servicios,id' : 'nullable|exists:servicios,id',
             'calificacion' => 'required|integer|min:1|max:5',
             'comentario' => 'required|string|min:10|max:500',
         ];

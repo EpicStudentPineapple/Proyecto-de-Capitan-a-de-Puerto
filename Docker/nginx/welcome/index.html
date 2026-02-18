@@ -204,22 +204,26 @@
         fetch('/api/resenas/aprobadas')
             .then(response => response.json())
             .then(data => {
-                if (data.length === 0) {
+                const resenas = data.data || []; // Laravel Resource Collection wraps in 'data'
+                
+                if (resenas.length === 0) {
                     document.getElementById('reviews').innerHTML = '<div class="loading">No hay reseñas disponibles</div>';
                     return;
                 }
 
-                const reviewsHtml = data.map(resena => {
+                const reviewsHtml = resenas.map(resena => {
                     const stars = '★'.repeat(resena.calificacion) + '☆'.repeat(5 - resena.calificacion);
                     const fecha = new Date(resena.fecha_resena).toLocaleDateString('es-ES');
+                    const author = resena.user?.perfil?.nombre || resena.user?.name || 'Usuario';
+                    const serviceInfo = resena.servicio ? `Servicio: ${resena.servicio.nombre} - ` : '';
 
                     return `
                         <div class="review-card">
                             <div class="review-header">
-                                <span class="review-author">${resena.user.perfil.nombre || resena.user.name}</span>
+                                <span class="review-author">${author}</span>
                                 <span class="review-rating" aria-label="${resena.calificacion} de 5 estrellas">${stars}</span>
                             </div>
-                            <div class="review-service">Servicio: ${resena.servicio.nombre} - ${fecha}</div>
+                            <div class="review-service">${serviceInfo}${fecha}</div>
                             <div class="review-comment">${resena.comentario}</div>
                         </div>
                     `;

@@ -21,8 +21,11 @@ class ResenaResource extends JsonResource
             'fecha_resena' => $this->fecha_resena->toISOString(),
             'aprobado' => $this->aprobado,
             'user' => new UserResource($this->whenLoaded('user')),
-            'servicio_nombre' => $this->whenLoaded('servicio', function () {
-            return $this->servicio->nombre;
+            'servicio' => $this->whenLoaded('servicio', function () {
+            return [
+                    'id' => $this->servicio->id,
+                    'nombre' => $this->servicio->nombre,
+                ];
         }),
         ];
     }

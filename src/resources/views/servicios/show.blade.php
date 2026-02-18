@@ -273,6 +273,7 @@
             e.preventDefault();
             
             const data = {
+                tipo: 'servicio',
                 servicio_id: servicioId,
                 calificacion: document.getElementById('calificacion').value,
                 comentario: document.getElementById('comentario').value

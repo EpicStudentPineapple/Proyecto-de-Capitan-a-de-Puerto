@@ -295,35 +295,6 @@
             </div>
         </div>
 
-        {{-- Predicción de mañana --}}
-        <div class="clima-card">
-            <h2>📅 Predicción para Mañana</h2>
-            <table class="condiciones-tabla">
-                <tbody>
-                    <tr>
-                        <td>🌡 Temperatura máx.</td>
-                        <td id="temp-max"><span class="skeleton" style="width: 60px;"></span></td>
-                    </tr>
-                    <tr>
-                        <td>🌡 Temperatura mín.</td>
-                        <td id="temp-min"><span class="skeleton" style="width: 60px;"></span></td>
-                    </tr>
-                    <tr>
-                        <td>💨 Viento máximo</td>
-                        <td id="viento-max"><span class="skeleton" style="width: 80px;"></span></td>
-                    </tr>
-                    <tr>
-                        <td>💧 Precipitación</td>
-                        <td id="precip-manana"><span class="skeleton" style="width: 60px;"></span></td>
-                    </tr>
-                    <tr>
-                        <td>☁ Estado del cielo</td>
-                        <td id="cielo-manana"><span class="skeleton" style="width: 120px;"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
         {{-- Condiciones para maniobras --}}
         <div class="clima-card">
             <h2>⚓ Aptitud para Maniobras de Atraque</h2>
@@ -362,6 +333,35 @@
             <div id="banner-maniobras" class="banner-maniobras banner-alerta">
                 ⏳ Calculando condiciones&hellip;
             </div>
+        </div>
+
+        {{-- Predicción de mañana --}}
+        <div class="clima-card">
+            <h2>📅 Predicción para Mañana</h2>
+            <table class="condiciones-tabla">
+                <tbody>
+                    <tr>
+                        <td>🌡 Temperatura máx.</td>
+                        <td id="temp-max"><span class="skeleton" style="width: 60px;"></span></td>
+                    </tr>
+                    <tr>
+                        <td>🌡 Temperatura mín.</td>
+                        <td id="temp-min"><span class="skeleton" style="width: 60px;"></span></td>
+                    </tr>
+                    <tr>
+                        <td>💨 Viento máximo</td>
+                        <td id="viento-max"><span class="skeleton" style="width: 80px;"></span></td>
+                    </tr>
+                    <tr>
+                        <td>💧 Precipitación</td>
+                        <td id="precip-manana"><span class="skeleton" style="width: 60px;"></span></td>
+                    </tr>
+                    <tr>
+                        <td>☁ Estado del cielo</td>
+                        <td id="cielo-manana"><span class="skeleton" style="width: 120px;"></span></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
     </div>{{-- /.clima-grid --}}
@@ -447,7 +447,7 @@ async function cargarDatosClima() {
 
         mostrarDatosActuales(datos.actual);
         mostrarPrediccionManana(datos.manana);
-        evaluarManiobras(datos.manana, datos.navegacion);
+        evaluarManiobras(datos.actual, datos.navegacion);
 
     } catch (error) {
         console.error('[Clima] Error:', error);
@@ -478,35 +478,37 @@ function mostrarPrediccionManana(manana) {
 }
 
 /* ── Evaluar condiciones para maniobras ──────────────────────────────── */
-function evaluarManiobras(manana, navegacion) {
+/* ── Evaluar condiciones para maniobras ACTUALES ────────────────────── */
+function evaluarManiobras(actual, navegacion) {
+    // Extraemos datos actuales y de navegación (olas)
     const olas = navegacion.altura_olas;
-    const viento = manana.viento_max;
-    const lluvia = manana.precipitacion;
+    const viento = actual.viento; // Ahora usa el viento de este momento
+    const lluvia = actual.precipitacion; // Ahora usa la lluvia de este momento
 
     const aptoOlas = olas < LIMITES.olas;
     const aptoViento = viento < LIMITES.viento;
     const aptoLluvia = lluvia < LIMITES.lluvia;
 
-    // Actualizar tabla
+    // Actualizar valores en la tabla
     document.getElementById('m-olas').textContent = `${olas} m`;
     document.getElementById('m-viento').textContent = `${viento} km/h`;
     document.getElementById('m-lluvia').textContent = `${lluvia} mm`;
 
-    // Badges
+    // Actualizar Badges (verde/rojo)
     mostrarBadge('m-olas-badge', aptoOlas);
     mostrarBadge('m-viento-badge', aptoViento);
     mostrarBadge('m-lluvia-badge', aptoLluvia);
 
-    // Banner global
+    // Lógica del Banner Global
     const banner = document.getElementById('banner-maniobras');
     const todasAptas = aptoOlas && aptoViento && aptoLluvia;
 
     if (todasAptas) {
         banner.className = 'banner-maniobras banner-seguro';
-        banner.textContent = '✅ Condiciones SEGURAS para maniobras de atraque';
+        banner.innerHTML = '✅ <strong>OPERATIVO:</strong> Condiciones SEGURAS para atraque actual';
     } else {
         banner.className = 'banner-maniobras banner-peligro';
-        banner.textContent = '⚠️ Condiciones NO APTAS para maniobras de atraque';
+        banner.innerHTML = '⚠️ <strong>PRECAUCIÓN:</strong> Condiciones NO APTAS para maniobras en este momento';
     }
 }
 

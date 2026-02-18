@@ -20,14 +20,40 @@ class ResenaController extends Controller
     {
         $query = Resena::with(['user.perfil', 'servicio']);
 
-        // Filter by approval status
         if ($request->has('aprobado')) {
             $query->where('aprobado', $request->aprobado);
         }
 
         $resenas = $query->recientes()->paginate(20);
 
-        return \App\Http\Resources\ResenaResource::collection($resenas);
+        // Si es una petición AJAX/API
+        if ($request->wantsJson()) {
+            return \App\Http\Resources\ResenaResource::collection($resenas);
+        }
+
+        return view('resenas.index', compact('resenas'));
+    }
+
+    /**
+     * Show the form for creating a new review.
+     */
+    public function create()
+    {
+        // Get services used by the user that don't have a review yet
+        $servicios = DB::table('buque_servicio')
+            ->join('buques', 'buque_servicio.buque_id', '=', 'buques.id')
+            ->join('servicios', 'buque_servicio.servicio_id', '=', 'servicios.id')
+            ->leftJoin('resenas', function ($join) {
+            $join->on('servicios.id', '=', 'resenas.servicio_id')
+                ->where('resenas.user_id', '=', Auth::id());
+        })
+            ->where('buques.propietario_id', Auth::id())
+            ->whereNull('resenas.id')
+            ->select('servicios.id', 'servicios.nombre')
+            ->distinct()
+            ->get();
+
+        return view('resenas.create', compact('servicios'));
     }
 
     /**
@@ -35,45 +61,55 @@ class ResenaController extends Controller
      */
     public function store(Request $request)
     {
-        $validated = $request->validate(Resena::validationRules());
+        $validated = $request->validate(Resena::validationRules($request->tipo ?? 'servicio'));
 
-        // Check if user has used this service
-        $hasUsedService = DB::table('buque_servicio')
-            ->join('buques', 'buque_servicio.buque_id', '=', 'buques.id')
-            ->where('buques.propietario_id', Auth::id())
-            ->where('buque_servicio.servicio_id', $validated['servicio_id'])
-            ->exists();
+        if ($validated['tipo'] === 'servicio') {
+            // Check if user has used this service
+            $hasUsedService = DB::table('buque_servicio')
+                ->join('buques', 'buque_servicio.buque_id', '=', 'buques.id')
+                ->where('buques.propietario_id', Auth::id())
+                ->where('buque_servicio.servicio_id', $validated['servicio_id'])
+                ->exists();
 
-        if (!$hasUsedService) {
-            return response()->json([
-                'message' => 'No puede reseñar un servicio que no ha utilizado.'
-            ], 403);
+            if (!$hasUsedService) {
+                if ($request->wantsJson()) {
+                    return response()->json(['message' => 'No puede reseñar un servicio que no ha utilizado.'], 403);
+                }
+                return redirect()->back()->with('error', 'No puede reseñar un servicio que no ha utilizado.');
+            }
         }
 
         // Check for duplicate review
         $existingResena = Resena::where('user_id', Auth::id())
+            ->where('tipo', $validated['tipo'])
             ->where('servicio_id', $validated['servicio_id'])
             ->first();
 
         if ($existingResena) {
-            return response()->json([
-                'message' => 'Ya ha enviado una reseña para este servicio.'
-            ], 409);
+            if ($request->wantsJson()) {
+                return response()->json(['message' => 'Ya ha enviado una reseña similar.'], 409);
+            }
+            return redirect()->back()->with('error', 'Ya ha enviado una reseña para este concepto.');
         }
 
         $resena = Resena::create([
             'user_id' => Auth::id(),
             'servicio_id' => $validated['servicio_id'],
+            'tipo' => $validated['tipo'],
             'calificacion' => $validated['calificacion'],
             'comentario' => $validated['comentario'],
             'fecha_resena' => now(),
             'aprobado' => false,
         ]);
 
-        return response()->json([
-            'message' => 'Reseña enviada correctamente. Pendiente de aprobación.',
-            'resena' => new \App\Http\Resources\ResenaResource($resena->load(['user.perfil', 'servicio']))
-        ], 201);
+        if ($request->wantsJson()) {
+            return response()->json([
+                'message' => 'Reseña enviada correctamente. Pendiente de aprobación.',
+                'resena' => new \App\Http\Resources\ResenaResource($resena->load(['user.perfil', 'servicio']))
+            ], 201);
+        }
+
+        return redirect()->route('resenas.index')->with('success', 'Reseña enviada correctamente. Pendiente de aprobación.');
     }
 
     /**
@@ -109,9 +145,13 @@ class ResenaController extends Controller
     {
         $resena->delete();
 
-        return response()->json([
-            'message' => 'Reseña eliminada correctamente.'
-        ]);
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Reseña eliminada correctamente.'
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Reseña eliminada correctamente.');
     }
 
     /**
@@ -121,10 +161,14 @@ class ResenaController extends Controller
     {
         $resena->update(['aprobado' => true]);
 
-        return response()->json([
-            'message' => 'Reseña aprobada correctamente.',
-            'resena' => new \App\Http\Resources\ResenaResource($resena->load(['user.perfil', 'servicio']))
-        ]);
+        if (request()->wantsJson()) {
+            return response()->json([
+                'message' => 'Reseña aprobada correctamente.',
+                'resena' => new \App\Http\Resources\ResenaResource($resena->load(['user.perfil', 'servicio']))
+            ]);
+        }
+
+        return redirect()->back()->with('success', 'Reseña aprobada correctamente.');
     }
 
     /**
@@ -133,6 +177,7 @@ class ResenaController extends Controller
     public function aprobadas()
     {
         $resenas = Resena::with(['user.perfil', 'servicio'])
+            ->plataforma()
             ->aprobadas()
             ->recientes()
             ->paginate(20);
@@ -146,6 +191,7 @@ class ResenaController extends Controller
     public function porServicio($servicio_id)
     {
         $resenas = Resena::with(['user.perfil'])
+            ->servicio()
             ->where('servicio_id', $servicio_id)
             ->aprobadas()
             ->recientes()
@@ -171,6 +217,7 @@ class ResenaController extends Controller
             ->join('servicios', 'buque_servicio.servicio_id', '=', 'servicios.id')
             ->leftJoin('resenas', function ($join) {
             $join->on('servicios.id', '=', 'resenas.servicio_id')
+                ->where('resenas.tipo', '=', 'servicio')
                 ->where('resenas.user_id', '=', Auth::id());
         })
             ->where('buques.propietario_id', Auth::id())

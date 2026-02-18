@@ -36,6 +36,7 @@ class Servicio extends Model
     {
         return $this->belongsToMany(Buque::class , 'buque_servicio')
             ->withPivot([
+            'id',
             'fecha_solicitud',
             'fecha_inicio',
             'fecha_fin',

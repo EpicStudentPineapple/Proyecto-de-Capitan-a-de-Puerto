@@ -17,7 +17,9 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            // Do not expose email, phone, or other profile details publicly
+            'perfil' => [
+                'nombre' => $this->perfil->nombre ?? $this->name,
+            ],
         ];
     }
 }

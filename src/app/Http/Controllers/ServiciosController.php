@@ -6,14 +6,22 @@ use App\Models\Servicio;
 use App\Models\Buque;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ServiciosController extends Controller
 {
     public function index()
     {
         $servicios = Servicio::paginate(15);
+        $buquesAtracados = collect();
 
-        return view('servicios.index', compact('servicios'));
+        if (Auth::check() && Auth::user()->isPropietario()) {
+            $buquesAtracados = Buque::where('propietario_id', Auth::id())
+                ->where('estado', 'atracado')
+                ->get();
+        }
+
+        return view('servicios.index', compact('servicios', 'buquesAtracados'));
     }
 
     public function create()
@@ -103,46 +111,59 @@ class ServiciosController extends Controller
     {
         $validated = $request->validate([
             'buque_id' => 'required|exists:buques,id',
-            'servicio_id' => 'required|exists:servicios,id',
+            'servicio_ids' => 'required|array',
+            'servicio_ids.*' => 'exists:servicios,id',
             'cantidad' => 'required|integer|min:1',
             'fecha_solicitud' => 'required|date',
             'observaciones' => 'nullable|string',
         ]);
 
         $buque = Buque::findOrFail($request->buque_id);
-        $servicio = Servicio::findOrFail($request->servicio_id);
 
-        $precioTotal = $servicio->calcularPrecio($request->cantidad);
+        // Verificar que el buque pertenezca al usuario y esté atracado
+        if ($buque->propietario_id !== Auth::id()) {
+            return redirect()->back()->with('error', 'No tienes permiso sobre este buque');
+        }
 
-        $buque->servicios()->attach($servicio->id, [
-            'fecha_solicitud' => $request->fecha_solicitud,
-            'cantidad' => $request->cantidad,
-            'precio_total' => $precioTotal,
-            'estado' => 'solicitado',
-            'observaciones' => $request->observaciones,
-        ]);
+        if ($buque->estado !== 'atracado') {
+            return redirect()->back()->with('error', 'El buque debe estar atracado para solicitar servicios');
+        }
+
+        foreach ($request->servicio_ids as $servicioId) {
+            $servicio = Servicio::findOrFail($servicioId);
+            $precioTotal = $servicio->calcularPrecio($request->cantidad);
+
+            $buque->servicios()->attach($servicio->id, [
+                'fecha_solicitud' => $request->fecha_solicitud,
+                'cantidad' => $request->cantidad,
+                'precio_total' => $precioTotal,
+                'estado' => 'solicitado',
+                'observaciones' => $request->observaciones,
+            ]);
+        }
 
         return redirect()->back()
-            ->with('success', 'Servicio solicitado exitosamente');
+            ->with('success', count($request->servicio_ids) . ' servicio(s) solicitado(s) exitosamente');
     }
 
-    public function actualizarEstado(Request $request, $buqueId, $servicioId)
+    public function actualizarEstado(Request $request, $id)
     {
         $validated = $request->validate([
             'estado' => 'required|in:solicitado,en_proceso,completado,cancelado',
-            'fecha_inicio' => 'nullable|date',
-            'fecha_fin' => 'nullable|date|after:fecha_inicio',
         ]);
 
-        $buque = Buque::findOrFail($buqueId);
+        $updateData = ['estado' => $request->estado];
 
-        $buque->servicios()->updateExistingPivot($servicioId, [
-            'estado' => $request->estado,
-            'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-        ]);
+        if ($request->estado === 'en_proceso') {
+            $updateData['fecha_inicio'] = now();
+        }
+        elseif ($request->estado === 'completado') {
+            $updateData['fecha_fin'] = now();
+        }
+
+        DB::table('buque_servicio')->where('id', $id)->update($updateData);
 
         return redirect()->back()
-            ->with('success', 'Estado del servicio actualizado');
+            ->with('success', 'Estado del servicio actualizado correctamente');
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Buque;
 use App\Models\Muelle;
+use App\Models\Pantalan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -155,21 +156,30 @@ class BuqueController extends Controller
     {
         $request->validate([
             'muelle_id' => 'required|exists:muelles,id',
+            'pantalan_id' => 'required|exists:pantalans,id',
             'fecha_salida' => 'nullable|date|after:now',
         ]);
 
         $buque = Buque::findOrFail($id);
-        $muelle = Muelle::findOrFail($request->muelle_id);
+        $pantalan = Pantalan::findOrFail($request->pantalan_id);
 
-        if (!$muelle->puedeAtracar($buque)) {
+        if (!$pantalan->puedeAmarrar($buque->eslora, $buque->manga, $buque->calado)) {
             return response()->json([
                 'success' => false,
-                'message' => 'El buque no cumple las condiciones para atracar en este muelle'
+                'message' => 'El buque no cumple las condiciones para este pantalán'
+            ], 400);
+        }
+
+        if ($pantalan->buqueActual()->exists()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Este pantalán ya está ocupado'
             ], 400);
         }
 
         $buque->update([
-            'muelle_id' => $muelle->id,
+            'muelle_id' => $request->muelle_id,
+            'pantalan_id' => $pantalan->id,
             'estado' => 'atracado',
             'fecha_atraque' => now(),
             'fecha_salida_prevista' => $request->fecha_salida ?? now()->addDays(2),
@@ -182,16 +192,25 @@ class BuqueController extends Controller
         ]);
     }
 
-    public function desatracar($id)
+    public function desatracar(Request $request, $id)
     {
         $buque = Buque::findOrFail($id);
 
         $buque->update([
             'muelle_id' => null,
-            'estado' => 'navegando',
+            'pantalan_id' => null,
+            'estado' => 'fondeado', // Cambiado de navegando a fondeado para el gestor de atraques
             'fecha_atraque' => null,
             'fecha_salida_prevista' => null,
         ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Buque enviado a fondeadero exitosamente',
+                'buque' => $buque
+            ]);
+        }
 
         return redirect()->back()
             ->with('success', 'Buque desatracado exitosamente');
@@ -200,7 +219,7 @@ class BuqueController extends Controller
     public function gestionAtraques()
     {
         $buquesFondeados = Buque::fondeados()->with('propietario')->get();
-        $muelles = Muelle::with('buqueActual')->get();
+        $muelles = Muelle::with(['pantalans.buqueActual'])->get();
 
         return view('buques.gestion-atraques', compact('buquesFondeados', 'muelles'));
     }

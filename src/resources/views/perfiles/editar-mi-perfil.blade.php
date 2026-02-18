@@ -24,6 +24,18 @@
         @method('PUT')
         
         <div style="margin-bottom: 20px;">
+            <label for="nombre" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Nombre:
+            </label>
+            <input type="text" id="nombre" name="nombre"
+                style="width: 100%; padding: 10px; border: 1px solid #999; border-radius: 4px; font-size: 16px;"
+                value="{{ old('nombre', $user->name) }}" required>
+            @error('nombre')
+                <span role="alert" style="color: #c00; font-size: 14px; display: block; margin-top: 5px;">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div style="margin-bottom: 20px;">
             <label for="telefono" style="display: block; margin-bottom: 5px; font-weight: bold;">
                 Teléfono:
             </label>
@@ -55,6 +67,18 @@
                 style="width: 100%; padding: 10px; border: 1px solid #999; border-radius: 4px; font-size: 16px;"
                 value="{{ old('cargo', $perfil->cargo) }}">
             @error('cargo')
+                <span role="alert" style="color: #c00; font-size: 14px; display: block; margin-top: 5px;">{{ $message }}</span>
+            @enderror
+        </div>
+
+        <div style="margin-bottom: 20px;">
+            <label for="licencia_maritima" style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Licencia Marítima:
+            </label>
+            <input type="text" id="licencia_maritima" name="licencia_maritima"
+                style="width: 100%; padding: 10px; border: 1px solid #999; border-radius: 4px; font-size: 16px;"
+                value="{{ old('licencia_maritima', $perfil->licencia_maritima) }}">
+            @error('licencia_maritima')
                 <span role="alert" style="color: #c00; font-size: 14px; display: block; margin-top: 5px;">{{ $message }}</span>
             @enderror
         </div>

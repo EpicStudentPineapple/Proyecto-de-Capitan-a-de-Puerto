@@ -37,30 +37,32 @@ class PerfilController extends Controller
         $user = Auth::user();
         $perfil = $user->perfil;
 
-        if (!$perfil) {
-            // Create if missing
-            $perfil = \App\Models\Perfil::create([
-                'user_id' => $user->id,
-                'nombre' => $user->name,
-                'tipo_usuario' => 'propietario',
-                'activo' => true,
-            ]);
-        }
-
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
-            'apellidos' => 'nullable|string|max:255',
             'telefono' => 'nullable|string|max:20',
-            'direccion' => 'nullable|string|max:255',
             'empresa' => 'nullable|string|max:255',
             'cargo' => 'nullable|string|max:100',
-            'cif' => 'nullable|string|max:20',
-            'licencia_maritima' => 'nullable|string|max:50',
+            'licencia_maritima' => 'nullable|string|max:50|unique:perfils,licencia_maritima,' . ($perfil->id ?? 0),
         ]);
 
-        $perfil->update($validated);
+        if (!$perfil) {
+            $perfil = new Perfil();
+            $perfil->user_id = $user->id;
+            $perfil->tipo_usuario = 'propietario';
+            $perfil->activo = true;
+        }
 
-        return back()->with('status', 'perfil-updated');
+        // Guardado explícito en base de datos
+        $user->name = $validated['nombre'];
+        $user->save();
+
+        $perfil->telefono = $validated['telefono'];
+        $perfil->empresa = $validated['empresa'];
+        $perfil->cargo = $validated['cargo'];
+        $perfil->licencia_maritima = $validated['licencia_maritima'];
+        $perfil->save();
+
+        return redirect()->route('perfil.mi-perfil')->with('success', 'Perfil actualizado exitosamente');
     }
 
     public function show($id)
@@ -84,7 +86,7 @@ class PerfilController extends Controller
         $perfil = Perfil::findOrFail($id);
 
         $validated = $request->validate([
-            'tipo_usuario' => 'required|in:administrador,propietario ',
+            'tipo_usuario' => 'required|in:administrador,propietario,consignatario,armador',
             'telefono' => 'nullable|string|max:20',
             'empresa' => 'nullable|string|max:255',
             'cargo' => 'nullable|string|max:100',

@@ -23,6 +23,7 @@ class Buque extends Model
         'tipo_buque',
         'propietario_id',
         'muelle_id',
+        'pantalan_id',
         'fecha_atraque',
         'fecha_salida_prevista',
         'estado',
@@ -44,7 +45,7 @@ class Buque extends Model
 
     public function propietario()
     {
-        return $this->belongsTo(User::class, 'propietario_id');
+        return $this->belongsTo(User::class , 'propietario_id');
     }
 
     public function muelle()
@@ -52,18 +53,24 @@ class Buque extends Model
         return $this->belongsTo(Muelle::class);
     }
 
+    public function pantalan()
+    {
+        return $this->belongsTo(Pantalan::class);
+    }
+
     public function servicios()
     {
-        return $this->belongsToMany(Servicio::class, 'buque_servicio')
+        return $this->belongsToMany(Servicio::class , 'buque_servicio')
             ->withPivot([
-                'fecha_solicitud',
-                'fecha_inicio',
-                'fecha_fin',
-                'estado',
-                'cantidad',
-                'precio_total',
-                'observaciones'
-            ])
+            'id',
+            'fecha_solicitud',
+            'fecha_inicio',
+            'fecha_fin',
+            'estado',
+            'cantidad',
+            'precio_total',
+            'observaciones'
+        ])
             ->withTimestamps();
     }
 

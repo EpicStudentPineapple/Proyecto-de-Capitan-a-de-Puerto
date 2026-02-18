@@ -126,6 +126,9 @@
                             <th style="padding: 10px; text-align: left;">Fecha Solicitud</th>
                             <th style="padding: 10px; text-align: left;">Estado</th>
                             <th style="padding: 10px; text-align: left;">Precio Total</th>
+                            @if(auth()->user()->isAdmin())
+                                <th style="padding: 10px; text-align: left;">Acciones</th>
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
@@ -140,6 +143,27 @@
                                     </span>
                                 </td>
                                 <td style="padding: 10px;">{{ number_format($servicio->pivot->precio_total, 2) }} €</td>
+                                @if(auth()->user()->isAdmin())
+                                    <td style="padding: 10px;">
+                                        @if($servicio->pivot->estado == 'solicitado')
+                                            <form action="{{ route('admin.buque-servicio.actualizar-estado', $servicio->pivot->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <input type="hidden" name="estado" value="en_proceso">
+                                                <button type="submit" style="padding: 5px 10px; background: #3b82f6; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 12px;">
+                                                    Iniciar
+                                                </button>
+                                            </form>
+                                        @elseif($servicio->pivot->estado == 'en_proceso')
+                                            <form action="{{ route('admin.buque-servicio.actualizar-estado', $servicio->pivot->id) }}" method="POST" style="display: inline;">
+                                                @csrf
+                                                <input type="hidden" name="estado" value="completado">
+                                                <button type="submit" style="padding: 5px 10px; background: #10b981; color: white; border: none; border-radius: 3px; cursor: pointer; font-size: 12px;">
+                                                    Finalizar
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </td>
+                                @endif
                             </tr>
                         @endforeach
                     </tbody>

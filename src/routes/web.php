@@ -7,6 +7,7 @@ use App\Http\Controllers\ServiciosController;
 use App\Http\Controllers\PantalanController;
 use App\Http\Controllers\PerfilController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ResenaController;
 use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckPropietario;
 use Illuminate\Support\Facades\Route;
@@ -48,6 +49,8 @@ Route::middleware(['auth', 'verified', CheckAdmin::class])->prefix('admin')->nam
         ->name('buques.asignar-muelle');
     Route::post('buques/{id}/desatracar', [BuqueController::class , 'desatracar'])
         ->name('buques.desatracar');
+    Route::post('buque-servicio/{id}/estado', [ServiciosController::class , 'actualizarEstado'])
+        ->name('buque-servicio.actualizar-estado');
 
     // Perfiles management (admin can manage all profiles)
     Route::get('perfiles', [PerfilController::class , 'index'])->name('perfiles.index');
@@ -96,6 +99,17 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class , 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class , 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class , 'destroy'])->name('profile.destroy');
+
+    // Reseñas routes
+    Route::get('resenas', [ResenaController::class , 'index'])->name('resenas.index');
+    Route::get('resenas/crear', [ResenaController::class , 'create'])->name('resenas.create');
+    Route::post('resenas', [ResenaController::class , 'store'])->name('resenas.store');
+});
+
+// Admin Review Management
+Route::middleware(['auth', 'verified', CheckAdmin::class])->prefix('admin')->name('admin.')->group(function () {
+    Route::post('resenas/{resena}/aprobar', [ResenaController::class , 'aprobar'])->name('resenas.aprobar');
+    Route::delete('resenas/{resena}', [ResenaController::class , 'destroy'])->name('resenas.destroy');
 });
 
 require __DIR__ . '/auth.php';
