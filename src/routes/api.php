@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\EuskalmetController;
+use App\Http\Controllers\ClimaController;
 use App\Http\Controllers\ResenaController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\CheckAdmin;
@@ -11,10 +11,6 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 | API Routes
 |--------------------------------------------------------------------------
-|
-| Rutas públicas (sin autenticación) accesibles desde el cliente JS
-| para obtener datos externos y estadísticas de la aplicación.
-|
 */
 
 // ── Reseñas públicas ─────────────────────────────────────────────────────
@@ -24,29 +20,40 @@ Route::get('/resenas/servicio/{servicio}',[ResenaController::class, 'porServicio
 // ── Estadísticas para la landing page ────────────────────────────────────
 Route::get('/estadisticas', [WelcomeController::class, 'estadisticas'])->name('api.estadisticas');
 
-// ── Euskalmet — Predicción meteorológica (Donostia - San Sebastián) ──────
+// ── CLIMA - Predicción meteorológica (OpenMeteo - GRATIS, SIN API KEY) ───
 //
-//  GET /api/euskalmet/prediccion
+//  GET /api/clima/prediccion
 //
-//  El controlador firma la petición con RSA-SHA256 (clave privada en .env)
-//  y devuelve el pronóstico del día siguiente en JSON normalizado:
+//  Usa OpenMeteo API (https://open-meteo.com) que es:
+//  - 100% gratuita
+//  - Sin necesidad de registro
+//  - Sin API keys
+//  - Con caché de 30 minutos
 //
+//  Devuelve datos para Donostia-San Sebastián:
 //  {
-//    "municipio":       "Donostia - San Sebastián",
-//    "fecha":           "2025-01-16",
-//    "temperatura":     14,          // °C máxima
-//    "tempMin":         8,           // °C mínima
-//    "precipitacion":   2.4,         // mm
-//    "viento":          30,          // km/h
-//    "vientoDireccion": "SW",
-//    "estadoCielo":     "Nublado",
-//    "humedadMax":      85,          // %
-//    "alturaOlas":      1.2,         // metros
-//    "actualizadoEn":   "2025-01-15T06:00:00+01:00"
+//    "municipio": "Donostia - San Sebastián",
+//    "actual": {
+//      "temperatura": 15.2,
+//      "humedad": 75,
+//      "viento": 25,
+//      "estado_cielo": "Parcialmente nublado"
+//    },
+//    "manana": {
+//      "temperatura_max": 18,
+//      "temperatura_min": 12,
+//      "precipitacion": 5.2,
+//      "viento_max": 30,
+//      "estado_cielo": "Lluvia ligera"
+//    },
+//    "navegacion": {
+//      "altura_olas": 1.5,
+//      "apto_maniobras": true
+//    }
 //  }
 //
-Route::get('/euskalmet/prediccion', [EuskalmetController::class, 'prediccion'])
-    ->name('api.euskalmet.prediccion');
+Route::get('/clima/prediccion', [ClimaController::class, 'prediccion'])
+    ->name('api.clima.prediccion');
 
 /*
 |--------------------------------------------------------------------------

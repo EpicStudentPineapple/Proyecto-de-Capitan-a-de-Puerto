@@ -1,165 +1,250 @@
 @extends('layouts.app')
 
-@section('title', 'Condiciones Climáticas — Donostia')
+@section('title', 'Clima')
 
-{{-- ══════════════════════════════════════════════════════════════════════
-     CSS del widget Euskalmet
-     Archivo: public/css/euskalmet.css
-     ══════════════════════════════════════════════════════════════════════ --}}
 @push('styles')
-<link rel="stylesheet" href="{{ asset('css/euskalmet.css') }}">
 <style>
-/* ── Página de clima ─────────────────────────────────────────────────── */
-.clima-page {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 1.5rem;
+/* ══════════════════════════════════════════════════════════════════════
+   Estilos Modernizados - Dashboard Marítimo
+   ══════════════════════════════════════════════════════════════════════ */
+
+:root {
+    --primary: #0f172a;
+    --secondary: #334155;
+    --accent: #3b82f6;
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+    --bg-page: #f8fafc;
+    --card-bg: #ffffff;
 }
 
+.clima-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-page);
+}
+
+/* ── Encabezado ──────────────────────────────────────────────────────── */
 .clima-page h1 {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #1e3a5f;
-    margin-bottom: .25rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+    letter-spacing: -0.025em;
 }
 
 .clima-page .subtitulo {
-    color: #64748b;
-    font-size: .95rem;
-    margin-bottom: 1.75rem;
+    color: var(--secondary);
+    margin-bottom: 3rem;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 /* ── Grid principal ──────────────────────────────────────────────────── */
 .clima-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
 }
 
-@media (max-width: 700px) {
-    .clima-grid { grid-template-columns: 1fr; }
-}
-
-/* ── Tarjeta genérica ────────────────────────────────────────────────── */
+/* ── Tarjetas Estilizadas ────────────────────────────────────────────── */
 .clima-card {
-    background: #fff;
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 2rem;
     border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 1.25rem 1.5rem;
-    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.clima-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .clima-card h2 {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1e3a5f;
-    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
-    gap: .5rem;
+    gap: 0.75rem;
 }
 
-/* ── Tabla de condiciones ────────────────────────────────────────────── */
-.condiciones-tabla {
+/* ── Widget Clima Actual ────────────────────────────────────────────── */
+.clima-actual {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.clima-icon {
+    font-size: 5rem;
+    margin: 1rem 0;
+    filter: drop-shadow(0 10px 8px rgba(0,0,0,0.1));
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.temp-principal {
+    font-size: 4.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.temp-principal sup {
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+.estado-cielo {
+    font-weight: 600;
+    color: var(--secondary);
+    background: #f1f5f9;
+    padding: 0.4rem 1rem;
+    border-radius: 50px;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+
+.detalles-actuales {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    border-top: 1px solid #f1f5f9;
+    padding-top: 1.5rem;
+}
+
+.detalle-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    color: #94a3b8;
+    font-weight: 700;
+}
+
+.detalle-valor {
+    font-size: 1.2rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ── Tablas de Datos ─────────────────────────────────────────────────── */
+.condiciones-tabla, .maniobras-tabla {
     width: 100%;
-    border-collapse: collapse;
-    font-size: .9rem;
+    border-collapse: separate;
+    border-spacing: 0 0.75rem;
 }
 
 .condiciones-tabla td {
-    padding: .55rem .75rem;
-    border-bottom: 1px solid #f1f5f9;
-    vertical-align: middle;
+    padding: 1rem;
+    background: #f8fafc;
 }
 
 .condiciones-tabla td:first-child {
-    color: #64748b;
+    border-radius: 12px 0 0 12px;
     font-weight: 500;
-    width: 45%;
+    color: var(--secondary);
 }
 
 .condiciones-tabla td:last-child {
-    font-weight: 600;
-    color: #1e293b;
+    border-radius: 0 12px 12px 0;
+    text-align: right;
+    font-weight: 700;
+    color: var(--primary);
 }
 
-/* ── Estado de maniobras ─────────────────────────────────────────────── */
-.maniobras-tabla {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: .88rem;
+/* ── Badges y Banners ────────────────────────────────────────────────── */
+.badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
 }
 
-.maniobras-tabla thead th {
-    background: #f8fafc;
-    color: #475569;
-    font-weight: 600;
-    padding: .55rem .75rem;
-    text-align: left;
-    border-bottom: 2px solid #e2e8f0;
-}
-
-.maniobras-tabla tbody td {
-    padding: .6rem .75rem;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.badge-apto   { background: #dcfce7; color: #166534; border-radius: 6px; padding: 2px 8px; font-size: .8rem; font-weight: 700; }
-.badge-noApto { background: #fee2e2; color: #991b1b; border-radius: 6px; padding: 2px 8px; font-size: .8rem; font-weight: 700; }
-
-/* ── Banner resumen ──────────────────────────────────────────────────── */
-.banner-optimo { background: #dcfce7; border: 1px solid #86efac; color: #166534; }
-.banner-alerta { background: #fef9c3; border: 1px solid #fde047; color: #854d0e; }
-.banner-peligro{ background: #fee2e2; border: 1px solid #fca5a5; color: #991b1b; }
+.badge-seguro { background: #ecfdf5; color: #059669; }
+.badge-peligro { background: #fef2f2; color: #dc2626; }
 
 .banner-maniobras {
-    border-radius: 10px;
-    padding: .9rem 1.25rem;
-    font-weight: 600;
-    font-size: 1rem;
+    margin-top: 2rem;
+    padding: 1.25rem;
+    border-radius: 15px;
+    font-weight: 700;
     display: flex;
     align-items: center;
-    gap: .6rem;
-    margin-top: 1rem;
+    justify-content: center;
+    gap: 10px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
 }
 
-/* ── Widget Euskalmet (full-width) ───────────────────────────────────── */
-.clima-widget-wrap {
-    grid-column: 1 / -1;
-}
+.banner-seguro { background: var(--success); color: white; }
+.banner-peligro { background: var(--danger); color: white; }
+.banner-alerta { background: var(--warning); color: white; }
 
-/* ── Botón refrescar ─────────────────────────────────────────────────── */
+/* ── Botón Actualizar ────────────────────────────────────────────────── */
 .btn-refresh {
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-    background: #1e3a5f;
-    color: #fff;
+    background: var(--primary);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
     border: none;
-    border-radius: 8px;
-    padding: .6rem 1.25rem;
-    font-size: .9rem;
-    font-weight: 600;
+    font-weight: 700;
     cursor: pointer;
-    transition: background .2s;
-    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0 auto;
+    transition: all 0.2s;
 }
 
-.btn-refresh:hover { background: #2d5a8f; }
+.btn-refresh:hover {
+    background: var(--accent);
+    transform: scale(1.05);
+    box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.3);
+}
 
-/* ── Skeleton / loading ──────────────────────────────────────────────── */
+/* ── Skeleton ───────────────────────────────────────────────────────── */
 .skeleton {
-    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-    border-radius: 6px;
-    height: 1rem;
-    margin: .35rem 0;
+    background: #e2e8f0;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
 }
 
-@keyframes shimmer {
-    0%   { background-position: -200% 0; }
-    100% { background-position:  200% 0; }
+.skeleton::after {
+    content: "";
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .clima-grid { grid-template-columns: 1fr; }
+    .clima-page h1 { font-size: 1.8rem; }
+    .temp-principal { font-size: 3.5rem; }
 }
 </style>
 @endpush
@@ -167,82 +252,88 @@
 @section('content')
 <div class="clima-page">
 
-    {{-- ── Encabezado ─────────────────────────────────────────────────── --}}
+    {{-- Encabezado --}}
     <h1>🌤 Condiciones Climáticas</h1>
     <p class="subtitulo">
         Pronóstico en tiempo real para <strong>Donostia – San Sebastián</strong>
-        &mdash; fuente: <a href="https://www.euskalmet.euskadi.eus" target="_blank" rel="noopener">Euskalmet</a>
+        &mdash; fuente: <a href="https://open-meteo.com" target="_blank" rel="noopener">OpenMeteo</a>
     </p>
 
     <div class="clima-grid">
 
-        {{-- ── Widget oficial Euskalmet (predicción de mañana) ────────── --}}
-        <div class="clima-card clima-widget-wrap">
-            <h2>📡 Predicción meteorológica</h2>
-
-            {{--
-                euskalmet-widget: el JS de public/js/euskalmet.js llama al
-                endpoint proxy GET /api/euskalmet/prediccion, que firma con
-                RSA-SHA256 y devuelve el JSON de Euskalmet normalizado.
-            --}}
-            <div id="euskalmet-widget"
-                 class="em-widget em-widget--cargando"
-                 aria-live="polite"
-                 aria-label="Pronóstico meteorológico Donostia">
-                <div class="em-spinner-wrap">
-                    <span class="em-spinner"></span>
-                    <span class="em-cargando-txt">Cargando datos meteorológicos&hellip;</span>
+        {{-- Clima actual --}}
+        <div class="clima-card clima-actual">
+            <h2>📡 Condiciones Actuales</h2>
+            
+            <div class="clima-icon" id="clima-icon">🌤</div>
+            
+            <div class="temp-principal" id="temp-actual">
+                <span class="skeleton" style="width: 80px;"></span>
+            </div>
+            
+            <div class="estado-cielo" id="estado-cielo">
+                <span class="skeleton" style="width: 150px;"></span>
+            </div>
+            
+            <div class="detalles-actuales">
+                <div class="detalle-item">
+                    <span class="detalle-label">Sensación térmica</span>
+                    <span class="detalle-valor" id="sensacion"><span class="skeleton" style="width: 60px;"></span></span>
+                </div>
+                <div class="detalle-item">
+                    <span class="detalle-label">Humedad</span>
+                    <span class="detalle-valor" id="humedad"><span class="skeleton" style="width: 50px;"></span></span>
+                </div>
+                <div class="detalle-item">
+                    <span class="detalle-label">Viento</span>
+                    <span class="detalle-valor" id="viento-actual"><span class="skeleton" style="width: 70px;"></span></span>
+                </div>
+                <div class="detalle-item">
+                    <span class="detalle-label">Precipitación</span>
+                    <span class="detalle-valor" id="precip-actual"><span class="skeleton" style="width: 50px;"></span></span>
                 </div>
             </div>
         </div>
 
-        {{-- ── Condiciones actuales (pobladas desde la API vía JS) ─────── --}}
+        {{-- Predicción de mañana --}}
         <div class="clima-card">
-            <h2>🌊 Condiciones Actuales</h2>
-            <table class="condiciones-tabla" id="tabla-condiciones">
+            <h2>📅 Predicción para Mañana</h2>
+            <table class="condiciones-tabla">
                 <tbody>
                     <tr>
                         <td>🌡 Temperatura máx.</td>
-                        <td id="val-tempMax"><span class="skeleton" style="width:60px;display:inline-block"></span></td>
+                        <td id="temp-max"><span class="skeleton" style="width: 60px;"></span></td>
                     </tr>
                     <tr>
                         <td>🌡 Temperatura mín.</td>
-                        <td id="val-tempMin"><span class="skeleton" style="width:60px;display:inline-block"></span></td>
+                        <td id="temp-min"><span class="skeleton" style="width: 60px;"></span></td>
                     </tr>
                     <tr>
-                        <td>💨 Viento</td>
-                        <td id="val-viento"><span class="skeleton" style="width:90px;display:inline-block"></span></td>
-                    </tr>
-                    <tr>
-                        <td>🌊 Altura de olas</td>
-                        <td id="val-olas"><span class="skeleton" style="width:60px;display:inline-block"></span></td>
+                        <td>💨 Viento máximo</td>
+                        <td id="viento-max"><span class="skeleton" style="width: 80px;"></span></td>
                     </tr>
                     <tr>
                         <td>💧 Precipitación</td>
-                        <td id="val-lluvia"><span class="skeleton" style="width:50px;display:inline-block"></span></td>
-                    </tr>
-                    <tr>
-                        <td>💦 Humedad máx.</td>
-                        <td id="val-humedad"><span class="skeleton" style="width:50px;display:inline-block"></span></td>
+                        <td id="precip-manana"><span class="skeleton" style="width: 60px;"></span></td>
                     </tr>
                     <tr>
                         <td>☁ Estado del cielo</td>
-                        <td id="val-cielo"><span class="skeleton" style="width:100px;display:inline-block"></span></td>
+                        <td id="cielo-manana"><span class="skeleton" style="width: 120px;"></span></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        {{-- ── Condiciones para maniobras ──────────────────────────────── --}}
+        {{-- Condiciones para maniobras --}}
         <div class="clima-card">
             <h2>⚓ Aptitud para Maniobras de Atraque</h2>
-
-            <table class="maniobras-tabla" id="tabla-maniobras">
+            
+            <table class="maniobras-tabla">
                 <thead>
                     <tr>
                         <th>Condición</th>
-                        <th>Valor actual</th>
-                        <th>Límite seguro</th>
+                        <th>Valor</th>
+                        <th>Límite</th>
                         <th>Estado</th>
                     </tr>
                 </thead>
@@ -279,150 +370,173 @@
         🔄 Actualizar datos
     </button>
 
-    <p style="margin-top:.75rem; color:#94a3b8; font-size:.8rem;">
+    <p class="info-adicional">
         Los datos se actualizan automáticamente cada 5 minutos.
     </p>
 
 </div>{{-- /.clima-page --}}
 @endsection
 
-
-{{-- ══════════════════════════════════════════════════════════════════════
-     JS del widget + lógica de la página
-     ══════════════════════════════════════════════════════════════════════ --}}
 @push('scripts')
-<script src="{{ asset('js/euskalmet.js') }}"></script>
 <script>
 /**
- * clima.blade.php — lógica de integración con la API de Euskalmet.
- *
- * 1. Euskalmet.init() arranca el widget de pronóstico (euskalmet.js).
- * 2. fetchCondiciones() llama al proxy /api/euskalmet/prediccion y rellena
- *    la tabla de condiciones actuales y el panel de maniobras.
+ * Script de clima - Integración con OpenMeteo API
  */
 
-/* ── Constantes de límites para maniobras ────────────────────────────── */
+/* ── Constantes ──────────────────────────────────────────────────────── */
 const LIMITES = {
     olas:   2.0,   // metros
-    viento: 72,    // km/h  (≈ 40 nudos)
+    viento: 72,    // km/h
     lluvia: 20,    // mm
 };
 
+const ICONOS_CLIMA = {
+    0: '☀️',   // Despejado
+    1: '🌤',   // Principalmente despejado
+    2: '⛅',   // Parcialmente nublado
+    3: '☁️',   // Nublado
+    45: '🌫',  // Niebla
+    48: '🌫',  // Niebla con escarcha
+    51: '🌦',  // Llovizna ligera
+    53: '🌧',  // Llovizna moderada
+    55: '🌧',  // Llovizna intensa
+    61: '🌦',  // Lluvia ligera
+    63: '🌧',  // Lluvia moderada
+    65: '🌧',  // Lluvia intensa
+    71: '🌨',  // Nevada ligera
+    73: '❄️',  // Nevada moderada
+    75: '❄️',  // Nevada intensa
+    80: '🌦',  // Chubascos ligeros
+    81: '⛈',   // Chubascos moderados
+    82: '⛈',   // Chubascos violentos
+    95: '⛈',   // Tormenta
+    96: '⛈',   // Tormenta con granizo
+    99: '⛈',   // Tormenta con granizo intenso
+};
+
+let intervalId = null;
+
 /* ── Inicialización ──────────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
-    // Widget de predicción (euskalmet.js)
-    Euskalmet.init('euskalmet-widget');
-
-    // Tabla de condiciones + panel de maniobras
-    fetchCondiciones();
+    cargarDatosClima();
+    
+    // Actualizar cada 5 minutos
+    intervalId = setInterval(cargarDatosClima, 5 * 60 * 1000);
 });
 
-/* ── Petición al proxy Euskalmet ─────────────────────────────────────── */
-async function fetchCondiciones() {
+/* ── Función principal ───────────────────────────────────────────────── */
+async function cargarDatosClima() {
     try {
-        const resp = await fetch('/api/euskalmet/prediccion', {
+        const response = await fetch('/api/clima/prediccion', {
             method: 'GET',
             headers: {
-                'Accept':       'application/json',
+                'Accept': 'application/json',
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? '',
             },
         });
 
-        if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
 
-        const datos = await resp.json();
+        const datos = await response.json();
 
-        if (datos.error) throw new Error(datos.error);
+        if (datos.error) {
+            throw new Error(datos.error);
+        }
 
-        rellenarCondiciones(datos);
-        evaluarManiobras(datos);
+        mostrarDatosActuales(datos.actual);
+        mostrarPrediccionManana(datos.manana);
+        evaluarManiobras(datos.manana, datos.navegacion);
 
-    } catch (err) {
-        console.warn('[Clima] Error al obtener datos:', err.message);
-        mostrarErrorCondiciones();
+    } catch (error) {
+        console.error('[Clima] Error:', error);
+        mostrarError();
     }
 }
 
-/* ── Rellena la tabla de condiciones ─────────────────────────────────── */
-function rellenarCondiciones(d) {
-    set('val-tempMax', d.temperatura  != null ? `${d.temperatura} °C`                            : '—');
-    set('val-tempMin', d.tempMin      != null ? `${d.tempMin} °C`                                : '—');
-    set('val-viento',  d.viento       != null ? `${d.viento} km/h${d.vientoDireccion ? ' · ' + d.vientoDireccion : ''}` : '—');
-    set('val-olas',    d.alturaOlas   != null ? `${d.alturaOlas} m`                              : '—');
-    set('val-lluvia',  d.precipitacion!= null ? `${d.precipitacion} mm`                          : '—');
-    set('val-humedad', d.humedadMax   != null ? `${d.humedadMax} %`                              : '—');
-    set('val-cielo',   d.estadoCielo  ?? '—');
+/* ── Mostrar datos actuales ──────────────────────────────────────────── */
+function mostrarDatosActuales(actual) {
+    const icono = ICONOS_CLIMA[actual.codigo_clima] || '🌤';
+    
+    document.getElementById('clima-icon').textContent = icono;
+    document.getElementById('temp-actual').innerHTML = `${actual.temperatura}<sup>°C</sup>`;
+    document.getElementById('estado-cielo').textContent = actual.estado_cielo;
+    document.getElementById('sensacion').textContent = `${actual.sensacion_termica}°C`;
+    document.getElementById('humedad').textContent = `${actual.humedad}%`;
+    document.getElementById('viento-actual').textContent = `${actual.viento} km/h ${actual.viento_direccion}`;
+    document.getElementById('precip-actual').textContent = `${actual.precipitacion} mm`;
 }
 
-/* ── Evalúa aptitud para maniobras ───────────────────────────────────── */
-function evaluarManiobras(d) {
-    const olas   = d.alturaOlas    ?? null;
-    const viento = d.viento        ?? null;
-    const lluvia = d.precipitacion ?? null;
+/* ── Mostrar predicción de mañana ────────────────────────────────────── */
+function mostrarPrediccionManana(manana) {
+    document.getElementById('temp-max').textContent = `${manana.temperatura_max}°C`;
+    document.getElementById('temp-min').textContent = `${manana.temperatura_min}°C`;
+    document.getElementById('viento-max').textContent = `${manana.viento_max} km/h ${manana.viento_direccion}`;
+    document.getElementById('precip-manana').textContent = `${manana.precipitacion} mm`;
+    document.getElementById('cielo-manana').textContent = manana.estado_cielo;
+}
 
-    const aptoOlas   = olas   !== null ? olas   < LIMITES.olas   : null;
-    const aptoViento = viento !== null ? viento < LIMITES.viento : null;
-    const aptoLluvia = lluvia !== null ? lluvia < LIMITES.lluvia : null;
+/* ── Evaluar condiciones para maniobras ──────────────────────────────── */
+function evaluarManiobras(manana, navegacion) {
+    const olas = navegacion.altura_olas;
+    const viento = manana.viento_max;
+    const lluvia = manana.precipitacion;
 
-    set('m-olas',   olas   !== null ? `${olas} m`    : '—');
-    set('m-viento', viento !== null ? `${viento} km/h` : '—');
-    set('m-lluvia', lluvia !== null ? `${lluvia} mm`  : '—');
+    const aptoOlas = olas < LIMITES.olas;
+    const aptoViento = viento < LIMITES.viento;
+    const aptoLluvia = lluvia < LIMITES.lluvia;
 
-    badge('m-olas-badge',   aptoOlas);
-    badge('m-viento-badge', aptoViento);
-    badge('m-lluvia-badge', aptoLluvia);
+    // Actualizar tabla
+    document.getElementById('m-olas').textContent = `${olas} m`;
+    document.getElementById('m-viento').textContent = `${viento} km/h`;
+    document.getElementById('m-lluvia').textContent = `${lluvia} mm`;
+
+    // Badges
+    mostrarBadge('m-olas-badge', aptoOlas);
+    mostrarBadge('m-viento-badge', aptoViento);
+    mostrarBadge('m-lluvia-badge', aptoLluvia);
 
     // Banner global
-    const todas = [aptoOlas, aptoViento, aptoLluvia].filter(v => v !== null);
     const banner = document.getElementById('banner-maniobras');
+    const todasAptas = aptoOlas && aptoViento && aptoLluvia;
 
-    if (todas.length === 0) {
-        banner.className = 'banner-maniobras banner-alerta';
-        banner.textContent = '⚠ No hay datos suficientes para evaluar las condiciones.';
-        return;
-    }
-
-    const todoApto = todas.every(Boolean);
-    const algoMalo = todas.some(v => !v);
-
-    if (todoApto) {
-        banner.className = 'banner-maniobras banner-optimo';
-        banner.textContent = '✅ Condiciones ÓPTIMAS para maniobras de atraque';
-    } else if (algoMalo) {
+    if (todasAptas) {
+        banner.className = 'banner-maniobras banner-seguro';
+        banner.textContent = '✅ Condiciones SEGURAS para maniobras de atraque';
+    } else {
         banner.className = 'banner-maniobras banner-peligro';
-        banner.textContent = '🚫 Condiciones DESFAVORABLES — consultar con el práctico';
+        banner.textContent = '⚠️ Condiciones NO APTAS para maniobras de atraque';
     }
 }
 
-/* ── Error en la carga ───────────────────────────────────────────────── */
-function mostrarErrorCondiciones() {
-    ['val-tempMax','val-tempMin','val-viento','val-olas',
-     'val-lluvia','val-humedad','val-cielo'].forEach(id => set(id, '—'));
+/* ── Mostrar badge de estado ─────────────────────────────────────────── */
+function mostrarBadge(elementId, esSeguro) {
+    const elemento = document.getElementById(elementId);
+    if (esSeguro) {
+        elemento.innerHTML = '<span class="badge badge-seguro">SEGURO</span>';
+    } else {
+        elemento.innerHTML = '<span class="badge badge-peligro">PELIGRO</span>';
+    }
+}
 
+/* ── Mostrar error ───────────────────────────────────────────────────── */
+function mostrarError() {
     const banner = document.getElementById('banner-maniobras');
     banner.className = 'banner-maniobras banner-alerta';
-    banner.textContent = '⚠ No se pudieron obtener los datos meteorológicos.';
+    banner.textContent = '⚠️ No se pudieron cargar los datos meteorológicos. Reintentando...';
 }
 
-/* ── Refresco manual ─────────────────────────────────────────────────── */
+/* ── Función de refresco manual ──────────────────────────────────────── */
 function refrescarClima() {
-    Euskalmet.actualizar('euskalmet-widget');
-    fetchCondiciones();
+    cargarDatosClima();
 }
 
-/* ── Helpers ─────────────────────────────────────────────────────────── */
-function set(id, texto) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = texto;
-}
-
-function badge(id, apto) {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (apto === null) { el.textContent = '—'; return; }
-    el.innerHTML = apto
-        ? '<span class="badge-apto">✅ APTO</span>'
-        : '<span class="badge-noApto">🚫 NO APTO</span>';
-}
+/* ── Limpiar intervalo al salir ──────────────────────────────────────── */
+window.addEventListener('beforeunload', () => {
+    if (intervalId) {
+        clearInterval(intervalId);
+    }
+});
 </script>
 @endpush
