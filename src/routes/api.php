@@ -7,18 +7,14 @@ use App\Http\Middleware\CheckAdmin;
 use App\Http\Middleware\CheckPropietario;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-*/
+/* |-------------------------------------------------------------------------- | API Routes |-------------------------------------------------------------------------- */
 
 // ── Reseñas públicas ─────────────────────────────────────────────────────
-Route::get('/resenas/aprobadas',          [ResenaController::class, 'aprobadas'])  ->name('api.resenas.aprobadas');
-Route::get('/resenas/servicio/{servicio}',[ResenaController::class, 'porServicio'])->name('api.resenas.porServicio');
+Route::get('/resenas/aprobadas', [ResenaController::class , 'aprobadas'])->name('api.resenas.aprobadas');
+Route::get('/resenas/servicio/{servicio}', [ResenaController::class , 'porServicio'])->name('api.resenas.porServicio');
 
 // ── Estadísticas para la landing page ────────────────────────────────────
-Route::get('/estadisticas', [WelcomeController::class, 'estadisticas'])->name('api.estadisticas');
+Route::get('/estadisticas', [WelcomeController::class , 'estadisticas'])->name('api.estadisticas');
 
 // ── CLIMA - Predicción meteorológica (OpenMeteo - GRATIS, SIN API KEY) ───
 //
@@ -52,30 +48,27 @@ Route::get('/estadisticas', [WelcomeController::class, 'estadisticas'])->name('a
 //    }
 //  }
 //
-Route::get('/clima/prediccion', [ClimaController::class, 'prediccion'])
+Route::get('/clima/prediccion', [ClimaController::class , 'prediccion'])
     ->name('api.clima.prediccion');
 
-/*
-|--------------------------------------------------------------------------
-| Rutas autenticadas (Sanctum)
-|--------------------------------------------------------------------------
-*/
+/* |-------------------------------------------------------------------------- | Rutas autenticadas (Sanctum) |-------------------------------------------------------------------------- */
 Route::middleware('auth:sanctum')->group(function () {
 
     // Propietario: crear y consultar sus reseñas
     Route::middleware(CheckPropietario::class)->group(function () {
-        Route::post('/resenas',               [ResenaController::class, 'store'])       ->name('api.resenas.store');
-        Route::get('/resenas/mis-servicios',  [ResenaController::class, 'misServicios'])->name('api.resenas.misServicios');
-    });
+            Route::post('/resenas', [ResenaController::class , 'store'])->name('api.resenas.store');
+            Route::get('/resenas/mis-servicios', [ResenaController::class , 'misServicios'])->name('api.resenas.misServicios');
+        }
+        );
 
-    // Admin: gestión completa de reseñas
-    Route::middleware(CheckAdmin::class)->group(function () {
-        Route::get('/resenas',                    [ResenaController::class, 'index'])  ->name('api.resenas.index');
-        Route::put('/resenas/{resena}',           [ResenaController::class, 'update'])->name('api.resenas.update');
-        Route::delete('/resenas/{resena}',        [ResenaController::class, 'destroy'])->name('api.resenas.destroy');
-        Route::post('/resenas/{resena}/aprobar',  [ResenaController::class, 'aprobar'])->name('api.resenas.aprobar');
-    });
+        // Admin: gestión completa de reseñas
+        Route::middleware(CheckAdmin::class)->group(function () {
+            Route::get('/resenas', [ResenaController::class , 'index'])->name('api.resenas.index');
+            Route::put('/resenas/{resena}', [ResenaController::class , 'update'])->name('api.resenas.update');
+            Route::delete('/resenas/{resena}', [ResenaController::class , 'destroy'])->name('api.resenas.destroy');
+            Route::post('/resenas/{resena}/aprobar', [ResenaController::class , 'aprobar'])->name('api.resenas.aprobar');
+        }
+        );
 
-    // Compartidas: ver detalle de una reseña
-    Route::get('/resenas/{resena}', [ResenaController::class, 'show'])->name('api.resenas.show');
-});
+        // Compartidas: ver detalle de una reseña
+        Route::get('/resenas/{resena}', [ResenaController::class , 'show'])->name('api.resenas.show');    });
